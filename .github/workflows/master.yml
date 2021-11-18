@@ -1,0 +1,4 @@
+# on:
+#   push:
+#     branches: [ master ]
+# name: Deploy website on push

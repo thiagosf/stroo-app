@@ -1,0 +1,19 @@
+version: "3"
+services:
+  web:
+    image: node:16.3.0
+    container_name: folder-structures
+    working_dir: /app
+    command: npm run dev
+    ports:
+      - 8080:8080
+    volumes:
+      - ./app:/app
+    env_file:
+      - ./app/.env
+    networks:
+      - folder-structures-network
+
+networks:
+  folder-structures-network:
+    driver: bridge
