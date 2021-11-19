@@ -30,7 +30,7 @@ export const Button: React.FC<Props> = function ({ spinner, bordered, filled, si
   }
   return (
     <button
-      className={`cursor-pointer flex justify-center items-center uppercase font-bold rounded-full transform-gpu transition duration-300 hover:scale-105 outline-none ${additionalClasses.join(' ')}`}
+      className={`cursor-pointer flex justify-center items-center uppercase font-bold rounded-full transform-gpu transition duration-200 hover:scale-105 outline-none ${additionalClasses.join(' ')}`}
       {...props}
     >
       {spinner && (

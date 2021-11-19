@@ -4,52 +4,34 @@ import { StructureItem } from '../StructureItem/StructureItem'
 
 export interface Props {
   data: { [key: string]: FolderParseResult };
+  onClick: (item: FolderParseResult) => void;
 }
 
-export const Structure: React.FC<Props> = function ({ data }) {
+export const Structure: React.FC<Props> = function ({ data, onClick }) {
+  const buildChildren = (item: FolderParseResult) => {
+    let children: any
+    if (Object.keys(item.children).length > 0) {
+      children = Object.keys(item.children).map((child) => {
+        return buildChildren(item.children[child])
+      })
+    }
+    return (
+      <StructureItem
+        key={`${item.path.join('_')}`}
+        entity={item}
+        onClick={onClick}
+        children={children}
+      />
+    )
+  }
+
+  const items = Object.keys(data).map((key) => {
+    return buildChildren(data[key])
+  })
+
   return (
-    <div className="flex flex-col bg-gradient-to-tl from-gray-900 to-gray-800 rounded-2xl p-10 text-2xl overflow-x-auto absolute top-0 left-0 right-0 bottom-0 shadow-2xl">
-      <StructureItem name=".storybook" />
-      <StructureItem name="public" />
-      <StructureItem name="src" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
-      <StructureItem name="App.tsx" />
+    <div className="flex flex-col bg-gradient-to-tl from-gray-900 to-gray-800 rounded-2xl p-10 text-2xl overflow-x-auto shadow-2xl md:absolute md:top-0 md:left-0 md:right-0 md:bottom-0">
+      {items}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { parse } from '../../../helpers/folder_utils'
+import { FolderParseResult, parse } from '../../../helpers/folder_utils'
 import { StructreEntity } from '../../../pages'
 import { Button } from '../../molecules/Button/Button'
 import { MarkdownEditor } from '../MarkdownEditor/MarkdownEditor'
@@ -30,15 +30,19 @@ export const FolderPreview: React.FC<Props> = function ({ entity }) {
     }
   }
 
+  const onItemClick = (item: FolderParseResult) => {
+    console.log('item', item)
+  }
+
   return (
-    <div className="flex flex-grow text-white">
-      <div className="flex-1 bg-gradient-to-tl from-purple-700 to-purple-900">
+    <div className="flex flex-col flex-grow text-white md:flex-row">
+      <div className="flex-1 bg-gradient-to-tl from-red-600 to-purple-900">
         <div className="p-12 flex-grow h-full flex flex-col">
           <div className="flex-shrink-0">
             <StructureInfo entity={entity} />
           </div>
           <div className="flex-grow mt-8 relative">
-            <Structure data={folderData} />
+            <Structure onClick={onItemClick} data={folderData} />
           </div>
         </div>
       </div>

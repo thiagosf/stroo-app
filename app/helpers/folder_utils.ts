@@ -7,11 +7,29 @@ export interface FolderParseResult {
 
 export const FOLDER_SEPARATOR = '/'
 
+const getIcon = (name: string): string => {
+  // @todo map all common files
+  const mapIcons = {
+    generic: 'folder-generic',
+    github: 'folder-github',
+    yml: 'yaml',
+    yaml: 'yaml',
+    js: 'javascript',
+    ts: 'typescript',
+    tsx: 'typescript',
+  }
+  let key = name.split('.').pop()
+  if (name[0] === '.') {
+    key = name.split('.').pop()
+  }
+  return mapIcons[key] ?? mapIcons.generic
+}
+
 const buildParseItem = (name: string, path: string[]): FolderParseResult => {
   return {
     name,
     path,
-    icon: 'folder-generic',
+    icon: getIcon(name),
     children: {}
   }
 }

@@ -5,7 +5,7 @@ export interface Props {
 
 export const MainLayout: React.FC<Props> = function ({ children }) {
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex min-h-screen md:overflow-hidden md:h-screen">
       {children}
     </div>
   )
