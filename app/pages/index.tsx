@@ -40,7 +40,7 @@ Home.getInitialProps = function () {
     author: "Ron Von Bauer",
     avatar: "https://picsum.photos/512/512",
     type: "react",
-    structure: "# introduction\n\nlorem\n\n## public/assets/images\n\npublic images\n\n## .github/workflows/main.yml\n\nDeploy\n\n## next.config.js\n\n```json\n{ \"success\": true }\n```\n\n## App.tsx\n\n```ts\nexport interface Some { }\n```\n\n",
+    structure: "# introduction\n\nlorem\n\n## public/assets/images\n\npublic images\n\n## .github/workflows/master.yml\n\nDeploy production\n\n## .github/workflows/integration.yml\n\nDeploy integration\n\n## next.config.js\n\n```json\n{ \"success\": true }\n```\n\n## App.tsx\n\n```ts\nexport interface Some { }\n```\n\n",
     date: (new Date()).toUTCString(),
   }
   return {

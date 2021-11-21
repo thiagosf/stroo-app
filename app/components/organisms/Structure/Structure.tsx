@@ -4,10 +4,9 @@ import { StructureItem } from '../StructureItem/StructureItem'
 
 export interface Props {
   data: { [key: string]: FolderParseResult };
-  onClick: (item: FolderParseResult) => void;
 }
 
-export const Structure: React.FC<Props> = function ({ data, onClick }) {
+export const Structure: React.FC<Props> = function ({ data }) {
   const buildChildren = (item: FolderParseResult) => {
     let children: any
     if (Object.keys(item.children).length > 0) {
@@ -19,7 +18,6 @@ export const Structure: React.FC<Props> = function ({ data, onClick }) {
       <StructureItem
         key={`${item.path.join('_')}`}
         entity={item}
-        onClick={onClick}
         children={children}
       />
     )

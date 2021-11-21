@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { FolderParseResult, parse } from '../../../helpers/folder_utils'
+import React, { useEffect, useRef, useState } from 'react'
+import { StructureContext, StructureContextProps } from '../../../contexts/structure_context'
+import { FOLDER_SEPARATOR, parse } from '../../../helpers/folder_utils'
 import { StructreEntity } from '../../../pages'
 import { Button } from '../../molecules/Button/Button'
 import { MarkdownEditor } from '../MarkdownEditor/MarkdownEditor'
@@ -17,6 +18,20 @@ export enum Mode {
 }
 
 export const FolderPreview: React.FC<Props> = function ({ entity }) {
+  const markdowWrapperRef = useRef<HTMLDivElement>()
+  const [markdowWrapperTop, setMarkdowWrapperTop] = useState(0)
+  const [structureValues, setStructureValues] = useState<StructureContextProps>({
+    currentPath: [],
+    clickFrom: null,
+    pathsTopPositions: [],
+    dispatch: (key: string, value: any) => {
+      setStructureValues((v) => ({
+        ...v,
+        [key]: value
+      }))
+    },
+  })
+
   const [folderData, setFolderData] = useState(parse(entity.structure))
   const [mode, setMode] = useState<Mode>(Mode.PREVIEW)
 
@@ -30,56 +45,79 @@ export const FolderPreview: React.FC<Props> = function ({ entity }) {
     }
   }
 
-  const onItemClick = (item: FolderParseResult) => {
-    console.log('item', item)
-  }
+  useEffect(() => {
+    if (markdowWrapperRef.current) {
+      const rect = markdowWrapperRef.current.getClientRects()
+      setMarkdowWrapperTop(rect.item(0).y)
+    }
+  }, [markdowWrapperRef])
+
+  useEffect(() => {
+    if (structureValues.clickFrom === 'item') {
+      const currentPath = structureValues.currentPath.join(FOLDER_SEPARATOR)
+      const item = structureValues.pathsTopPositions.find((item) => {
+        return item.path === currentPath
+      })
+      if (item) {
+        const top = item.top - markdowWrapperTop
+        markdowWrapperRef.current.scrollTo({
+          top,
+          behavior: 'smooth',
+        })
+      }
+    }
+  }, [markdowWrapperTop, structureValues.currentPath, structureValues.clickFrom])
 
   return (
-    <div className="flex flex-col flex-grow text-white md:flex-row">
-      <div className="flex-1 bg-gradient-to-tl from-red-600 to-purple-900">
-        <div className="p-12 flex-grow h-full flex flex-col">
-          <div className="flex-shrink-0">
-            <StructureInfo entity={entity} />
-          </div>
-          <div className="flex-grow mt-8 relative">
-            <Structure onClick={onItemClick} data={folderData} />
-          </div>
-        </div>
-      </div>
-      <div className="flex-1 bg-gray-900 flex flex-col">
-        <div className="flex px-12 py-6">
-          <div className="mr-4">
-            <Button
-              bordered
-              disabled={mode === Mode.PREVIEW}
-              onClick={changeMode(Mode.PREVIEW)}
-            >preview</Button>
-          </div>
-          <div className="">
-            <Button
-              bordered
-              disabled={mode === Mode.EDITOR}
-              onClick={changeMode(Mode.EDITOR)}
-            >editor</Button>
+    <StructureContext.Provider value={structureValues}>
+      <div className="flex flex-col flex-grow text-white md:flex-row">
+        <div className="flex-1 bg-gradient-to-tl from-red-600 to-purple-900">
+          <div className="p-12 flex-grow h-full flex flex-col">
+            <div className="flex-shrink-0">
+              <StructureInfo entity={entity} />
+            </div>
+            <div className="flex-grow mt-8 relative">
+              <Structure
+                data={folderData}
+              />
+            </div>
           </div>
         </div>
-        <div className="flex-grow overflow-x-auto">
-          {mode === Mode.PREVIEW && (
-            <MarkdownPreview value={entity.structure} />
-          )}
+        <div className="flex-1 bg-gray-900 flex flex-col">
+          <div className="flex px-12 py-6">
+            <div className="mr-4">
+              <Button
+                bordered
+                disabled={mode === Mode.PREVIEW}
+                onClick={changeMode(Mode.PREVIEW)}
+              >preview</Button>
+            </div>
+            <div className="">
+              <Button
+                bordered
+                disabled={mode === Mode.EDITOR}
+                onClick={changeMode(Mode.EDITOR)}
+              >editor</Button>
+            </div>
+          </div>
+          <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
+            {mode === Mode.PREVIEW && (
+              <MarkdownPreview value={entity.structure} />
+            )}
+            {mode === Mode.EDITOR && (
+              <MarkdownEditor initialValue={entity.structure} onChange={handleChange} />
+            )}
+          </div>
           {mode === Mode.EDITOR && (
-            <MarkdownEditor initialValue={entity.structure} onChange={handleChange} />
+            <div className="flex px-12 py-6 justify-center">
+              <Button
+                filled
+                size="large"
+              >Save</Button>
+            </div>
           )}
         </div>
-        {mode === Mode.EDITOR && (
-          <div className="flex px-12 py-6 justify-center">
-            <Button
-              filled
-              size="large"
-            >Save</Button>
-          </div>
-        )}
       </div>
-    </div>
+    </StructureContext.Provider>
   )
 }
