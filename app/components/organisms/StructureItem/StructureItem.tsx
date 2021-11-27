@@ -14,10 +14,8 @@ export const StructureItem: React.FC<Props> = function ({ entity, children }) {
   const [isCurrent, setIsCurrent] = useState(false)
 
   const handleClick = () => {
-    if (!opened) {
-      structureValues.dispatch('currentPath', entity.path)
-      structureValues.dispatch('clickFrom', 'item')
-    }
+    structureValues.dispatch('currentPath', entity.path)
+    structureValues.dispatch('clickFrom', 'item')
     setOpened((v) => !v)
   }
 
@@ -25,7 +23,7 @@ export const StructureItem: React.FC<Props> = function ({ entity, children }) {
     ? (opened ? 'rotate-90' : '')
     : 'opacity-0'
   const childrenClasses = opened ? '' : 'hidden'
-  const currentClasses = isCurrent ? 'bg-purple-500 bg-opacity-20' : ''
+  const currentClasses = isCurrent ? 'bg-purple-500 bg-opacity-20' : 'hover:bg-black hover:bg-opacity-40'
 
   useEffect(() => {
     if (structureValues.currentPath.length > 0) {
@@ -57,9 +55,9 @@ export const StructureItem: React.FC<Props> = function ({ entity, children }) {
 
   return (
     <div className="relative">
-      <span className="border-l border-white border-opacity-10 absolute top-8 left-5 bottom-0 z-0"></span>
+      <span className="border-l border-white border-opacity-10 absolute top-9 left-5 bottom-1 z-0"></span>
       <div className="relative z-10">
-        <div className={`flex items-center cursor-pointer rounded-full transition-colors duration-200 hover:bg-black hover:bg-opacity-40 ${currentClasses}`} onClick={handleClick}>
+        <div className={`flex items-center cursor-pointer rounded-lg transition-colors duration-200 ${currentClasses}`} onClick={handleClick}>
           <div className={`mx-2 transition-transform duration-200 transform ${arrowClasses}`}>
             <Icon name="arrow-right" svgClasses="w-6 h-6" />
           </div>
