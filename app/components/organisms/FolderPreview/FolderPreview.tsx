@@ -3,6 +3,7 @@ import { StructureContext, StructureContextProps } from '../../../contexts/struc
 import { FOLDER_SEPARATOR, parse } from '../../../helpers/folder_utils'
 import { StructreEntity } from '../../../pages'
 import { Button } from '../../molecules/Button/Button'
+import { FormControl } from '../../molecules/FormControl/FormControl'
 import { MarkdownEditor } from '../MarkdownEditor/MarkdownEditor'
 import { MarkdownPreview } from '../MarkdownPreview/MarkdownPreview'
 import { Structure } from '../Structure/Structure'
@@ -33,10 +34,32 @@ export const FolderPreview: React.FC<Props> = function ({ entity }) {
   })
 
   const [folderData, setFolderData] = useState(parse(entity.structure))
+  const [formData, setFormData] = useState({
+    name: '',
+    type: '',
+  })
   const [mode, setMode] = useState<Mode>(Mode.PREVIEW)
 
-  const handleChange = (value: string) => {
+  const handleChangeEditor = (value: string) => {
     setFolderData(parse(value ?? ''))
+  }
+
+  const handleChangeInput = (field: string) => {
+    return (e: any) => {
+      let value = e.target.value.trim().toLowerCase()
+      if (e.target.value[e.target.value.length - 1] === ' ') {
+        value += '-'
+      }
+      setFormData((values) => ({
+        ...values,
+        [field]: value
+      }))
+    }
+  }
+
+  const handleFocus = (path: string) => {
+    structureValues.dispatch('currentPath', path.split(FOLDER_SEPARATOR))
+    structureValues.dispatch('clickFrom', 'title')
   }
 
   const changeMode = (newMode: Mode) => {
@@ -105,11 +128,31 @@ export const FolderPreview: React.FC<Props> = function ({ entity }) {
               <MarkdownPreview value={entity.structure} />
             )}
             {mode === Mode.EDITOR && (
-              <MarkdownEditor initialValue={entity.structure} onChange={handleChange} />
+              <MarkdownEditor
+                initialValue={entity.structure}
+                onChange={handleChangeEditor}
+                onFocus={handleFocus}
+              />
             )}
           </div>
           {mode === Mode.EDITOR && (
-            <div className="flex px-12 py-6 justify-center">
+            <div className="flex px-12 py-6 justify-between items-center border-t border-white border-opacity-10">
+              <div className="flex flex-grow mr-10">
+                <div className="flex-shrink-0 flex-grow mr-2">
+                  <FormControl
+                    label="name"
+                    value={formData.name}
+                    onChange={handleChangeInput('name')}
+                    />
+                </div>
+                <div className="flex-shrink-0 flex-grow ml-2">
+                  <FormControl
+                    label="type (react, vue, kotlin, etc)"
+                    value={formData.type}
+                    onChange={handleChangeInput('type')}
+                  />
+                </div>
+              </div>
               <Button
                 filled
                 size="large"
