@@ -8,11 +8,13 @@ export interface Props {
 
 export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChange, onFocus }) {
   const [value, setValue] = useState(initialValue)
+  const [lines, setLines] = useState(initialValue.split("\n"))
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target
     setValue(value)
     onChange(value)
+    setLines(value.split("\n"))
   }
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement> | React.MouseEvent<HTMLTextAreaElement>) => {
@@ -21,15 +23,26 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
       .substr(0, textarea.selectionStart)
       .split("\n")
       .length
-    const lineValue = value.split("\n")
-      .slice(lineNumber - 1, lineNumber)
-      .join("\n")
-    if (lineValue.startsWith('##')) {
-      const path = lineValue.split('## ')
-        .slice(1)
-        .join('## ')
-      onFocus(path)
+    let currentLine = lineNumber
+    while (currentLine > -1) {
+      const lineValue = getLineValue(currentLine)
+      if (lineValue.startsWith('##')) {
+        focusLineValue(lineValue)
+        currentLine = 0
+      }
+      --currentLine
     }
+  }
+
+  const getLineValue = (lineNumber: number): string => {
+    return (lines[lineNumber] ?? '').toString()
+  }
+
+  const focusLineValue = (lineValue: string): void => {
+    const path = lineValue.split('## ')
+      .slice(1)
+      .join('## ')
+    onFocus(path)
   }
 
   return (

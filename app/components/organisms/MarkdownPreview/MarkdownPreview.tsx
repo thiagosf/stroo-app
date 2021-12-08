@@ -1,19 +1,19 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import '../../../node_modules/rehype-highlight/node_modules/highlight.js/styles/atom-one-dark.css'
-import { PathTopPosition, StructureContext } from '../../../contexts/structure_context'
+import { PathTopPosition } from '../../../contexts/structure_context'
 import { FOLDER_SEPARATOR } from '../../../helpers/folder_utils'
 
 export interface Props {
   value: string;
+  onTitleClick: (path: string) => void;
+  onMountElements: (pathsTopPositions: PathTopPosition[]) => void;
 }
 
-export const MarkdownPreview: React.FC<Props> = function ({ value }) {
+export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClick, onMountElements }) => {
   const boxRef = useRef<HTMLDivElement>()
-  const structureValues = useContext(StructureContext)
-  const { dispatch } = structureValues
   const blockElements = (baseClass: string) =>
     `${baseClass}`
   const titleElements = (baseClass: string) =>
@@ -22,7 +22,7 @@ export const MarkdownPreview: React.FC<Props> = function ({ value }) {
     h1: ({ node, ...props }) =>
       <h1 {...props} className={titleElements('text-4xl -mt-8')} />,
     h2: ({ node, ...props }) =>
-      <h2 {...props} className={titleElements('text-2xl cursor-pointer transition-colors duration-300 hover:text-purple-500')} onClick={handleClick(node)} data-title />,
+      <h2 {...props} className={titleElements("text-2xl cursor-pointer transition-colors duration-300 hover:text-purple-500")} onClick={handleClick(node)} data-title />,
     h3: ({ node, ...props }) =>
       <h3 {...props} className={titleElements('text-1xl')} />,
     h4: ({ node, ...props }) =>
@@ -33,6 +33,8 @@ export const MarkdownPreview: React.FC<Props> = function ({ value }) {
       <h6 {...props} className={titleElements('text-xs')} />,
     p: ({ node, ...props }) =>
       <p {...props} className={blockElements('text-lg')} />,
+    img: ({ node, ...props }) =>
+      <img {...props} className="block max-w-full" />,
     code: ({ node, ...props }) =>
       <div className={blockElements('text-lg rounded-md overflow-hidden')}>
         <code {...props} />
@@ -42,25 +44,28 @@ export const MarkdownPreview: React.FC<Props> = function ({ value }) {
   const handleClick = (node: any) => {
     return () => {
       const { value } = node.children[0]
-      structureValues.dispatch('currentPath', value.split(FOLDER_SEPARATOR))
-      structureValues.dispatch('clickFrom', 'title')
+      onTitleClick(value)
     }
+  }
+
+  const setPositions = () => {
+    const pathsTopPositions: PathTopPosition[] = []
+    boxRef.current.querySelectorAll('[data-title]')
+      .forEach((e) => {
+        const rect = e.getClientRects()
+        pathsTopPositions.push({
+          path: e.textContent,
+          top: rect.item(0).y,
+        })
+      })
+    onMountElements(pathsTopPositions)
   }
 
   useEffect(() => {
     if (boxRef.current) {
-      const pathsTopPositions: PathTopPosition[] = []
-      boxRef.current.querySelectorAll('[data-title]')
-        .forEach((e) => {
-          const rect = e.getClientRects()
-          pathsTopPositions.push({
-            path: e.textContent,
-            top: rect.item(0).y,
-          })
-        })
-      dispatch('pathsTopPositions', pathsTopPositions)
+      setPositions()
     }
-  }, [boxRef, dispatch])
+  }, [boxRef])
 
   return (
     <div className="p-12" ref={boxRef}>
@@ -71,4 +76,4 @@ export const MarkdownPreview: React.FC<Props> = function ({ value }) {
       >{value}</ReactMarkdown>
     </div>
   )
-}
+})
