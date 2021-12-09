@@ -33,7 +33,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex min-h-screen md:overflow-hidden md:h-screen">
+      <div className="bg-gray-900 text-white flex min-h-screen md:overflow-hidden md:h-screen">
         {children}
       </div>
       <CookieBanner onClose={onCloseCookie} />

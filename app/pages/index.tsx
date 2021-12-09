@@ -1,4 +1,5 @@
 import { NextPage } from 'next'
+import { Landing } from '../components/organisms/Landing/Landing'
 import { MainLayout } from '../components/templates/MainLayout/MainLayout'
 
 interface Props {}
@@ -6,7 +7,7 @@ interface Props {}
 const Home: NextPage<Props> = ({}) => {
   return (
     <MainLayout>
-      home
+      <Landing />
     </MainLayout>
   )
 }

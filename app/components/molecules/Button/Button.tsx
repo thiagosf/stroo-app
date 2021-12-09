@@ -2,6 +2,7 @@ import React from 'react'
 import { Icon } from '../../atoms/Icon/Icon'
 
 export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  as?: string;
   spinner?: boolean;
   bordered?: boolean;
   filled?: boolean;
@@ -9,7 +10,8 @@ export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 
-export const Button: React.FC<Props> = function ({ spinner, bordered, filled, size, children, className, ...props }) {
+export const Button: React.FC<Props> = function ({ as, spinner, bordered, filled, size, children, className, ...props }) {
+  const Component: any = as ? as : 'button'
   const additionalClasses = []
   if (bordered) {
     additionalClasses.push('border-2 border-purple-500 hover:bg-purple-500')
@@ -29,7 +31,7 @@ export const Button: React.FC<Props> = function ({ spinner, bordered, filled, si
     additionalClasses.push(className)
   }
   return (
-    <button
+    <Component
       className={`cursor-pointer flex justify-center items-center uppercase font-bold rounded-full transform-gpu transition duration-200 hover:scale-105 outline-none ${additionalClasses.join(' ')}`}
       {...props}
     >
@@ -39,6 +41,6 @@ export const Button: React.FC<Props> = function ({ spinner, bordered, filled, si
         </span>
       )}
       {!spinner && children}
-    </button>
+    </Component>
   )
 }

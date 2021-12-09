@@ -1,5 +1,5 @@
 import React from 'react'
-import { StructreEntity } from '../../../pages'
+import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { StructureKey } from '../../molecules/StructureKey/StructureKey'
 import { StructureName } from '../../molecules/StructureName/StructureName'
 import { StructureType } from '../../molecules/StructureType/StructureType'
@@ -7,7 +7,7 @@ import { UserAvatar } from '../../molecules/UserAvatar/UserAvatar'
 import { UserName } from '../../molecules/UserName/UserName'
 
 export interface Props {
-  entity: StructreEntity;
+  entity: StructureEntity;
 }
 
 export const StructureInfo: React.FC<Props> = function ({ entity }) {

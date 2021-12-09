@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { PathTopPosition, StructureContext, StructureContextProps } from '../../../contexts/structure_context'
 import { FOLDER_SEPARATOR, parse } from '../../../helpers/folder_utils'
-import { StructreEntity } from '../../../pages'
-import { Icon } from '../../atoms/Icon/Icon'
+import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { Button } from '../../molecules/Button/Button'
 import { FormControl } from '../../molecules/FormControl/FormControl'
+import { Logo } from '../../molecules/Logo/Logo'
 import { MarkdownEditor } from '../MarkdownEditor/MarkdownEditor'
 import { MarkdownPreview } from '../MarkdownPreview/MarkdownPreview'
 import { Structure } from '../Structure/Structure'
 import { StructureInfo } from '../StructureInfo/StructureInfo'
 
 export interface Props {
-  entity: StructreEntity;
+  entity: StructureEntity;
 }
 
 export enum Mode {
@@ -98,7 +98,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity }) {
 
   return (
     <StructureContext.Provider value={structureValues}>
-      <div className="flex flex-col flex-grow text-white md:flex-row">
+      <div className="flex flex-col flex-grow lg:flex-row">
         <div className="flex-1 bg-gradient-to-tl from-red-700 to-purple-800">
           <div className="p-12 flex-grow h-full flex flex-col">
             <div className="flex-shrink-0">
@@ -111,7 +111,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity }) {
             </div>
           </div>
         </div>
-        <div className="flex-1 bg-gray-900 flex flex-col">
+        <div className="flex-1 flex flex-col">
           <div className="flex justify-between items-center px-12 py-6">
             <div className="flex flex-grow">
               <div className="mr-4">
@@ -130,7 +130,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity }) {
               </div>
             </div>
             <div className="">
-              <Icon name="logo" svgClasses="w-12 h-6" />
+              <Logo />
             </div>
           </div>
           <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
