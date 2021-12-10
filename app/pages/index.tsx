@@ -4,7 +4,7 @@ import { MainLayout } from '../components/templates/MainLayout/MainLayout'
 
 interface Props {}
 
-const Home: NextPage<Props> = ({}) => {
+const HomePage: NextPage<Props> = ({}) => {
   return (
     <MainLayout>
       <Landing />
@@ -12,8 +12,8 @@ const Home: NextPage<Props> = ({}) => {
   )
 }
 
-Home.getInitialProps = function () {
+HomePage.getInitialProps = function () {
   return {}
 }
 
-export default Home
+export default HomePage

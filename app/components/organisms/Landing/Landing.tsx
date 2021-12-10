@@ -28,7 +28,7 @@ export const Landing: React.FC<Props> = function ({  }) {
       </div>
       <div className="flex">
         <HoverUnderlined>
-          <Link href="/privacy_policy">
+          <Link href="/privacy-policy">
             <a>Privacy Policy</a>
           </Link>
         </HoverUnderlined>

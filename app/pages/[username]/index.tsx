@@ -1,6 +1,7 @@
 import { NextPage } from 'next'
 import { Profile } from '../../components/organisms/Profile/Profile'
 import { MainLayout, SeoMeta } from '../../components/templates/MainLayout/MainLayout'
+import NotFoundPage from '../404'
 import { StructureEntity } from './[slug]'
 
 export interface AuthorEntity {
@@ -10,10 +11,14 @@ export interface AuthorEntity {
 }
 
 interface Props {
-  data: AuthorEntity;
+  data?: AuthorEntity;
+  notFound?: boolean;
 }
 
-const Home: NextPage<Props> = ({ data }) => {
+const AuthorPage: NextPage<Props> = ({ data, notFound }) => {
+  if (notFound) {
+    return <NotFoundPage />
+  }
   const seo: SeoMeta = {
     title: data.author,
     description: `Structures by ${data.author}`,
@@ -27,7 +32,14 @@ const Home: NextPage<Props> = ({ data }) => {
   )
 }
 
-Home.getInitialProps = function (context) {
+AuthorPage.getInitialProps = function (context) {
+  if (context.query.username[0] !== '@') {
+    context.res.statusCode = 404
+    return {
+      notFound: true
+    }
+  }
+
   const item = {
     code: "56sdf89a",
     name: "react-boilerplate-v1",
@@ -52,4 +64,4 @@ Home.getInitialProps = function (context) {
   }
 }
 
-export default Home
+export default AuthorPage

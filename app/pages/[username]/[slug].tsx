@@ -1,6 +1,7 @@
 import { NextPage } from 'next'
 import { MainLayout, SeoMeta } from '../../components/templates/MainLayout/MainLayout'
 import { FolderPreview } from '../../components/organisms/FolderPreview/FolderPreview'
+import NotFoundPage from '../404'
 
 export interface StructureEntity {
   code: string;
@@ -14,10 +15,14 @@ export interface StructureEntity {
 }
 
 interface Props {
-  data: StructureEntity
+  data?: StructureEntity;
+  notFound?: boolean;
 }
 
-const Home: NextPage<Props> = ({ data }) => {
+const StructurePage: NextPage<Props> = ({ data, notFound }) => {
+  if (notFound) {
+    return <NotFoundPage />
+  }
   const seo: SeoMeta = {
     title: `${data.name} by ${data.author}`,
     description: `Structure by ${data.author}`,
@@ -29,7 +34,14 @@ const Home: NextPage<Props> = ({ data }) => {
   )
 }
 
-Home.getInitialProps = function (context) {
+StructurePage.getInitialProps = function (context) {
+  if (context.query.username[0] !== '@') {
+    context.res.statusCode = 404
+    return {
+      notFound: true
+    }
+  }
+
   console.log('username', context.query.username)
   console.log('slug', context.query.slug)
 
@@ -48,4 +60,4 @@ Home.getInitialProps = function (context) {
   }
 }
 
-export default Home
+export default StructurePage

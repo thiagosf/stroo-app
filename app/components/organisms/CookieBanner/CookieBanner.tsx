@@ -24,7 +24,7 @@ export const CookieBanner: React.FC<Props> = function ({ onClose }) {
             <div onClick={onAccept} className="cursor-pointer text-2xl mr-2">ok!</div>
           </HoverUnderlined>
           <HoverUnderlined>
-            <Link href="/privacy_policy">
+            <Link href="/privacy-policy">
               <a className="cursor-pointer text-sm">
                 privacy policy
               </a>

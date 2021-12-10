@@ -1,10 +1,11 @@
+import { NextPage } from 'next'
 import Head from 'next/head'
 import { Wrapper } from '../components/atoms/Wrapper/Wrapper'
 import { NotFound } from '../components/organisms/NotFound/NotFound'
 import { MainLayout } from '../components/templates/MainLayout/MainLayout'
 import configUtils from '../helpers/config_utils'
 
-export default function Home() {
+const NotFoundPage: NextPage = () => {
   return (
     <div className="">
       <Head>
@@ -20,3 +21,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default NotFoundPage

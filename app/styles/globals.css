@@ -1,3 +1,21 @@
+.text-content h1,
+.text-content h2,
+.text-content h3,
+.text-content h4,
+.text-content h5,
+.text-content h6,
+.text-content p,
+.text-content ul,
+.text-content ol,
+.text-content div,
+.text-content blockquote {
+  margin: 0 0 2em 0;
+}
+
+.text-content *:last-child {
+  margin: 0;
+}
+
 @media (min-width: 1025px) {
   ::-webkit-scrollbar {
     width: 1rem;
