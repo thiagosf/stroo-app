@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function useCookieBanner () {
+function useCookieBanner() {
   const [visible, setVisible] = useState(false)
   const key = 'cookie_banner'
   const onAccept = () => {

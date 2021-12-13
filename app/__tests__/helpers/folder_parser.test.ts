@@ -14,7 +14,7 @@ describe('folder_utils', () => {
         },
         'App.tsx': {
           name: 'App.tsx',
-          icon: 'folder-generic',
+          icon: 'typescript',
           path: ['App.tsx'],
           children: {}
         },
