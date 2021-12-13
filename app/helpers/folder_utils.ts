@@ -17,6 +17,8 @@ const getIcon = (name: string): string => {
     js: 'javascript',
     ts: 'typescript',
     tsx: 'typescript',
+    json: 'json',
+    md: 'markdown',
   }
   let key = name.split('.').pop()
   if (name[0] === '.') {

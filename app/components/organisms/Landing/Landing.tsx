@@ -18,10 +18,16 @@ export const Landing: React.FC<Props> = function ({ }) {
             <h1 className="text-4xl 2xl:text-6xl mb-2">Build project structures</h1>
             <p className="text-2xl 2xl:text-4xl opacity-50">to share knowledge and best practices</p>
           </div>
-          <div>
+          <div className="flex flex-col items-center">
             <Link href="/new">
               <Button as="a" bordered size="large">Create</Button>
             </Link>
+            <div className="mt-4"></div>
+            <HoverUnderlined>
+              <Link href="/browse">
+                <a>Or browse saved structures</a>
+              </Link>
+            </HoverUnderlined>
           </div>
         </div>
       </div>

@@ -10,16 +10,17 @@ import { MarkdownPreview } from '../MarkdownPreview/MarkdownPreview'
 import { Structure } from '../Structure/Structure'
 import { StructureInfo } from '../StructureInfo/StructureInfo'
 
-export interface Props {
-  entity: StructureEntity;
-}
-
 export enum Mode {
   PREVIEW = 'preview',
   EDITOR = 'editor'
 }
 
-export const FolderPreview: React.FC<Props> = function ({ entity }) {
+export interface Props {
+  entity: StructureEntity;
+  startMode?: Mode;
+}
+
+export const FolderPreview: React.FC<Props> = function ({ entity, startMode }) {
   const markdowWrapperRef = useRef<HTMLDivElement>()
   const [markdowWrapperTop, setMarkdowWrapperTop] = useState(0)
   const [structureValues, setStructureValues] = useState<StructureContextProps>({
@@ -39,7 +40,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity }) {
     name: entity.name,
     type: entity.type,
   })
-  const [mode, setMode] = useState<Mode>(Mode.PREVIEW)
+  const [mode, setMode] = useState<Mode>(startMode ?? Mode.PREVIEW)
 
   const handleChangeEditor = (value: string) => {
     setFolderData(parse(value ?? ''))
@@ -150,7 +151,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity }) {
             )}
           </div>
           {mode === Mode.EDITOR && (
-            <div className="flex px-12 py-6 justify-between items-center border-t border-white border-opacity-10">
+            <div className="flex px-12 py-6 justify-between items-center border-t border-white border-opacity-10 bg-black bg-opacity-30">
               <div className="flex flex-grow mr-10">
                 <div className="flex-shrink-0 flex-grow mr-2">
                   <FormControl

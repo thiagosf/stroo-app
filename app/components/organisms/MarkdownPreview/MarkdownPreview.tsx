@@ -32,13 +32,21 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClic
     h6: ({ node, ...props }) =>
       <h6 {...props} className={titleElements('text-xs')} />,
     p: ({ node, ...props }) =>
-      <p {...props} className={blockElements('text-lg')} />,
+      <p {...props} className={blockElements('text-lg mb-4')} />,
     img: ({ node, ...props }) =>
       <img {...props} className="block max-w-full" />,
-    code: ({ node, ...props }) =>
-      <div className={blockElements('text-lg rounded-md overflow-hidden')}>
-        <code {...props} />
-      </div>,
+    code: ({ node, ...props }) => {
+      if (props.inline) {
+        return <code className="bg-white bg-opacity-20 rounded-sm py-1 px-2">{props.children}</code>
+      }
+      return (
+        <div className={blockElements('text-lg rounded-md overflow-hidden mb-4')}>
+          <code {...props} />
+        </div>
+      )
+    },
+    a: ({ node, ...props }) =>
+      <a {...props} target="_blank" rel="noopener"></a>
   }
 
   const handleClick = (node: any) => {
