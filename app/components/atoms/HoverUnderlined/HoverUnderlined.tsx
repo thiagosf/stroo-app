@@ -6,7 +6,7 @@ export interface Props {
 
 export const HoverUnderlined: React.FC<Props> = function ({ children }) {
   return (
-    <div className="hover:underline inline-flex">
+    <div className="hover:underline inline-flex cursor-pointer">
       {children}
     </div>
   )

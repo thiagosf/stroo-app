@@ -1,1 +1,1 @@
-# stroo
+# stroo-app

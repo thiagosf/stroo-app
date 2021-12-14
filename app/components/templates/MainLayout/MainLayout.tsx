@@ -2,6 +2,9 @@ import React from 'react'
 import Head from 'next/head'
 import configUtils from '../../../helpers/config_utils'
 import { CookieBanner } from '../../organisms/CookieBanner/CookieBanner'
+import { LoginModal } from '../../organisms/LoginModal/LoginModal'
+import { UserContext, UserContextProps } from '../../../contexts/user_context'
+import { useState } from 'react'
 
 export interface SeoMeta {
   title: string;
@@ -15,6 +18,16 @@ export interface Props {
 }
 
 export const MainLayout: React.FC<Props> = function ({ seo, children }) {
+  const [openedLoginModal, setOpenedLoginModal] = useState(false)
+  const [userContextValue, setUserContextValue] = useState<UserContextProps>({
+    currentUser: null,
+    onLogin: () => {
+      // @todo open url
+      console.log('onLogin')
+    },
+    openModal: () => setOpenedLoginModal(() => true),
+    closeModal: () => setOpenedLoginModal(() => false),
+  })
   const title = seo?.title
     ? `${seo.title} / ${configUtils.siteName}`
     : configUtils.siteName
@@ -33,10 +46,17 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="bg-gray-900 text-white flex min-h-screen md:overflow-hidden md:h-screen">
-        {children}
-      </div>
-      <CookieBanner onClose={onCloseCookie} />
+      <UserContext.Provider value={userContextValue}>
+        <div className="bg-gray-900 text-white flex min-h-screen md:overflow-hidden md:h-screen">
+          {children}
+        </div>
+        <CookieBanner onClose={onCloseCookie} />
+        <LoginModal
+          opened={openedLoginModal}
+          onLogin={userContextValue.onLogin}
+          onClose={userContextValue.closeModal}
+        />
+      </UserContext.Provider>
     </div>
   )
 }
