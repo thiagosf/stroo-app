@@ -13,6 +13,7 @@ export const Browse: React.FC<Props> = function ({ list }) {
       <StructureListItem
         key={item.code}
         entity={item}
+        showAuthor
       />
     )
   })

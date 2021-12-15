@@ -9,8 +9,8 @@ interface Props {
 
 const StructurePage: NextPage<Props> = ({ data }) => {
   const seo: SeoMeta = {
-    title: `${data.name} by ${data.author}`,
-    description: `Structure by ${data.author}`,
+    title: 'New Structure',
+    description: 'Create a new project structure reference',
   }
   return (
     <MainLayout seo={seo}>
@@ -34,7 +34,7 @@ StructurePage.getInitialProps = function (context) {
       "## app/src/tsconfig.json",
       "```json\n{ \"compilerOptions\": ... }\n```",
       "## Readme.md",
-      "And... That's all! Start now share and store your project folders structure.",
+      "And... That's all! Start now, share and store your project folders structure.",
       "😎",
     ].join("\n\n"),
     date: (new Date()).toUTCString(),

@@ -4,7 +4,6 @@ import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import '../../../node_modules/rehype-highlight/node_modules/highlight.js/styles/atom-one-dark.css'
 import { PathTopPosition } from '../../../contexts/structure_context'
-import { FOLDER_SEPARATOR } from '../../../helpers/folder_utils'
 
 export interface Props {
   value: string;
@@ -18,6 +17,7 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClic
     `${baseClass}`
   const titleElements = (baseClass: string) =>
     blockElements(`text-gray-500 border-b border-gray-800 pb-2 mt-8 mb-4 ${baseClass}`)
+
   const components = {
     h1: ({ node, ...props }) =>
       <h1 {...props} className={titleElements('text-4xl -mt-8')} />,
@@ -34,7 +34,9 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClic
     p: ({ node, ...props }) =>
       <p {...props} className={blockElements('text-lg mb-4')} />,
     img: ({ node, ...props }) =>
-      <img {...props} className="block max-w-full" />,
+      <div>
+        {props.src}
+      </div>,
     code: ({ node, ...props }) => {
       if (props.inline) {
         return <code className="bg-white bg-opacity-20 rounded-sm py-1 px-2">{props.children}</code>
@@ -46,7 +48,15 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClic
       )
     },
     a: ({ node, ...props }) =>
-      <a {...props} target="_blank" rel="noopener"></a>
+      <a {...props} target="_blank" rel="noopener"></a>,
+    ul: ({ node, ...props }) =>
+      <ul {...props} className="mb-4" />,
+    ol: ({ node, ...props }) =>
+      <ol {...props} className="mb-4" />,
+    table: ({ node, ...props }) =>
+      <div className="border border-gray-700 px-4 py-2 rounded-md overflow-hidden mb-4">
+        <table {...props} className="w-full"></table>
+      </div>
   }
 
   const handleClick = (node: any) => {
@@ -76,7 +86,7 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClic
   }, [boxRef])
 
   return (
-    <div className="p-12" ref={boxRef}>
+    <div className="p-12 break-all" ref={boxRef}>
       <ReactMarkdown
         components={components}
         remarkPlugins={[remarkGfm]}

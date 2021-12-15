@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import { Browse } from '../components/organisms/Browse/Browse'
-import { MainLayout } from '../components/templates/MainLayout/MainLayout'
+import { MainLayout, SeoMeta } from '../components/templates/MainLayout/MainLayout'
 import { StructureEntity } from './[username]/[slug]'
 
 interface Props {
@@ -8,8 +8,12 @@ interface Props {
 }
 
 const BrowsePage: NextPage<Props> = ({ list }) => {
+  const seo: SeoMeta = {
+    title: 'Browse',
+    description: 'Search and browse project structure reference',
+  }
   return (
-    <MainLayout>
+    <MainLayout seo={seo}>
       <Browse list={list} />
     </MainLayout>
   )

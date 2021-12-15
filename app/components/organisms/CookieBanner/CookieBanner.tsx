@@ -14,7 +14,7 @@ export const CookieBanner: React.FC<Props> = function ({ onClose }) {
     return null
   }
   return (
-    <div className="flex fixed bottom-12 right-12 bg-gradient-to-br from-purple-500 to-purple-900 px-8 py-6 rounded-3xl text-white items-center shadow-xl transition transform-gpu">
+    <div className="flex fixed bottom-12 right-12 bg-gradient-to-br from-purple-500 to-purple-900 px-8 py-6 rounded-3xl text-white items-center shadow-xl transition transform-gpu z-20">
       <div className="mr-6">
         <div className="mb-2">
           We use cookies

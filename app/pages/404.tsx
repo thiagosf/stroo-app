@@ -1,24 +1,19 @@
 import { NextPage } from 'next'
-import Head from 'next/head'
 import { Wrapper } from '../components/atoms/Wrapper/Wrapper'
 import { NotFound } from '../components/organisms/NotFound/NotFound'
-import { MainLayout } from '../components/templates/MainLayout/MainLayout'
-import configUtils from '../helpers/config_utils'
+import { MainLayout, SeoMeta } from '../components/templates/MainLayout/MainLayout'
 
 const NotFoundPage: NextPage = () => {
+  const seo: SeoMeta = {
+    title: 'Not Found',
+    description: 'This page does not exists',
+  }
   return (
-    <div className="">
-      <Head>
-        <title>{configUtils.siteName}</title>
-        <meta name="description" content="Lorem ipsum lamet" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <MainLayout>
-        <Wrapper>
-          <NotFound />
-        </Wrapper>
-      </MainLayout>
-    </div>
+    <MainLayout seo={seo}>
+      <Wrapper>
+        <NotFound />
+      </Wrapper>
+    </MainLayout>
   )
 }
 

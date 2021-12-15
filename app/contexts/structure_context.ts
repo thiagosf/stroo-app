@@ -16,9 +16,4 @@ export interface StructureContextProps {
   dispatch: (key: string, value: any) => void;
 }
 
-export const StructureContext = React.createContext<StructureContextProps>({
-  currentPath: [],
-  clickFrom: null,
-  pathsTopPositions: [],
-  dispatch: (key: string, value: any) => {/* noop */},
-})
+export const StructureContext = React.createContext<StructureContextProps>(null)

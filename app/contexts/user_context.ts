@@ -14,4 +14,4 @@ export interface UserContextProps {
   closeModal?: () => void;
 }
 
-export const UserContext = React.createContext<UserContextProps>({})
+export const UserContext = React.createContext<UserContextProps>(null)

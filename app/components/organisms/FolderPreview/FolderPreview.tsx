@@ -20,9 +20,11 @@ export enum Mode {
 export interface Props {
   entity: StructureEntity;
   startMode?: Mode;
+  onFavorite?: (entity: StructureEntity) => void;
+  onComplain?: (entity: StructureEntity) => void;
 }
 
-export const FolderPreview: React.FC<Props> = function ({ entity, startMode }) {
+export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onFavorite, onComplain }) {
   const userContext = useContext(UserContext)
   const markdowWrapperRef = useRef<HTMLDivElement>()
   const [markdowWrapperTop, setMarkdowWrapperTop] = useState(0)
@@ -129,7 +131,11 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode }) {
             <div className="flex-1 bg-gradient-to-tl from-red-700 to-purple-800">
               <div className="p-12 flex-grow h-full flex flex-col">
                 <div className="flex-shrink-0">
-                  <StructureInfo entity={entity} />
+                  <StructureInfo
+                    entity={entity}
+                    onFavorite={onFavorite}
+                    onComplain={onComplain}
+                  />
                 </div>
                 <div className="flex-grow mt-8 relative">
                   <Structure

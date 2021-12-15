@@ -24,6 +24,16 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
     onLogin: () => {
       // @todo open url
       console.log('onLogin')
+      setUserContextValue((d) => ({
+        ...d,
+        currentUser: {
+          id: 'a8w978w4',
+          name: 'Ron Von Bauer',
+          avatar: 'https://picsum.photos/512/512',
+          token: 'w564a89w7489a44s.asdf78w8a4sfa.78a79w49a4s4',
+        }
+      }))
+      userContextValue.closeModal()
     },
     openModal: () => setOpenedLoginModal(() => true),
     closeModal: () => setOpenedLoginModal(() => false),
