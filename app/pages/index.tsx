@@ -2,9 +2,9 @@ import { NextPage } from 'next'
 import { Landing } from '../components/organisms/Landing/Landing'
 import { MainLayout } from '../components/templates/MainLayout/MainLayout'
 
-interface Props {}
+interface Props { }
 
-const HomePage: NextPage<Props> = ({}) => {
+const HomePage: NextPage<Props> = ({ }) => {
   return (
     <MainLayout>
       <Landing />
@@ -12,8 +12,8 @@ const HomePage: NextPage<Props> = ({}) => {
   )
 }
 
-HomePage.getInitialProps = function () {
-  return {}
-}
+// HomePage.getInitialProps = function () {
+//   return {}
+// }
 
 export default HomePage

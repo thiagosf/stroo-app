@@ -39,7 +39,7 @@ const buildParseItem = (name: string, path: string[]): FolderParseResult => {
 export const parse = (text: string): { [key: string]: FolderParseResult } => {
   const output: { [key: string]: FolderParseResult } = {}
   if (text) {
-    const result = text.match(/^(##[^\n]+)+$/gmi) ?? []
+    const result = text.match(/^(##[^\n#]+)+$/gmi) ?? []
 
     for (const item of result) {
       const formatted = item.replace(/#/g, '')
