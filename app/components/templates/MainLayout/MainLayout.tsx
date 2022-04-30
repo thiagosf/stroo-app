@@ -57,7 +57,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <UserContext.Provider value={userContextValue}>
-        <div className="bg-gray-900 text-white flex min-h-screen md:overflow-hidden md:h-screen">
+        <div className="bg-gray-900 text-white flex min-h-screen lg:overflow-hidden lg:h-screen">
           {children}
         </div>
         <CookieBanner onClose={onCloseCookie} />

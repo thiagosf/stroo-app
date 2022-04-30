@@ -64,7 +64,7 @@ export const StructureItem: React.FC<Props> = function ({ entity, children }) {
           <div className="mr-3">
             <Icon name={entity.icon} svgClasses="w-4 h-4" />
           </div>
-          <span className="whitespace-nowrap">{entity.name}</span>
+          <span className="lg:whitespace-nowrap">{entity.name}</span>
         </div>
         {children && (
           <div className={`ml-3 ${childrenClasses}`}>

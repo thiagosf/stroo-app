@@ -183,16 +183,16 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                 )}
               </div>
               {mode === Mode.EDITOR && (
-                <div className="flex px-12 py-6 justify-between items-center border-t border-white border-opacity-10 bg-black bg-opacity-30">
-                  <div className="flex flex-grow mr-10">
-                    <div className="flex-shrink-0 flex-grow mr-2">
+                <div className="flex flex-col px-12 py-6 border-t border-white border-opacity-10 bg-black bg-opacity-30 2xl:flex-row 2xl:justify-between 2xl:items-center">
+                  <div className="flex flex-col flex-grow mb-8 2xl:mb-0 lg:mr-10 lg:flex-row">
+                    <div className="flex-shrink-0 flex-grow mb-8 lg:mb-0 lg:mr-2">
                       <FormControl
                         label="name"
                         value={formData.name}
                         onChange={handleChangeInput('name')}
                       />
                     </div>
-                    <div className="flex-shrink-0 flex-grow ml-2">
+                    <div className="flex-shrink-0 flex-grow lg:ml-2">
                       <FormControl
                         label="type (react, vue, kotlin, etc)"
                         value={formData.type}
