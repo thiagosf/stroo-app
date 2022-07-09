@@ -2,7 +2,7 @@ version: "3"
 services:
   web:
     image: node:16.3.0
-    container_name: folder-structures
+    container_name: stroo-app
     working_dir: /app
     command: npm run dev
     ports:
@@ -12,8 +12,8 @@ services:
     env_file:
       - ./app/.env
     networks:
-      - folder-structures-network
+      - stroo-app-network
 
 networks:
-  folder-structures-network:
+  stroo-app-network:
     driver: bridge
