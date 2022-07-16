@@ -1,4 +1,4 @@
-import { parse, parseFromTree, parseLineTree } from '../../helpers/folder_utils'
+import { convertTreeToMarkdown, parse, parseFromTree, parseLineTree } from '../../helpers/folder_utils'
 
 describe('folder_utils', () => {
   describe('parse', () => {
@@ -230,6 +230,37 @@ describe('folder_utils', () => {
           }
         }
       }
+      expect(result).toStrictEqual(expected)
+    })
+  })
+
+  describe('convertTreeToMarkdown', () => {
+    it('converts tree to markdown', () => {
+      const text = `root
+├── README.md
+└── app
+    ├── README.md
+    ├── assets
+    │   └── image.png
+    └── tailwind.config.js`
+
+      const result = convertTreeToMarkdown(text)
+
+      const expected = `## root
+
+## root/README.md
+
+## root/app
+
+## root/app/README.md
+
+## root/app/assets
+
+## root/app/assets/image.png
+
+## root/app/tailwind.config.js
+
+`
       expect(result).toStrictEqual(expected)
     })
   })

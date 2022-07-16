@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
+
+import { convertTreeToMarkdown, isTreeFormatType } from '../../../helpers/folder_utils'
+import { Button } from '../../molecules/Button/Button'
+import { ConfirmModal } from '../ConfirmModal/ConfirmModal'
 
 export interface Props {
   initialValue: string;
@@ -13,6 +16,7 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
   const [value, setValue] = useState(initialValue)
   const [tempValue, setTempValue] = useState('')
   const [lines, setLines] = useState(initialValue.split("\n"))
+  const showConvertButton = isTreeFormatType(value)
 
   const handleBeforeInput = (e: any) => {
     const { data } = e
@@ -73,8 +77,12 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
     setTempValue('')
   }
 
+  const handleConvertTreeToMarkdown = () => {
+    setNewValue(convertTreeToMarkdown(value))
+  }
+
   return (
-    <div className="flex h-full">
+    <div className="flex flex-col h-full">
       <ConfirmModal
         opened={!!tempValue}
         onConfirm={onConfirmLargeValue}
@@ -82,14 +90,25 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
       >
         <p>You are trying to paste a large text. Possibly it will let slow the app. Are you sure you want to continue?</p>
       </ConfirmModal>
-      <textarea
-        value={value}
-        className="bg-transparent border-0 resize-none w-full h-full text-2xl outline-none p-12"
-        onChange={handleChange}
-        onKeyDown={handleKeyUp}
-        onClick={handleKeyUp}
-        onBeforeInput={handleBeforeInput}
-      ></textarea>
+      <div className="flex h-full">
+        <textarea
+          value={value}
+          className="bg-transparent border-0 resize-none w-full h-full text-2xl outline-none p-12"
+          onChange={handleChange}
+          onKeyDown={handleKeyUp}
+          onClick={handleKeyUp}
+          onBeforeInput={handleBeforeInput}
+        ></textarea>
+      </div>
+      {showConvertButton && (
+        <div className="flex justify-center py-6">
+          <Button
+            filled
+            size="large"
+            onClick={handleConvertTreeToMarkdown}
+          >Convert tree to markdown</Button>
+        </div>
+      )}
     </div>
   )
 }

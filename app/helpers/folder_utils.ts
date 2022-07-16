@@ -11,6 +11,8 @@ export interface LineTree {
   level: number;
 }
 
+export type FormatType = 'tree' | 'markdown'
+
 export const FOLDER_SEPARATOR = '/'
 
 const getIcon = (name: string): string => {
@@ -43,9 +45,19 @@ const buildParseItem = (name: string, path: string[], level?: number): FolderPar
   }
 }
 
+export const formatType = (text: string): FormatType => {
+  return text.includes('├──') && !text.includes('#')
+    ? 'tree'
+    : 'markdown'
+}
+
+export const isTreeFormatType = (text: string): boolean => {
+  return formatType(text) === 'tree'
+}
+
 export const parse = (text: string): { [key: string]: FolderParseResult } => {
   if (!text) return {}
-  const parser = text.includes('├──') ? parseFromTree : parseMarkdown
+  const parser = isTreeFormatType(text) ? parseFromTree : parseMarkdown
   return parser(text)
 }
 
@@ -131,5 +143,29 @@ export const parseLineTree = (line: string): LineTree => {
     name = splits.shift().trim()
   }
 
+  if (name[0] === '/') name = name.substring(1)
+  if (name[name.length - 1] === '/') name = name.substring(0, name.length - 1)
+
   return { name, level }
+}
+
+export const convertTreeToMarkdown = (value: string): string => {
+  if (!isTreeFormatType(value)) return value
+  const tree = parseFromTree(value)
+  let output = ''
+  for (const key of Object.keys(tree)) {
+    const item = tree[key]
+    output += convertTreeItemToMarkdown(item)
+  }
+  return output
+}
+
+export const convertTreeItemToMarkdown = (item: FolderParseResult): string => {
+  let value = item.path.join('/')
+  value = `## ${value}\n\n`
+  for (const key of Object.keys(item.children)) {
+    const child = item.children[key]
+    value += convertTreeItemToMarkdown(child)
+  }
+  return value
 }
