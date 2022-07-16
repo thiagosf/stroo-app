@@ -58,6 +58,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
       if (e.target.value[e.target.value.length - 1] === ' ') {
         value += '-'
       }
+      value = value.replace(/[^0-9a-z-]/ig, '')
       setFormData((values) => ({
         ...values,
         [field]: value
