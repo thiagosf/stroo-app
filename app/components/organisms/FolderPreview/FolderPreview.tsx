@@ -83,11 +83,11 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
   const handlePublish = (userContextValue: UserContextProps) => {
     return () => {
       const { currentUser, openModal } = userContextValue
-      if (!currentUser) {
+      if (currentUser) {
+        // @todo submit
+      } else {
         setSubmitted(() => true)
         openModal()
-      } else {
-        // @todo submit
       }
     }
   }
