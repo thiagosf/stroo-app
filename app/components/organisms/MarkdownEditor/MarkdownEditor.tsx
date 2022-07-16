@@ -68,7 +68,6 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
   }
 
   const onConfirmLargeValue = () => {
-    console.log('tempValue', tempValue);
     setNewValue(tempValue)
     setTempValue('')
   }
