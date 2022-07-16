@@ -10,7 +10,7 @@ export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 
-export const Button: React.FC<Props> = function ({ as, spinner, bordered, filled, size, children, className, ...props }) {
+export const Button: React.FC<Props> = React.forwardRef(({ as, spinner, bordered, filled, size, children, className, ...props }, ref) => {
   const Component: any = as ? as : 'button'
   const additionalClasses = []
   if (bordered) {
@@ -32,6 +32,7 @@ export const Button: React.FC<Props> = function ({ as, spinner, bordered, filled
   }
   return (
     <Component
+      ref={ref}
       className={`cursor-pointer flex justify-center items-center uppercase font-bold rounded-full transform-gpu transition duration-200 hover:scale-105 outline-none ${additionalClasses.join(' ')}`}
       {...props}
     >
@@ -43,4 +44,4 @@ export const Button: React.FC<Props> = function ({ as, spinner, bordered, filled
       {!spinner && children}
     </Component>
   )
-}
+})
