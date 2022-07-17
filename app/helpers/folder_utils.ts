@@ -3,8 +3,10 @@ export interface FolderParseResult {
   name: string;
   icon: string;
   path: string[];
-  children?: { [key: string]: FolderParseResult };
+  children?: FolderParseResultItem;
 }
+
+export type FolderParseResultItem = Record<string, FolderParseResult>
 
 export interface LineTree {
   name: string;
@@ -55,14 +57,14 @@ export const isTreeFormatType = (text: string): boolean => {
   return formatType(text) === 'tree'
 }
 
-export const parse = (text: string): { [key: string]: FolderParseResult } => {
+export const parse = (text: string): FolderParseResultItem => {
   if (!text) return {}
   const parser = isTreeFormatType(text) ? parseFromTree : parseMarkdown
   return parser(text)
 }
 
-export const parseMarkdown = (text: string): { [key: string]: FolderParseResult } => {
-  const output: { [key: string]: FolderParseResult } = {}
+export const parseMarkdown = (text: string): FolderParseResultItem => {
+  const output: FolderParseResultItem = {}
   if (text) {
     const result = text.match(/^(##[^\n#]+)+$/gmi) ?? []
 
@@ -96,8 +98,8 @@ export const parseMarkdown = (text: string): { [key: string]: FolderParseResult 
   return output
 }
 
-export const parseFromTree = (text: string): { [key: string]: FolderParseResult } => {
-  const output: { [key: string]: FolderParseResult } = {}
+export const parseFromTree = (text: string): FolderParseResultItem => {
+  const output: FolderParseResultItem = {}
   const lines = text.trim().split('\n')
   const lastLevels = []
 
