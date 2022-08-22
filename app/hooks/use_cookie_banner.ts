@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function useCookieBanner() {
+export default function useCookieBanner() {
   const [visible, setVisible] = useState(false)
   const key = 'cookie_banner'
   const onAccept = () => {
@@ -15,5 +15,3 @@ function useCookieBanner() {
   }, [])
   return { visible, onAccept }
 }
-
-export default useCookieBanner
