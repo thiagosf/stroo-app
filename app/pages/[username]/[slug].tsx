@@ -1,6 +1,10 @@
 import { NextPage } from 'next'
+import { useQuery } from '@apollo/client'
+
 import { MainLayout, SeoMeta } from '../../components/templates/MainLayout/MainLayout'
 import { FolderPreview } from '../../components/organisms/FolderPreview/FolderPreview'
+import { formatItem, parseCodeFromSlug } from '../../helpers/structure_utils'
+import { SHOW_STRUCTURE } from '../../queries/structure_queries'
 import NotFoundPage from '../404'
 
 export interface StructureEntity {
@@ -15,17 +19,22 @@ export interface StructureEntity {
 }
 
 interface Props {
-  data?: StructureEntity;
-  notFound?: boolean;
+  code: string;
 }
 
-const StructurePage: NextPage<Props> = ({ data, notFound }) => {
-  if (notFound) {
-    return <NotFoundPage />
-  }
+const StructurePage: NextPage<Props> = ({ code }) => {
+  const { data, loading } = useQuery(SHOW_STRUCTURE, {
+    variables: { code }
+  })
+  const structure = data ? formatItem(data.getStructure) : null
+
+  if (loading) return <div>...</div>
+
+  if (!structure) return <NotFoundPage />
+
   const seo: SeoMeta = {
-    title: `${data.name} by ${data.author}`,
-    description: `Structure by ${data.author}`,
+    title: `${structure.name} by ${structure.author}`,
+    description: `Structure by ${structure.author}`,
   }
 
   const onFavorite = (entity: StructureEntity) => {
@@ -39,7 +48,7 @@ const StructurePage: NextPage<Props> = ({ data, notFound }) => {
   return (
     <MainLayout seo={seo}>
       <FolderPreview
-        entity={data}
+        entity={structure}
         onFavorite={onFavorite}
         onComplain={onComplain}
       />
@@ -47,29 +56,10 @@ const StructurePage: NextPage<Props> = ({ data, notFound }) => {
   )
 }
 
-StructurePage.getInitialProps = function (context) {
-  if (context.query.username[0] !== '@') {
-    context.res.statusCode = 404
-    return {
-      notFound: true
-    }
-  }
-
-  console.log('username', context.query.username)
-  console.log('slug', context.query.slug)
-
-  const data = {
-    code: "56sdf89a",
-    name: "react-boilerplate-v1",
-    author: "Ron Von Bauer",
-    avatar: "https://picsum.photos/512/512",
-    type: "react",
-    structure: "# introduction\n\nlorem\n\n## public/assets/images\n\npublic images\n\n## .github/workflows/master.yml\n\nDeploy production\n\n## .github/workflows/integration.yml\n\nDeploy integration\n\n## next.config.js\n\n```json\n{ \"success\": true }\n```\n\n## App.tsx\n\n```ts\nexport interface Some { }\n```\n\n* [ ] to do\n* [x] done\n\n### A table\n\n| a | b  |  c |  d  |\n| - | :- | -: | :-: |\n| a | b  |  c |  d  |\n| a | b  |  ~c~ |  d  |\n| a | ~~b~~  |  *c* |  d  |",
-    date: (new Date()).toUTCString(),
-    link: '/@ron-von-bauer/react-boilerplate-v1-56sdf89a'
-  }
+StructurePage.getInitialProps = function ({ query }) {
+  const code = parseCodeFromSlug(query.slug.toString())
   return {
-    data
+    code
   }
 }
 

@@ -12,3 +12,7 @@ export function formatItem(item: any): StructureEntity {
     link: `/@${item.user.username}/${item.slug}-${item.code}`,
   }
 }
+
+export function parseCodeFromSlug(slug: string): string {
+  return slug.split('-').pop()
+}
