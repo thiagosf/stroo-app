@@ -31,3 +31,27 @@ export const SHOW_STRUCTURE = gql`
     }
   }
 `
+
+export const CREATE_STRUCTURE = gql`
+  mutation createStructure(
+    $type: String!,
+    $name: String!,
+    $content: String!
+  ) {
+    createStructure (
+      input: {
+        type: $type,
+        name: $name,
+        content: $content
+      }
+    ) {
+      code
+      name
+      slug
+      content
+      user {
+        username
+      }
+    }
+  }
+`

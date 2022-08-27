@@ -1,12 +1,22 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useContext } from 'react'
-import { PathTopPosition, StructureContext, StructureContextProps } from '../../../contexts/structure_context'
+import { useMutation } from '@apollo/client'
+import { useRouter } from 'next/router'
+
+import {
+  PathTopPosition,
+  StructureContext,
+  StructureContextProps
+} from '../../../contexts/structure_context'
 import { UserContext, UserContextProps } from '../../../contexts/user_context'
 import { FOLDER_SEPARATOR, parse } from '../../../helpers/folder_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
+import { CREATE_STRUCTURE } from '../../../queries/structure_queries'
+import { getStructureLink } from '../../../helpers/structure_utils'
+
 import { Button } from '../../molecules/Button/Button'
 import { FormControl } from '../../molecules/FormControl/FormControl'
 import { Logo } from '../../molecules/Logo/Logo'
+
 import { MarkdownEditor } from '../MarkdownEditor/MarkdownEditor'
 import { MarkdownPreview } from '../MarkdownPreview/MarkdownPreview'
 import { Structure } from '../Structure/Structure'
@@ -25,8 +35,9 @@ export interface Props {
 }
 
 export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onFavorite, onComplain }) {
-  const userContext = useContext(UserContext)
+  const router = useRouter()
   const markdowWrapperRef = useRef<HTMLDivElement>()
+
   const [markdowWrapperTop, setMarkdowWrapperTop] = useState(0)
   const [structureValues, setStructureValues] = useState<StructureContextProps>({
     currentPath: [],
@@ -40,15 +51,18 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
     },
   })
   const [submitted, setSubmitted] = useState(false)
-
   const [folderData, setFolderData] = useState(parse(entity.structure))
   const [formData, setFormData] = useState({
     name: entity.name,
     type: entity.type,
+    content: entity.structure,
   })
   const [mode, setMode] = useState<Mode>(startMode ?? Mode.PREVIEW)
 
+  const [createStructure] = useMutation(CREATE_STRUCTURE)
+
   const handleChangeEditor = (value: string) => {
+    setFormData((d) => ({ ...d, content: value }))
     setFolderData(parse(value ?? ''))
   }
 
@@ -82,12 +96,33 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
   }, [])
 
   const handlePublish = (userContextValue: UserContextProps) => {
-    return () => {
+    return async () => {
+      if (submitted) return
       const { currentUser, openModal } = userContextValue
+
       if (currentUser) {
-        // @todo submit
-      } else {
         setSubmitted(() => true)
+        try {
+          await createStructure({
+            variables: {
+              type: formData.type,
+              name: formData.name,
+              content: formData.content
+            },
+            onCompleted(data) {
+              setSubmitted(() => false)
+              if (data) {
+                router.push(getStructureLink(data.createStructure))
+              } else {
+                // @todo show errors
+              }
+            }
+          })
+        } catch (error) {
+          console.log('error', error)
+          setSubmitted(() => false)
+        }
+      } else {
         openModal()
       }
     }
@@ -115,14 +150,6 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
       }
     }
   }, [markdowWrapperTop, structureValues.currentPath, structureValues.clickFrom])
-
-  useEffect(() => {
-    if (submitted && userContext.currentUser) {
-      // @todo send for api
-      console.log('userContext.currentUser', userContext.currentUser)
-      setSubmitted(() => false)
-    }
-  }, [submitted, userContext.currentUser])
 
   return (
     <UserContext.Consumer>
@@ -204,6 +231,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                   <Button
                     filled
                     size="large"
+                    spinner={submitted}
                     onClick={handlePublish(userContextValue)}
                   >Publish</Button>
                 </div>

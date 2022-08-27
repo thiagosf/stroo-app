@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useQuery } from '@apollo/client'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+
 import configUtils from '../../../helpers/config_utils'
 import { CookieBanner } from '../../organisms/CookieBanner/CookieBanner'
 import { LoginModal } from '../../organisms/LoginModal/LoginModal'
 import { UserContext, UserContextProps } from '../../../contexts/user_context'
-import { useState } from 'react'
+import { GITHUB_AUTH_URL, PROFILE } from '../../../queries/user_queries'
+import { useLocalStorage } from '../../../hooks/use_local_storage'
 
 export interface SeoMeta {
   title: string;
@@ -18,26 +22,20 @@ export interface Props {
 }
 
 export const MainLayout: React.FC<Props> = function ({ seo, children }) {
+  const router = useRouter()
   const [openedLoginModal, setOpenedLoginModal] = useState(false)
+  const [loadingAuthURL, setLoadingAuthURL] = useState(false)
+  const [, setLastPage] = useLocalStorage<string>('last_page', null)
+  const [token] = useLocalStorage('token', null)
+  const { data: urlData } = useQuery(GITHUB_AUTH_URL)
+  const { data: profileData } = useQuery(PROFILE)
+
   const [userContextValue, setUserContextValue] = useState<UserContextProps>({
     currentUser: null,
-    onLogin: () => {
-      // @todo open url
-      console.log('onLogin')
-      setUserContextValue((d) => ({
-        ...d,
-        currentUser: {
-          id: 'a8w978w4',
-          name: 'Ron Von Bauer',
-          avatar: 'https://picsum.photos/512/512',
-          token: 'w564a89w7489a44s.asdf78w8a4sfa.78a79w49a4s4',
-        }
-      }))
-      userContextValue.closeModal()
-    },
     openModal: () => setOpenedLoginModal(() => true),
     closeModal: () => setOpenedLoginModal(() => false),
   })
+
   const title = seo?.title
     ? `${seo.title} / ${configUtils.siteName}`
     : configUtils.siteName
@@ -45,9 +43,25 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
     ? seo.description
     : 'Lorem ipsum'
 
-  const onCloseCookie = () => {
-    console.log('onCloseCookie')
+  async function onLogin() {
+    setLoadingAuthURL(true)
+    setLastPage(router.asPath)
+    document.location.href = urlData.githubAuthURL
   }
+
+  useEffect(() => {
+    if (profileData) {
+      setUserContextValue((d) => ({
+        ...d,
+        currentUser: {
+          name: profileData.me.name,
+          username: profileData.me.username,
+          avatar: profileData.me.avatar,
+          token,
+        }
+      }))
+    }
+  }, [profileData])
 
   return (
     <div className="">
@@ -60,10 +74,11 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         <div className="bg-gray-900 text-white flex min-h-screen lg:overflow-hidden lg:h-screen">
           {children}
         </div>
-        <CookieBanner onClose={onCloseCookie} />
+        <CookieBanner />
         <LoginModal
+          loading={loadingAuthURL}
           opened={openedLoginModal}
-          onLogin={userContextValue.onLogin}
+          onLogin={onLogin}
           onClose={userContextValue.closeModal}
         />
       </UserContext.Provider>

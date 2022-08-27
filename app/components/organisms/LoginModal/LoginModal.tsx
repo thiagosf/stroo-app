@@ -7,17 +7,18 @@ import { Modal } from '../Modal/Modal'
 
 export interface Props {
   opened: boolean;
+  loading: boolean;
   onLogin: () => void;
   onClose: () => void;
 }
 
-export const LoginModal: React.FC<Props> = function ({ opened, onLogin, onClose }) {
+export const LoginModal: React.FC<Props> = function ({ opened, loading, onLogin, onClose }) {
   return (
     <Modal opened={opened} title="Login">
       <>
-        <p>Relax, it is only for auth purpose, we'll never sell your data 🤓</p>
+        <p>Relax, it is only for auth purpose, we'll never use your data 🤓</p>
         <div className="flex justify-center mt-4 lg:mt-6">
-          <GitHubButton onClick={onLogin} />
+          <GitHubButton loading={loading} onClick={onLogin} />
         </div>
         <div className="flex justify-end mt-4 lg:mt-6">
           <HoverUnderlined>

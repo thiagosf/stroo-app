@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
 
+import { useLocalStorage } from './use_local_storage'
+
 export default function useCookieBanner() {
+  const [cookieBanner, setCookieBanner] = useLocalStorage('cookie_banner', false)
   const [visible, setVisible] = useState(false)
-  const key = 'cookie_banner'
+
   const onAccept = () => {
-    localStorage.setItem(key, 'true')
+    setCookieBanner(true)
     setVisible(() => false)
   }
+
   useEffect(() => {
-    const value = localStorage.getItem(key)
-    if (!value) {
-      setVisible(true)
-    }
+    if (!cookieBanner) setVisible(true)
   }, [])
+
   return { visible, onAccept }
 }

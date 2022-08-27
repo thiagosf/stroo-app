@@ -3,12 +3,13 @@ import { Icon } from '../../atoms/Icon/Icon'
 import { Button } from '../Button/Button'
 
 export interface Props {
+  loading: boolean;
   onClick: () => void;
 }
 
-export const GitHubButton: React.FC<Props> = function ({ onClick }) {
+export const GitHubButton: React.FC<Props> = function ({ loading, onClick }) {
   return (
-    <Button bordered size="large" onClick={onClick}>
+    <Button bordered size="large" onClick={onClick} spinner={loading}>
       <div>
         Login with GitHub
       </div>

@@ -9,10 +9,14 @@ export function formatItem(item: any): StructureEntity {
     type: item.type,
     structure: item.content,
     date: item.created_at,
-    link: `/@${item.user.username}/${item.slug}-${item.code}`,
+    link: getStructureLink(item),
   }
 }
 
 export function parseCodeFromSlug(slug: string): string {
   return slug.split('-').pop()
+}
+
+export function getStructureLink(item: any): string {
+  return `/@${item.user.username}/${item.slug}-${item.code}`
 }

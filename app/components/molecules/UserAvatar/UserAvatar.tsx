@@ -10,7 +10,7 @@ export const UserAvatar: React.FC<Props> = function ({ url }) {
       {url && (
         <img
           src={url}
-          className="w-12 h-12 rounded-full"
+          className="w-12 h-12 object-cover rounded-full border-2 border-white shadow-md"
         />
       )}
       {!url && (

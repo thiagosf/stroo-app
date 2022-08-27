@@ -1,14 +1,17 @@
 import React from 'react'
 
 export interface UserEntity {
-  id: string,
   name: string;
+  username: string;
   avatar: string;
+}
+
+export interface UserLoginEntity extends UserEntity {
   token: string;
 }
 
 export interface UserContextProps {
-  currentUser?: UserEntity;
+  currentUser?: UserLoginEntity;
   onLogin?: () => void;
   openModal?: () => void;
   closeModal?: () => void;
