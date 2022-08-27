@@ -156,8 +156,8 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
       {(userContextValue) => (
         <StructureContext.Provider value={structureValues}>
           <div className="flex flex-col flex-grow lg:flex-row">
-            <div className="flex-1 bg-gradient-to-tl from-red-700 to-purple-800">
-              <div className="p-12 flex-grow h-full flex flex-col">
+            <div className="flex flex-1 bg-gradient-to-tl from-red-700 to-purple-800 justify-end">
+              <div className="p-12 flex-grow h-full flex flex-col max-w-4xl">
                 <div className="flex-shrink-0">
                   <StructureInfo
                     entity={entity}
@@ -196,11 +196,13 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
               </div>
               <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
                 {mode === Mode.PREVIEW && (
-                  <MarkdownPreview
-                    value={formData.content}
-                    onTitleClick={handleFocus}
-                    onMountElements={onMountElements}
-                  />
+                  <div className="max-w-4xl">
+                    <MarkdownPreview
+                      value={formData.content}
+                      onTitleClick={handleFocus}
+                      onMountElements={onMountElements}
+                    />
+                  </div>
                 )}
                 {mode === Mode.EDITOR && (
                   <MarkdownEditor
