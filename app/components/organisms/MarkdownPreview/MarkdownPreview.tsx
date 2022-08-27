@@ -59,7 +59,7 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClic
       )
     },
     a: ({ node, ...props }) =>
-      <a {...props} target="_blank" rel="noopener"></a>,
+      <a {...props} className={'underline border-b border-dashed border-purple-500 text-purple-500'} target="_blank" rel="noopener"></a>,
     ul: ({ node, ...props }) =>
       <ul {...props} className="mb-4" />,
     ol: ({ node, ...props }) =>
