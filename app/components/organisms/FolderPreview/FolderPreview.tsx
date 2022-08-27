@@ -197,14 +197,14 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
               <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
                 {mode === Mode.PREVIEW && (
                   <MarkdownPreview
-                    value={entity.structure}
+                    value={formData.content}
                     onTitleClick={handleFocus}
                     onMountElements={onMountElements}
                   />
                 )}
                 {mode === Mode.EDITOR && (
                   <MarkdownEditor
-                    initialValue={entity.structure}
+                    initialValue={formData.content}
                     onChange={handleChangeEditor}
                     onFocus={handleFocus}
                   />
