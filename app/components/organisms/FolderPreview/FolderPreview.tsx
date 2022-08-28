@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useRouter } from 'next/router'
 
@@ -21,6 +21,7 @@ import { MarkdownEditor } from '../MarkdownEditor/MarkdownEditor'
 import { MarkdownPreview } from '../MarkdownPreview/MarkdownPreview'
 import { Structure } from '../Structure/Structure'
 import { StructureInfo } from '../StructureInfo/StructureInfo'
+import { useLocalStorage } from '../../../hooks/use_local_storage'
 
 export enum Mode {
   PREVIEW = 'preview',
@@ -37,6 +38,8 @@ export interface Props {
 export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onFavorite, onComplain }) {
   const router = useRouter()
   const markdowWrapperRef = useRef<HTMLDivElement>()
+  const [savedStructureEntity, setSavedStructureEntity] = useLocalStorage<any>('saved_structure_entity', {})
+  const userContextValue = useContext(UserContext)
 
   const [markdowWrapperTop, setMarkdowWrapperTop] = useState(0)
   const [structureValues, setStructureValues] = useState<StructureContextProps>({
@@ -52,17 +55,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
   })
   const [submitted, setSubmitted] = useState(false)
   const [folderData, setFolderData] = useState(parse(entity.content))
-  const [currentStructureEntity, setCurrentStructureEntity] = useState<StructureEntity>({
-    code: '...',
-    name: entity.name,
-    type: entity.type,
-    content: entity.content,
-    user: {
-      name: 'Fulano',
-      username: 'fulano',
-      avatar: 'https://avatars.githubusercontent.com/u/319234?v=4'
-    }
-  })
+  const [currentStructureEntity, setCurrentStructureEntity] = useState<StructureEntity>(entity)
   const [mode, setMode] = useState<Mode>(startMode ?? Mode.PREVIEW)
 
   const [createStructure] = useMutation(CREATE_STRUCTURE)
@@ -101,36 +94,35 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
     structureValues.dispatch('pathsTopPositions', pathsTopPositions)
   }, [])
 
-  const handlePublish = (userContextValue: UserContextProps) => {
-    return async () => {
-      if (submitted) return
-      const { currentUser, openModal } = userContextValue
+  const handlePublish = async () => {
+    if (submitted) return
+    const { currentUser, openModal } = userContextValue
 
-      if (currentUser) {
-        setSubmitted(() => true)
-        try {
-          await createStructure({
-            variables: {
-              type: currentStructureEntity.type,
-              name: currentStructureEntity.name,
-              content: currentStructureEntity.content
-            },
-            onCompleted(data) {
-              setSubmitted(() => false)
-              if (data) {
-                router.push(getStructureLink(data.createStructure))
-              } else {
-                // @todo show errors
-              }
+    if (currentUser) {
+      setSubmitted(() => true)
+      try {
+        await createStructure({
+          variables: {
+            type: currentStructureEntity?.type,
+            name: currentStructureEntity?.name,
+            content: currentStructureEntity?.content
+          },
+          onCompleted(data) {
+            setSubmitted(() => false)
+            if (data) {
+              setSavedStructureEntity({})
+              router.push(getStructureLink(data.createStructure))
+            } else {
+              // @todo show errors
             }
-          })
-        } catch (error) {
-          console.log('error', error)
-          setSubmitted(() => false)
-        }
-      } else {
-        openModal()
+          }
+        })
+      } catch (error) {
+        console.log('error', error)
+        setSubmitted(() => false)
       }
+    } else {
+      openModal()
     }
   }
 
@@ -157,95 +149,118 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
     }
   }, [markdowWrapperTop, structureValues.currentPath, structureValues.clickFrom])
 
+  useEffect(() => {
+    setCurrentStructureEntity((data) => ({
+      ...data,
+      code: '...',
+      name: savedStructureEntity?.name ?? entity.name,
+      type: savedStructureEntity?.type ?? entity.type,
+      content: savedStructureEntity?.content ?? entity.content,
+    }))
+  }, [])
+
+  useEffect(() => {
+    if (userContextValue.currentUser) {
+      setCurrentStructureEntity((data) => ({
+        ...data,
+        user: {
+          name: userContextValue.currentUser.name,
+          username: userContextValue.currentUser.username,
+          avatar: userContextValue.currentUser.avatar,
+        },
+      }))
+    }
+  }, [userContextValue.currentUser])
+
+  useEffect(() => {
+    setSavedStructureEntity(currentStructureEntity)
+  }, [currentStructureEntity])
+
   return (
-    <UserContext.Consumer>
-      {(userContextValue) => (
-        <StructureContext.Provider value={structureValues}>
-          <div className="flex flex-col flex-grow lg:flex-row">
-            <div className="flex flex-1 bg-gradient-to-tl from-red-700 to-purple-800 justify-end">
-              <div className="p-12 flex-grow h-full flex flex-col max-w-4xl">
-                <div className="flex-shrink-0">
-                  <StructureInfo
-                    entity={currentStructureEntity}
-                    onFavorite={onFavorite}
-                    onComplain={onComplain}
-                  />
-                </div>
-                <div className="flex-grow mt-8 relative">
-                  <Structure data={folderData} />
-                </div>
-              </div>
+    <StructureContext.Provider value={structureValues}>
+      <div className="flex flex-col flex-grow lg:flex-row">
+        <div className="flex flex-1 bg-gradient-to-tl from-red-700 to-purple-800 justify-end">
+          <div className="p-12 flex-grow h-full flex flex-col max-w-4xl">
+            <div className="flex-shrink-0">
+              <StructureInfo
+                entity={currentStructureEntity}
+                onFavorite={onFavorite}
+                onComplain={onComplain}
+              />
             </div>
-            <div className="flex-1 flex flex-col">
-              <div className="flex justify-between items-center px-12 py-6">
-                <div className="flex flex-grow">
-                  <div className="mr-4">
-                    <Button
-                      bordered
-                      disabled={mode === Mode.PREVIEW}
-                      onClick={changeMode(Mode.PREVIEW)}
-                    >preview</Button>
-                  </div>
-                  <div className="">
-                    <Button
-                      bordered
-                      disabled={mode === Mode.EDITOR}
-                      onClick={changeMode(Mode.EDITOR)}
-                    >editor</Button>
-                  </div>
-                </div>
-                <div className="">
-                  <Logo />
-                </div>
-              </div>
-              <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
-                {mode === Mode.PREVIEW && (
-                  <div className="max-w-4xl">
-                    <MarkdownPreview
-                      value={currentStructureEntity.content}
-                      onTitleClick={handleFocus}
-                      onMountElements={onMountElements}
-                    />
-                  </div>
-                )}
-                {mode === Mode.EDITOR && (
-                  <MarkdownEditor
-                    initialValue={currentStructureEntity.content}
-                    onChange={handleChangeEditor}
-                    onFocus={handleFocus}
-                  />
-                )}
-              </div>
-              {mode === Mode.EDITOR && (
-                <div className="flex flex-col px-12 py-6 border-t border-white border-opacity-10 bg-black bg-opacity-30 2xl:flex-row 2xl:justify-between 2xl:items-center">
-                  <div className="flex flex-col flex-grow mb-8 2xl:mb-0 lg:mr-10 lg:flex-row">
-                    <div className="flex-shrink-0 flex-grow mb-8 lg:mb-0 lg:mr-2">
-                      <FormControl
-                        label="name"
-                        value={currentStructureEntity.name}
-                        onChange={handleChangeInput('name')}
-                      />
-                    </div>
-                    <div className="flex-shrink-0 flex-grow lg:ml-2">
-                      <FormControl
-                        label="type (react, vue, kotlin, etc)"
-                        value={currentStructureEntity.type}
-                        onChange={handleChangeInput('type')}
-                      />
-                    </div>
-                  </div>
-                  <Button
-                    filled
-                    size="large"
-                    spinner={submitted}
-                    onClick={handlePublish(userContextValue)}
-                  >Publish</Button>
-                </div>
-              )}
+            <div className="flex-grow mt-8 relative">
+              <Structure data={folderData} />
             </div>
           </div>
-        </StructureContext.Provider>
-      )}
-    </UserContext.Consumer>
+        </div>
+        <div className="flex-1 flex flex-col">
+          <div className="flex justify-between items-center px-12 py-6">
+            <div className="flex flex-grow">
+              <div className="mr-4">
+                <Button
+                  bordered
+                  disabled={mode === Mode.PREVIEW}
+                  onClick={changeMode(Mode.PREVIEW)}
+                >preview</Button>
+              </div>
+              <div className="">
+                <Button
+                  bordered
+                  disabled={mode === Mode.EDITOR}
+                  onClick={changeMode(Mode.EDITOR)}
+                >editor</Button>
+              </div>
+            </div>
+            <div className="">
+              <Logo />
+            </div>
+          </div>
+          <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
+            {mode === Mode.PREVIEW && (
+              <div className="max-w-4xl">
+                <MarkdownPreview
+                  value={currentStructureEntity?.content}
+                  onTitleClick={handleFocus}
+                  onMountElements={onMountElements}
+                />
+              </div>
+            )}
+            {mode === Mode.EDITOR && (
+              <MarkdownEditor
+                initialValue={currentStructureEntity?.content}
+                onChange={handleChangeEditor}
+                onFocus={handleFocus}
+              />
+            )}
+          </div>
+          {mode === Mode.EDITOR && (
+            <div className="flex flex-col px-12 py-6 border-t border-white border-opacity-10 bg-black bg-opacity-30 2xl:flex-row 2xl:justify-between 2xl:items-center">
+              <div className="flex flex-col flex-grow mb-8 2xl:mb-0 lg:mr-10 lg:flex-row">
+                <div className="flex-shrink-0 flex-grow mb-8 lg:mb-0 lg:mr-2">
+                  <FormControl
+                    label="name"
+                    value={currentStructureEntity?.name}
+                    onChange={handleChangeInput('name')}
+                  />
+                </div>
+                <div className="flex-shrink-0 flex-grow lg:ml-2">
+                  <FormControl
+                    label="type (react, vue, kotlin, etc)"
+                    value={currentStructureEntity?.type}
+                    onChange={handleChangeInput('type')}
+                  />
+                </div>
+              </div>
+              <Button
+                filled
+                size="large"
+                spinner={submitted}
+                onClick={handlePublish}
+              >Publish</Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </StructureContext.Provider>
   )
 }

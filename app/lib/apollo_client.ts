@@ -10,7 +10,7 @@ const authLink = setContext((_, { headers, ...all }) => {
   return {
     headers: {
       ...headers,
-      usernameization: token ? `Bearer ${JSON.parse(token)}` : undefined,
+      authorization: token ? `Bearer ${JSON.parse(token)}` : undefined,
     },
   }
 })
