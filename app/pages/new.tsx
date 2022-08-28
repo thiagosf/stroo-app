@@ -36,7 +36,7 @@ StructurePage.getInitialProps = function (context) {
       "## Readme.md",
       "If you prefer, you can export your tree structure from your terminal like that:",
       "```bash\ntree my-app | pbcopy\n```",
-      "So you can paste it into the editor and convert to _Markdown_.",
+      "So you can paste it into the editor and convert it to _Markdown_.",
       "And... That's all! Start now, share and store your project folders structure.",
       "😎",
     ].join("\n\n"),
