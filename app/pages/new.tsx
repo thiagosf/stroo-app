@@ -19,7 +19,7 @@ const StructurePage: NextPage<Props> = ({ data }) => {
   )
 }
 
-StructurePage.getInitialProps = function (context) {
+StructurePage.getInitialProps = function () {
   const data: StructureEntity = {
     code: "...",
     name: "new-structure",

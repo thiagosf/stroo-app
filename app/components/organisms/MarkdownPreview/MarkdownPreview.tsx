@@ -9,7 +9,7 @@ import { FOLDER_SEPARATOR } from '../../../helpers/folder_utils'
 export interface Props {
   value: string;
   onTitleClick: (path: string) => void;
-  onMountElements: (pathsTopPositions: PathTopPosition[]) => void;
+  onMountElements: (pathsTopPositions: Array<PathTopPosition>) => void;
 }
 
 export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClick, onMountElements }) => {
@@ -78,7 +78,7 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClic
   }
 
   const setPositions = () => {
-    const pathsTopPositions: PathTopPosition[] = []
+    const pathsTopPositions: Array<PathTopPosition> = []
     boxRef.current.querySelectorAll('[data-title]')
       .forEach((e) => {
         const rect = e.getClientRects()

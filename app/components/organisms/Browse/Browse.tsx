@@ -6,7 +6,7 @@ import { StructureListItem } from '../../molecules/StructureListItem/StructureLi
 
 export interface Props {
   loading: Boolean;
-  list: StructureEntity[];
+  list: Array<StructureEntity>;
 }
 
 export const Browse: React.FC<Props> = function ({ loading, list }) {

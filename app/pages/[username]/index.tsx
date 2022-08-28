@@ -1,31 +1,30 @@
 import { NextPage } from 'next'
+
 import { Profile } from '../../components/organisms/Profile/Profile'
 import { MainLayout, SeoMeta } from '../../components/templates/MainLayout/MainLayout'
+import { UserEntity } from '../../contexts/user_context'
+
 import NotFoundPage from '../404'
+
 import { StructureEntity } from './[slug]'
 
-export interface AuthorEntity {
-  username: string;
-  avatar: string;
-  list: StructureEntity[];
-}
-
 interface Props {
-  data?: AuthorEntity;
+  user?: UserEntity;
+  structures?: Array<StructureEntity>;
   notFound?: boolean;
 }
 
-const AuthorPage: NextPage<Props> = ({ data, notFound }) => {
+const AuthorPage: NextPage<Props> = ({ user, structures, notFound }) => {
   if (notFound) {
     return <NotFoundPage />
   }
   const seo: SeoMeta = {
-    title: data.username,
-    description: `Structures by ${data.username}`,
+    title: user.name,
+    description: `Structures by ${user.name}`,
   }
   return (
     <MainLayout seo={seo}>
-      <Profile username={data} />
+      <Profile user={user} structures={structures} />
     </MainLayout>
   )
 }
@@ -38,28 +37,21 @@ AuthorPage.getInitialProps = function (context) {
     }
   }
 
-  const item = {
+  const item: StructureEntity = {
     code: "56sdf89a",
     name: "react-boilerplate-v1",
-    username: "Ron Von Bauer",
-    avatar: "https://picsum.photos/512/512",
     type: "react",
     content: "# introduction\n\nlorem\n\n## public/assets/images\n\npublic images\n\n## .github/workflows/master.yml\n\nDeploy production\n\n## .github/workflows/integration.yml\n\nDeploy integration\n\n## next.config.js\n\n```json\n{ \"success\": true }\n```\n\n## App.tsx\n\n```ts\nexport interface Some { }\n```\n\n",
     date: (new Date()).toUTCString(),
-    link: '/@ron-von-bauer/react-boilerplate-v1-56sdf89a'
+    link: '/@ron-von-bauer/react-boilerplate-v1-56sdf89a',
+    user: {
+      name: "Ron Von Bauer",
+      username: "ron",
+      avatar: "https://picsum.photos/512/512",
+    }
   }
-  const data = {
-    username: item.username,
-    avatar: "https://picsum.photos/512/512",
-    list: [
-      item,
-      item,
-      item,
-    ]
-  }
-  return {
-    data
-  }
+
+  return { user: item.user, structures: [item] }
 }
 
 export default AuthorPage

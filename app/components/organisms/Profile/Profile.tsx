@@ -1,5 +1,8 @@
 import React from 'react'
-import { AuthorEntity } from '../../../pages/[username]'
+
+import { UserEntity } from '../../../contexts/user_context'
+import { StructureEntity } from '../../../pages/[username]/[slug]'
+
 import { Logo } from '../../molecules/Logo/Logo'
 import { StructureListItem } from '../../molecules/StructureListItem/StructureListItem'
 import { StructureName } from '../../molecules/StructureName/StructureName'
@@ -7,11 +10,12 @@ import { UserAvatar } from '../../molecules/UserAvatar/UserAvatar'
 import { UserName } from '../../molecules/UserName/UserName'
 
 export interface Props {
-  username: AuthorEntity;
+  user: UserEntity;
+  structures: Array<StructureEntity>;
 }
 
-export const Profile: React.FC<Props> = function ({ username }) {
-  const items = username.list.map((item) => {
+export const Profile: React.FC<Props> = function ({ user, structures }) {
+  const items = structures.map(item => {
     return (
       <StructureListItem
         key={item.code}
@@ -26,10 +30,10 @@ export const Profile: React.FC<Props> = function ({ username }) {
         <div className="flex flex-grow">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <UserAvatar url={username.avatar} />
+              <UserAvatar url={user.avatar} />
             </div>
             <div className="ml-4">
-              <UserName name={username.username} />
+              <UserName name={user.name} />
               <StructureName name="Structures" />
             </div>
           </div>

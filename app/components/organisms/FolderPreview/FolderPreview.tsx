@@ -52,7 +52,8 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
   })
   const [submitted, setSubmitted] = useState(false)
   const [folderData, setFolderData] = useState(parse(entity.content))
-  const [formData, setFormData] = useState<StructureEntity>({
+  const [currentStructureEntity, setCurrentStructureEntity] = useState<StructureEntity>({
+    code: '...',
     name: entity.name,
     type: entity.type,
     content: entity.content,
@@ -67,7 +68,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
   const [createStructure] = useMutation(CREATE_STRUCTURE)
 
   const handleChangeEditor = (value: string) => {
-    setFormData((d) => ({ ...d, content: value }))
+    setCurrentStructureEntity((d) => ({ ...d, content: value }))
     setFolderData(parse(value ?? ''))
   }
 
@@ -78,7 +79,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
         value += '-'
       }
       value = value.replace(/[^0-9a-z-]/ig, '')
-      setFormData((values) => ({
+      setCurrentStructureEntity((values) => ({
         ...values,
         [field]: value
       }))
@@ -96,7 +97,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
     }
   }
 
-  const onMountElements = useCallback((pathsTopPositions: PathTopPosition[]) => {
+  const onMountElements = useCallback((pathsTopPositions: Array<PathTopPosition>) => {
     structureValues.dispatch('pathsTopPositions', pathsTopPositions)
   }, [])
 
@@ -110,9 +111,9 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
         try {
           await createStructure({
             variables: {
-              type: formData.type,
-              name: formData.name,
-              content: formData.content
+              type: currentStructureEntity.type,
+              name: currentStructureEntity.name,
+              content: currentStructureEntity.content
             },
             onCompleted(data) {
               setSubmitted(() => false)
@@ -165,7 +166,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
               <div className="p-12 flex-grow h-full flex flex-col max-w-4xl">
                 <div className="flex-shrink-0">
                   <StructureInfo
-                    entity={entity}
+                    entity={currentStructureEntity}
                     onFavorite={onFavorite}
                     onComplain={onComplain}
                   />
@@ -201,7 +202,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                 {mode === Mode.PREVIEW && (
                   <div className="max-w-4xl">
                     <MarkdownPreview
-                      value={formData.content}
+                      value={currentStructureEntity.content}
                       onTitleClick={handleFocus}
                       onMountElements={onMountElements}
                     />
@@ -209,7 +210,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                 )}
                 {mode === Mode.EDITOR && (
                   <MarkdownEditor
-                    initialValue={formData.content}
+                    initialValue={currentStructureEntity.content}
                     onChange={handleChangeEditor}
                     onFocus={handleFocus}
                   />
@@ -221,14 +222,14 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                     <div className="flex-shrink-0 flex-grow mb-8 lg:mb-0 lg:mr-2">
                       <FormControl
                         label="name"
-                        value={formData.name}
+                        value={currentStructureEntity.name}
                         onChange={handleChangeInput('name')}
                       />
                     </div>
                     <div className="flex-shrink-0 flex-grow lg:ml-2">
                       <FormControl
                         label="type (react, vue, kotlin, etc)"
-                        value={formData.type}
+                        value={currentStructureEntity.type}
                         onChange={handleChangeInput('type')}
                       />
                     </div>
