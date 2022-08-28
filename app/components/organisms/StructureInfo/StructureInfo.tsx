@@ -1,4 +1,6 @@
+import Link from 'next/link'
 import React from 'react'
+import { getUserProfileLink } from '../../../helpers/user_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { Icon } from '../../atoms/Icon/Icon'
 import { Counter } from '../../molecules/Counter/Counter'
@@ -20,6 +22,7 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
   const actionsClasses = disabledActions
     ? 'opacity-30 pointer-events-none'
     : ''
+  const userProfileLink = getUserProfileLink(entity.user)
 
   const handleFavorite = () => {
     if (onFavorite) {
@@ -38,10 +41,18 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
       <div className="flex-grow mr-8">
         <div className="flex items-center">
           <div className="flex-shrink-0">
-            <UserAvatar url={entity.user.avatar} />
+            <Link href={userProfileLink}>
+              <a>
+                <UserAvatar url={entity.user.avatar} />
+              </a>
+            </Link>
           </div>
           <div className="ml-4">
-            <UserName name={entity.user.name} />
+            <Link href={userProfileLink}>
+              <a>
+                <UserName name={entity.user.name} />
+              </a>
+            </Link>
             <StructureName name={entity.name} />
           </div>
         </div>
