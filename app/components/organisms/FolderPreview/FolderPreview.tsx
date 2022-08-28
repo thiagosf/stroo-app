@@ -152,7 +152,6 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
   useEffect(() => {
     setCurrentStructureEntity((data) => ({
       ...data,
-      code: '...',
       name: savedStructureEntity?.name ?? entity.name,
       type: savedStructureEntity?.type ?? entity.type,
       content: savedStructureEntity?.content ?? entity.content,
