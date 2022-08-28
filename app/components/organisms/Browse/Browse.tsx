@@ -1,13 +1,15 @@
 import React from 'react'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
+import { Spinner } from '../../atoms/Spinner/Spinner';
 import { Logo } from '../../molecules/Logo/Logo'
 import { StructureListItem } from '../../molecules/StructureListItem/StructureListItem'
 
 export interface Props {
+  loading: Boolean;
   list: StructureEntity[];
 }
 
-export const Browse: React.FC<Props> = function ({ list }) {
+export const Browse: React.FC<Props> = function ({ loading, list }) {
   const items = list.map((item) => {
     return (
       <StructureListItem
@@ -33,7 +35,15 @@ export const Browse: React.FC<Props> = function ({ list }) {
         </div>
       </div>
       <div className="flex-grow h-full overflow-y-auto overflow-x-hidden">
-        {items}
+        {loading && (
+          <div className="p-12">
+            <Spinner />
+          </div>
+        )}
+        {!loading && items.length > 0 && items}
+        {!loading && items.length === 0 && (
+          <div className="p-12 text-4xl">Sorry, nothing found 😔</div>
+        )}
       </div>
     </div>
   )

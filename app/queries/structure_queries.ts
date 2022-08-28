@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const LIST_STRUCTURES = gql`
-  query listStructures {
-    listStructures {
+  query listStructures ($filters: StructureListFiltersInput) {
+    listStructures (filters: $filters) {
       code,
       name,
       slug,

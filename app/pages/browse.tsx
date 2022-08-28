@@ -6,19 +6,35 @@ import { MainLayout, SeoMeta } from '../components/templates/MainLayout/MainLayo
 import { formatItem } from '../helpers/structure_utils'
 import { LIST_STRUCTURES } from '../queries/structure_queries'
 
-const BrowsePage: NextPage = () => {
+interface Props {
+  filters: any
+}
+
+const BrowsePage: NextPage<Props> = ({ filters }) => {
   const seo: SeoMeta = {
     title: 'Browse',
     description: 'Search and browse project structure reference',
   }
-  const { data } = useQuery(LIST_STRUCTURES)
+  const { data, loading } = useQuery(LIST_STRUCTURES, {
+    variables: { filters }
+  })
   const list = (data?.listStructures ?? []).map(formatItem)
 
   return (
     <MainLayout seo={seo}>
-      <Browse list={list} />
+      <Browse loading={loading} list={list} />
     </MainLayout>
   )
+}
+
+BrowsePage.getInitialProps = function ({ query }) {
+  const filters = {
+    type: query.type?.toString(),
+    search: query.search?.toString(),
+    username: query.username?.toString()
+  }
+
+  return { filters }
 }
 
 export default BrowsePage
