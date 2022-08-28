@@ -6,16 +6,16 @@ import { FolderPreview } from '../../components/organisms/FolderPreview/FolderPr
 import { formatItem, parseCodeFromSlug } from '../../helpers/structure_utils'
 import { SHOW_STRUCTURE } from '../../queries/structure_queries'
 import NotFoundPage from '../404'
+import { UserEntity } from '../../contexts/user_context'
 
 export interface StructureEntity {
-  code: string;
+  code?: string;
   name: string;
   type: string;
   content: string;
-  date: string;
-  link: string;
-  avatar: string;
-  username: string;
+  date?: string;
+  link?: string;
+  user: UserEntity;
 }
 
 interface Props {
@@ -33,8 +33,8 @@ const StructurePage: NextPage<Props> = ({ code }) => {
   if (!structure) return <NotFoundPage />
 
   const seo: SeoMeta = {
-    title: `${structure.name} by ${structure.username}`,
-    description: `Structure by ${structure.username}`,
+    title: `${structure.name} by ${structure.user.name}`,
+    description: `Structure by ${structure.user.name}`,
   }
 
   const onFavorite = (entity: StructureEntity) => {

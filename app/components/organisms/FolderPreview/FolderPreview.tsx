@@ -52,10 +52,15 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
   })
   const [submitted, setSubmitted] = useState(false)
   const [folderData, setFolderData] = useState(parse(entity.content))
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<StructureEntity>({
     name: entity.name,
     type: entity.type,
     content: entity.content,
+    user: {
+      name: 'Fulano',
+      username: 'fulano',
+      avatar: 'https://avatars.githubusercontent.com/u/319234?v=4'
+    }
   })
   const [mode, setMode] = useState<Mode>(startMode ?? Mode.PREVIEW)
 

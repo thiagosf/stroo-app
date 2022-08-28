@@ -38,10 +38,10 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
       <div className="flex-grow mr-8">
         <div className="flex items-center">
           <div className="flex-shrink-0">
-            <UserAvatar url={entity.avatar} />
+            <UserAvatar url={entity.user.avatar} />
           </div>
           <div className="ml-4">
-            <UserName name={entity.username} />
+            <UserName name={entity.user.name} />
             <StructureName name={entity.name} />
           </div>
         </div>

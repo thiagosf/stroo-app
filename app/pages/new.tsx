@@ -20,11 +20,9 @@ const StructurePage: NextPage<Props> = ({ data }) => {
 }
 
 StructurePage.getInitialProps = function (context) {
-  const data = {
+  const data: StructureEntity = {
     code: "...",
     name: "new-structure",
-    username: "You",
-    avatar: "",
     type: "type",
     content: [
       "# Introduction",
@@ -41,7 +39,12 @@ StructurePage.getInitialProps = function (context) {
       "😎",
     ].join("\n\n"),
     date: (new Date()).toUTCString(),
-    link: '/new'
+    link: '/new',
+    user: {
+      name: "You",
+      username: "you",
+      avatar: "",
+    }
   }
   return {
     data
