@@ -5,7 +5,7 @@ import NotFoundPage from '../404'
 import { StructureEntity } from './[slug]'
 
 export interface AuthorEntity {
-  author: string;
+  username: string;
   avatar: string;
   list: StructureEntity[];
 }
@@ -20,14 +20,12 @@ const AuthorPage: NextPage<Props> = ({ data, notFound }) => {
     return <NotFoundPage />
   }
   const seo: SeoMeta = {
-    title: data.author,
-    description: `Structures by ${data.author}`,
+    title: data.username,
+    description: `Structures by ${data.username}`,
   }
   return (
     <MainLayout seo={seo}>
-      <Profile
-        author={data}
-      />
+      <Profile username={data} />
     </MainLayout>
   )
 }
@@ -43,15 +41,15 @@ AuthorPage.getInitialProps = function (context) {
   const item = {
     code: "56sdf89a",
     name: "react-boilerplate-v1",
-    author: "Ron Von Bauer",
+    username: "Ron Von Bauer",
     avatar: "https://picsum.photos/512/512",
     type: "react",
-    structure: "# introduction\n\nlorem\n\n## public/assets/images\n\npublic images\n\n## .github/workflows/master.yml\n\nDeploy production\n\n## .github/workflows/integration.yml\n\nDeploy integration\n\n## next.config.js\n\n```json\n{ \"success\": true }\n```\n\n## App.tsx\n\n```ts\nexport interface Some { }\n```\n\n",
+    content: "# introduction\n\nlorem\n\n## public/assets/images\n\npublic images\n\n## .github/workflows/master.yml\n\nDeploy production\n\n## .github/workflows/integration.yml\n\nDeploy integration\n\n## next.config.js\n\n```json\n{ \"success\": true }\n```\n\n## App.tsx\n\n```ts\nexport interface Some { }\n```\n\n",
     date: (new Date()).toUTCString(),
     link: '/@ron-von-bauer/react-boilerplate-v1-56sdf89a'
   }
   const data = {
-    author: item.author,
+    username: item.username,
     avatar: "https://picsum.photos/512/512",
     list: [
       item,

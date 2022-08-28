@@ -7,11 +7,11 @@ import { UserAvatar } from '../../molecules/UserAvatar/UserAvatar'
 import { UserName } from '../../molecules/UserName/UserName'
 
 export interface Props {
-  author: AuthorEntity;
+  username: AuthorEntity;
 }
 
-export const Profile: React.FC<Props> = function ({ author }) {
-  const items = author.list.map((item) => {
+export const Profile: React.FC<Props> = function ({ username }) {
+  const items = username.list.map((item) => {
     return (
       <StructureListItem
         key={item.code}
@@ -26,10 +26,10 @@ export const Profile: React.FC<Props> = function ({ author }) {
         <div className="flex flex-grow">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <UserAvatar url={author.avatar} />
+              <UserAvatar url={username.avatar} />
             </div>
             <div className="ml-4">
-              <UserName name={author.author} />
+              <UserName name={username.username} />
               <StructureName name="Structures" />
             </div>
           </div>

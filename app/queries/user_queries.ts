@@ -7,8 +7,8 @@ export const GITHUB_AUTH_URL = gql`
 `
 
 export const AUTHORIZE_WITH_GITHUB = gql`
-  mutation authorizeWithGithub($code: String!) {
-    authorizeWithGithub (code: $code) {
+  mutation usernameizeWithGithub($code: String!) {
+    usernameizeWithGithub (code: $code) {
       user {
         name
         username

@@ -5,9 +5,9 @@ export function formatItem(item: any): StructureEntity {
     code: item.code,
     name: item.name,
     avatar: item.user.avatar,
-    author: item.user.name,
+    username: item.user.name,
     type: item.type,
-    structure: item.content,
+    content: item.content,
     date: item.created_at,
     link: getStructureLink(item),
   }

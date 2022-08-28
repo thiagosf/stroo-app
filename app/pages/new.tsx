@@ -23,10 +23,10 @@ StructurePage.getInitialProps = function (context) {
   const data = {
     code: "...",
     name: "new-structure",
-    author: "You",
+    username: "You",
     avatar: "",
     type: "type",
-    structure: [
+    content: [
       "# Introduction",
       "Format with [Markdown](https://www.markdownguide.org), use double `#` to create your folders/files list. Like that:",
       "## app/src",

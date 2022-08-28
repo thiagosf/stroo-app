@@ -10,12 +10,12 @@ import NotFoundPage from '../404'
 export interface StructureEntity {
   code: string;
   name: string;
-  avatar: string;
-  author: string;
   type: string;
-  structure: string;
+  content: string;
   date: string;
   link: string;
+  avatar: string;
+  username: string;
 }
 
 interface Props {
@@ -33,8 +33,8 @@ const StructurePage: NextPage<Props> = ({ code }) => {
   if (!structure) return <NotFoundPage />
 
   const seo: SeoMeta = {
-    title: `${structure.name} by ${structure.author}`,
-    description: `Structure by ${structure.author}`,
+    title: `${structure.name} by ${structure.username}`,
+    description: `Structure by ${structure.username}`,
   }
 
   const onFavorite = (entity: StructureEntity) => {

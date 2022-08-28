@@ -30,14 +30,14 @@ const LoginCallback: NextPage<Props> = ({ code }) => {
             setLastPage('')
             let query = {}
             if (data) {
-              setToken(data.authorizeWithGithub.token)
+              setToken(data.usernameizeWithGithub.token)
               setUserContextValue((d) => ({
                 ...d,
                 currentUser: {
-                  name: data.authorizeWithGithub.user.name,
-                  username: data.authorizeWithGithub.user.username,
-                  avatar: data.authorizeWithGithub.user.avatar,
-                  token: data.authorizeWithGithub.token,
+                  name: data.usernameizeWithGithub.user.name,
+                  username: data.usernameizeWithGithub.user.username,
+                  avatar: data.usernameizeWithGithub.user.avatar,
+                  token: data.usernameizeWithGithub.token,
                 }
               }))
             } else {

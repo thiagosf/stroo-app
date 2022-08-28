@@ -41,7 +41,7 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
             <UserAvatar url={entity.avatar} />
           </div>
           <div className="ml-4">
-            <UserName name={entity.author} />
+            <UserName name={entity.username} />
             <StructureName name={entity.name} />
           </div>
         </div>

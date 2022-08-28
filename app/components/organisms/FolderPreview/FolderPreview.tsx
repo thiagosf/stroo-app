@@ -51,11 +51,11 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
     },
   })
   const [submitted, setSubmitted] = useState(false)
-  const [folderData, setFolderData] = useState(parse(entity.structure))
+  const [folderData, setFolderData] = useState(parse(entity.content))
   const [formData, setFormData] = useState({
     name: entity.name,
     type: entity.type,
-    content: entity.structure,
+    content: entity.content,
   })
   const [mode, setMode] = useState<Mode>(startMode ?? Mode.PREVIEW)
 
@@ -166,9 +166,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                   />
                 </div>
                 <div className="flex-grow mt-8 relative">
-                  <Structure
-                    data={folderData}
-                  />
+                  <Structure data={folderData} />
                 </div>
               </div>
             </div>
