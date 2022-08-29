@@ -8,8 +8,8 @@ export const LIST_STRUCTURES = gql`
       slug,
       type,
       user {
-        username,
         name,
+        username,
         avatar
       }
     }
@@ -26,6 +26,7 @@ export const SHOW_STRUCTURE = gql`
       content,
       user {
         name,
+        username,
         avatar,
       }
     }

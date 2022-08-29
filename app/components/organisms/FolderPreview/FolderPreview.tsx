@@ -40,6 +40,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
   const markdowWrapperRef = useRef<HTMLDivElement>()
   const [savedStructureEntity, setSavedStructureEntity] = useLocalStorage<any>('saved_structure_entity', {})
   const userContextValue = useContext(UserContext)
+  const [createStructure] = useMutation(CREATE_STRUCTURE)
 
   const [markdowWrapperTop, setMarkdowWrapperTop] = useState(0)
   const [structureValues, setStructureValues] = useState<StructureContextProps>({
@@ -53,19 +54,25 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
       }))
     },
   })
-  const [submitted, setSubmitted] = useState(false)
+  const [isSending, setIsSending] = useState(false)
   const [folderData, setFolderData] = useState(parse(entity.content))
   const [currentStructureEntity, setCurrentStructureEntity] = useState<StructureEntity>(entity)
   const [mode, setMode] = useState<Mode>(startMode ?? Mode.PREVIEW)
+  const [isDuplicating, setIsDuplicating] = useState(false)
 
-  const [createStructure] = useMutation(CREATE_STRUCTURE)
+  const isNew = router.pathname === '/new'
+  const isPreviewing = mode === Mode.PREVIEW
+  const isEditing = mode === Mode.EDITOR
+  const currentUserIsOwner = userContextValue.currentUser?.username === entity.user.username
+  const buttonLabel = currentUserIsOwner ? 'Update' : 'Publish'
+  const showEditorButton = isNew || currentUserIsOwner
 
-  const handleChangeEditor = (value: string) => {
+  function handleChangeEditor(value: string) {
     setCurrentStructureEntity((d) => ({ ...d, content: value }))
     setFolderData(parse(value ?? ''))
   }
 
-  const handleChangeInput = (field: string) => {
+  function handleChangeInput(field: string) {
     return (e: any) => {
       let value = e.target.value.trim().toLowerCase()
       if (e.target.value[e.target.value.length - 1] === ' ') {
@@ -79,27 +86,18 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
     }
   }
 
-  const handleFocus = useCallback((path: string) => {
-    structureValues.dispatch('currentPath', path.split(FOLDER_SEPARATOR))
-    structureValues.dispatch('clickFrom', 'title')
-  }, [])
-
-  const changeMode = (newMode: Mode) => {
+  function changeMode(newMode: Mode) {
     return () => {
       setMode(newMode)
     }
   }
 
-  const onMountElements = useCallback((pathsTopPositions: Array<PathTopPosition>) => {
-    structureValues.dispatch('pathsTopPositions', pathsTopPositions)
-  }, [])
-
-  const handlePublish = async () => {
-    if (submitted) return
+  async function handleSave() {
+    if (isSending) return
     const { currentUser, openModal } = userContextValue
 
     if (currentUser) {
-      setSubmitted(() => true)
+      setIsSending(() => true)
       try {
         await createStructure({
           variables: {
@@ -108,7 +106,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
             content: currentStructureEntity?.content
           },
           onCompleted(data) {
-            setSubmitted(() => false)
+            setIsSending(() => false)
             if (data) {
               setSavedStructureEntity({})
               router.push(getStructureLink(data.createStructure))
@@ -119,12 +117,27 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
         })
       } catch (error) {
         console.log('error', error)
-        setSubmitted(() => false)
+        setIsSending(() => false)
       }
     } else {
       openModal()
     }
   }
+
+  async function onDuplicate() {
+    setIsDuplicating(true)
+    setSavedStructureEntity(currentStructureEntity)
+    router.push('/new')
+  }
+
+  const handleFocus = useCallback((path: string) => {
+    structureValues.dispatch('currentPath', path.split(FOLDER_SEPARATOR))
+    structureValues.dispatch('clickFrom', 'title')
+  }, [])
+
+  const onMountElements = useCallback((pathsTopPositions: Array<PathTopPosition>) => {
+    structureValues.dispatch('pathsTopPositions', pathsTopPositions)
+  }, [])
 
   useEffect(() => {
     if (markdowWrapperRef.current) {
@@ -159,7 +172,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
   }, [])
 
   useEffect(() => {
-    if (userContextValue.currentUser) {
+    if (userContextValue.currentUser && currentUserIsOwner) {
       setCurrentStructureEntity((data) => ({
         ...data,
         user: {
@@ -169,11 +182,19 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
         },
       }))
     }
-  }, [userContextValue.currentUser])
+  }, [userContextValue.currentUser, currentUserIsOwner])
 
   useEffect(() => {
-    setSavedStructureEntity(currentStructureEntity)
-  }, [currentStructureEntity])
+    if ((currentUserIsOwner || isNew) && isEditing) {
+      setSavedStructureEntity(currentStructureEntity)
+    }
+  }, [currentStructureEntity, currentUserIsOwner, isEditing, isNew])
+
+  useEffect(() => {
+    if (currentUserIsOwner && isEditing) {
+      setSavedStructureEntity({})
+    }
+  }, [currentUserIsOwner, isEditing])
 
   return (
     <StructureContext.Provider value={structureValues}>
@@ -198,16 +219,26 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
               <div className="mr-4">
                 <Button
                   bordered
-                  disabled={mode === Mode.PREVIEW}
+                  disabled={isPreviewing}
                   onClick={changeMode(Mode.PREVIEW)}
                 >preview</Button>
               </div>
               <div className="">
-                <Button
-                  bordered
-                  disabled={mode === Mode.EDITOR}
-                  onClick={changeMode(Mode.EDITOR)}
-                >editor</Button>
+                {showEditorButton && (
+                  <Button
+                    bordered
+                    disabled={isEditing}
+                    onClick={changeMode(Mode.EDITOR)}
+                  >editor</Button>
+                )}
+                {!showEditorButton && (
+                  <Button
+                    bordered
+                    onClick={onDuplicate}
+                    spinner={isDuplicating}
+                    disabled={isDuplicating}
+                  >duplicate</Button>
+                )}
               </div>
             </div>
             <div className="">
@@ -215,7 +246,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
             </div>
           </div>
           <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
-            {mode === Mode.PREVIEW && (
+            {isPreviewing && (
               <div className="max-w-4xl">
                 <MarkdownPreview
                   value={currentStructureEntity?.content}
@@ -224,7 +255,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                 />
               </div>
             )}
-            {mode === Mode.EDITOR && (
+            {isEditing && (
               <MarkdownEditor
                 initialValue={currentStructureEntity?.content}
                 onChange={handleChangeEditor}
@@ -232,7 +263,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
               />
             )}
           </div>
-          {mode === Mode.EDITOR && (
+          {isEditing && (
             <div className="flex flex-col px-12 py-6 border-t border-white border-opacity-10 bg-black bg-opacity-30 2xl:flex-row 2xl:justify-between 2xl:items-center">
               <div className="flex flex-col flex-grow mb-8 2xl:mb-0 lg:mr-10 lg:flex-row">
                 <div className="flex-shrink-0 flex-grow mb-8 lg:mb-0 lg:mr-2">
@@ -253,10 +284,10 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
               <Button
                 filled
                 size="large"
-                spinner={submitted}
-                disabled={submitted}
-                onClick={handlePublish}
-              >Publish</Button>
+                spinner={isSending}
+                disabled={isSending}
+                onClick={handleSave}
+              >{buttonLabel}</Button>
             </div>
           )}
         </div>
