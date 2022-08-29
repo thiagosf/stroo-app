@@ -254,6 +254,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                 filled
                 size="large"
                 spinner={submitted}
+                disabled={submitted}
                 onClick={handlePublish}
               >Publish</Button>
             </div>
