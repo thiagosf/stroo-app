@@ -7,7 +7,7 @@ import {
   StructureContext,
   StructureContextProps
 } from '../../../contexts/structure_context'
-import { UserContext, UserContextProps } from '../../../contexts/user_context'
+import { UserContext } from '../../../contexts/user_context'
 import { FOLDER_SEPARATOR, parse } from '../../../helpers/folder_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { CREATE_STRUCTURE } from '../../../queries/structure_queries'
@@ -130,6 +130,11 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
     router.push('/new')
   }
 
+  async function onNew() {
+    setSavedStructureEntity({})
+    router.push('/new')
+  }
+
   const handleFocus = useCallback((path: string) => {
     structureValues.dispatch('currentPath', path.split(FOLDER_SEPARATOR))
     structureValues.dispatch('clickFrom', 'title')
@@ -223,7 +228,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                   onClick={changeMode(Mode.PREVIEW)}
                 >preview</Button>
               </div>
-              <div className="">
+              <div className="mr-4">
                 {showEditorButton && (
                   <Button
                     bordered
@@ -240,6 +245,12 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                   >duplicate</Button>
                 )}
               </div>
+              {!isNew && (
+                <Button
+                  filled
+                  onClick={onNew}
+                >new</Button>
+              )}
             </div>
             <div className="">
               <Logo />
