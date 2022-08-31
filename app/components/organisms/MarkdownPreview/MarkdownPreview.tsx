@@ -45,9 +45,9 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClic
     p: ({ node, ...props }) =>
       <p {...props} className={blockElements('text-lg mb-4')} />,
     img: ({ node, ...props }) =>
-      <div>
+      <>
         {props.src}
-      </div>,
+      </>,
     code: ({ node, ...props }) => {
       if (props.inline) {
         return <code className="bg-white bg-opacity-20 rounded-sm py-1 px-2">{props.children}</code>
