@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { useQuery } from '@apollo/client'
 
 import { MainLayout, SeoMeta } from '../../components/templates/MainLayout/MainLayout'
-import { FolderPreview } from '../../components/organisms/FolderPreview/FolderPreview'
+import { StructureBuilderPreview } from '../../components/organisms/StructureBuilderPreview/StructureBuilderPreview'
 import { formatItem, parseCodeFromSlug } from '../../helpers/structure_utils'
 import { SHOW_STRUCTURE } from '../../queries/structure_queries'
 import NotFoundPage from '../404'
@@ -47,7 +47,7 @@ const StructurePage: NextPage<Props> = ({ code }) => {
 
   return (
     <MainLayout seo={seo}>
-      <FolderPreview
+      <StructureBuilderPreview
         entity={structure}
         onFavorite={onFavorite}
         onComplain={onComplain}

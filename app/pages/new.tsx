@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import { MainLayout, SeoMeta } from '../components/templates/MainLayout/MainLayout'
-import { FolderPreview } from '../components/organisms/FolderPreview/FolderPreview'
+import { StructureBuilderPreview } from '../components/organisms/StructureBuilderPreview/StructureBuilderPreview'
 import { StructureEntity } from './[username]/[slug]'
 
 interface Props {
@@ -14,7 +14,7 @@ const StructurePage: NextPage<Props> = ({ data }) => {
   }
   return (
     <MainLayout seo={seo}>
-      <FolderPreview entity={data} />
+      <StructureBuilderPreview entity={data} />
     </MainLayout>
   )
 }

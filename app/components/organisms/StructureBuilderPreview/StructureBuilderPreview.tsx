@@ -40,7 +40,7 @@ export interface Props {
   onComplain?: (entity: StructureEntity) => void;
 }
 
-export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onFavorite, onComplain }) {
+export const StructureBuilderPreview: React.FC<Props> = function ({ entity, startMode, onFavorite, onComplain }) {
   const router = useRouter()
   const markdowWrapperRef = useRef<HTMLDivElement>()
   const [savedStructureEntity, setSavedStructureEntity] = useLocalStorage<any>('saved_structure_entity', {})
