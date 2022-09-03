@@ -58,9 +58,7 @@ const StructurePage: NextPage<Props> = ({ code }) => {
 
 StructurePage.getInitialProps = function ({ query }) {
   const code = parseCodeFromSlug(query.slug.toString())
-  return {
-    code
-  }
+  return { code }
 }
 
 export default StructurePage

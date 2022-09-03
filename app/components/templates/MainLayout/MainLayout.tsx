@@ -7,7 +7,7 @@ import configUtils from '../../../helpers/config_utils'
 import { CookieBanner } from '../../organisms/CookieBanner/CookieBanner'
 import { LoginModal } from '../../organisms/LoginModal/LoginModal'
 import { UserContext, UserContextProps } from '../../../contexts/user_context'
-import { GITHUB_AUTH_URL, PROFILE } from '../../../queries/user_queries'
+import { GITHUB_AUTH_URL, PRIVATE_PROFILE } from '../../../queries/user_queries'
 import { useLocalStorage } from '../../../hooks/use_local_storage'
 
 export interface SeoMeta {
@@ -28,7 +28,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
   const [, setLastPage] = useLocalStorage<string>('last_page', null)
   const [token] = useLocalStorage('token', null)
   const { data: urlData } = useQuery(GITHUB_AUTH_URL)
-  const { data: profileData } = useQuery(PROFILE)
+  const { data: profileData } = useQuery(PRIVATE_PROFILE)
 
   const [userContextValue, setUserContextValue] = useState<UserContextProps>({
     currentUser: null,
