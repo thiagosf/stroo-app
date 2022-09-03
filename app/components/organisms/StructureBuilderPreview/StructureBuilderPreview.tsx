@@ -16,7 +16,7 @@ import {
 import { UserContext } from '../../../contexts/user_context'
 import { FOLDER_SEPARATOR, parse } from '../../../helpers/folder_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
-import { CREATE_STRUCTURE } from '../../../queries/structure_queries'
+import { CREATE_STRUCTURE, UPDATE_STRUCTURE } from '../../../queries/structure_queries'
 import { getStructureLink } from '../../../helpers/structure_utils'
 import { useLocalStorage } from '../../../hooks/use_local_storage'
 
@@ -46,6 +46,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
   const [savedStructureEntity, setSavedStructureEntity] = useLocalStorage<any>('saved_structure_entity', {})
   const userContextValue = useContext(UserContext)
   const [createStructure] = useMutation(CREATE_STRUCTURE)
+  const [updateStructure] = useMutation(UPDATE_STRUCTURE)
 
   const [markdowWrapperTop, setMarkdowWrapperTop] = useState(0)
   const [structureValues, setStructureValues] = useState<StructureContextProps>({
@@ -94,22 +95,41 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
     if (currentUser) {
       setIsSending(() => true)
       try {
-        await createStructure({
-          variables: {
+        const payload: any = {
+          input: {
             type: currentStructureEntity?.type,
             name: currentStructureEntity?.name,
             content: currentStructureEntity?.content
-          },
-          onCompleted(data) {
-            setIsSending(() => false)
-            if (data) {
-              setSavedStructureEntity({})
-              router.push(getStructureLink(data.createStructure))
-            } else {
-              // @todo show errors
-            }
           }
-        })
+        }
+        if (!currentStructureEntity?.code || currentStructureEntity?.code === '...') {
+          await createStructure({
+            variables: payload,
+            onCompleted(data) {
+              setIsSending(() => false)
+              if (data) {
+                setSavedStructureEntity({})
+                router.push(getStructureLink(data.createStructure))
+              } else {
+                // @todo show errors
+              }
+            }
+          })
+        } else {
+          payload.code = currentStructureEntity?.code
+          await updateStructure({
+            variables: payload,
+            onCompleted(data) {
+              setIsSending(() => false)
+              if (data) {
+                setSavedStructureEntity({})
+                router.push(getStructureLink(data.updateStructure))
+              } else {
+                // @todo show errors
+              }
+            }
+          })
+        }
       } catch (error) {
         console.log('error', error)
         setIsSending(() => false)

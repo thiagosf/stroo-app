@@ -34,22 +34,30 @@ export const SHOW_STRUCTURE = gql`
 `
 
 export const CREATE_STRUCTURE = gql`
-  mutation createStructure(
-    $type: String!,
-    $name: String!,
-    $content: String!
-  ) {
-    createStructure (
-      input: {
-        type: $type,
-        name: $name,
-        content: $content
-      }
-    ) {
+  mutation createStructure($input: CreateStructureInput!) {
+    createStructure (input: $input) {
       code
       name
       slug
       content
+      created_at
+      updated_at
+      user {
+        username
+      }
+    }
+  }
+`
+
+export const UPDATE_STRUCTURE = gql`
+  mutation updateStructure($code: String!, $input: UpdateStructureInput!) {
+    updateStructure (code: $code, input: $input) {
+      code
+      name
+      slug
+      content
+      created_at
+      updated_at
       user {
         username
       }
