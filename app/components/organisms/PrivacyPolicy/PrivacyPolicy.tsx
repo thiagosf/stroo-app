@@ -1,5 +1,6 @@
 import React from 'react'
-import { Logo } from '../../molecules/Logo/Logo'
+
+import { Header } from '../Header/Header'
 import { TextContent } from '../TextContent/TextContent'
 
 export interface Props { }
@@ -7,14 +8,9 @@ export interface Props { }
 export const PrivacyPolicy: React.FC<Props> = function ({ }) {
   return (
     <div className="flex flex-col w-full h-full">
-      <div className="flex flex-shrink justify-between p-12 bg-gray-900">
-        <div className="flex flex-grow">
-          <h1>Privacy Policy</h1>
-        </div>
-        <div className="flex flex-shrink-0">
-          <Logo />
-        </div>
-      </div>
+      <Header>
+        <h1>Privacy Policy</h1>
+      </Header>
       <div className="flex-grow h-full overflow-y-auto overflow-x-hidden max-w-lg m-auto py-10 px-12 lg:px-0">
         <TextContent>
           <p>Magna proident minim velit Lorem est ipsum proident laboris dolor officia ut ea do incididunt. Quis id fugiat amet magna nisi consectetur consectetur nulla officia occaecat qui. Ad reprehenderit magna tempor ipsum minim labore. Tempor ad elit culpa est est irure qui ipsum nisi est minim commodo. Reprehenderit consectetur incididunt labore ad id. Sit cupidatat adipisicing nostrud qui minim labore ullamco duis aute sint ea excepteur.</p>

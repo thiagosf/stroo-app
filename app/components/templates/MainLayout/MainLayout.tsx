@@ -71,7 +71,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <UserContext.Provider value={userContextValue}>
-        <div className="bg-gray-900 text-white flex min-h-screen lg:overflow-hidden lg:h-screen">
+        <div className=" bg-gradient-to-tr from-gray-900 to-gray-800 text-white flex min-h-screen lg:overflow-hidden lg:h-screen">
           {children}
         </div>
         <CookieBanner />
