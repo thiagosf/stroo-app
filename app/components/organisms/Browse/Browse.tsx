@@ -5,7 +5,7 @@ import { Logo } from '../../molecules/Logo/Logo'
 import { StructureListItem } from '../../molecules/StructureListItem/StructureListItem'
 
 export interface Props {
-  loading: Boolean;
+  loading: boolean;
   list: Array<StructureEntity>;
 }
 

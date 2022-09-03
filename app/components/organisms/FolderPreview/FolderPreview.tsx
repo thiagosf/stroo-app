@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { useMutation } from '@apollo/client'
 import { useRouter } from 'next/router'
 
@@ -12,16 +18,15 @@ import { FOLDER_SEPARATOR, parse } from '../../../helpers/folder_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { CREATE_STRUCTURE } from '../../../queries/structure_queries'
 import { getStructureLink } from '../../../helpers/structure_utils'
+import { useLocalStorage } from '../../../hooks/use_local_storage'
 
 import { Button } from '../../molecules/Button/Button'
-import { FormControl } from '../../molecules/FormControl/FormControl'
 import { Logo } from '../../molecules/Logo/Logo'
 
-import { MarkdownEditor } from '../MarkdownEditor/MarkdownEditor'
 import { MarkdownPreview } from '../MarkdownPreview/MarkdownPreview'
 import { Structure } from '../Structure/Structure'
 import { StructureInfo } from '../StructureInfo/StructureInfo'
-import { useLocalStorage } from '../../../hooks/use_local_storage'
+import { StructureForm } from '../StructureForm/StructureForm'
 
 export enum Mode {
   PREVIEW = 'preview',
@@ -64,26 +69,16 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
   const isPreviewing = mode === Mode.PREVIEW
   const isEditing = mode === Mode.EDITOR
   const currentUserIsOwner = userContextValue.currentUser?.username === entity.user.username
-  const buttonLabel = currentUserIsOwner ? 'Update' : 'Publish'
   const showEditorButton = isNew || currentUserIsOwner
 
-  function handleChangeEditor(value: string) {
-    setCurrentStructureEntity((d) => ({ ...d, content: value }))
-    setFolderData(parse(value ?? ''))
-  }
-
-  function handleChangeInput(field: string) {
-    return (e: any) => {
-      let value = e.target.value.trim().toLowerCase()
-      if (e.target.value[e.target.value.length - 1] === ' ') {
-        value += '-'
-      }
-      value = value.replace(/[^0-9a-z-]/ig, '')
-      setCurrentStructureEntity((values) => ({
-        ...values,
-        [field]: value
-      }))
+  function handleChangeInput(field: string, value: string) {
+    if (field === 'content') {
+      setFolderData(parse(value ?? ''))
     }
+    setCurrentStructureEntity((values) => ({
+      ...values,
+      [field]: value
+    }))
   }
 
   function changeMode(newMode: Mode) {
@@ -157,7 +152,7 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
       const item = structureValues.pathsTopPositions.find((item) => {
         return item.path === currentPath
       })
-      if (item) {
+      if (item && markdowWrapperRef.current) {
         const top = item.top - markdowWrapperTop
         markdowWrapperRef.current.scrollTo({
           top,
@@ -256,8 +251,8 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
               <Logo />
             </div>
           </div>
-          <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
-            {isPreviewing && (
+          {isPreviewing && (
+            <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
               <div className="max-w-4xl">
                 <MarkdownPreview
                   value={currentStructureEntity?.content}
@@ -265,41 +260,16 @@ export const FolderPreview: React.FC<Props> = function ({ entity, startMode, onF
                   onMountElements={onMountElements}
                 />
               </div>
-            )}
-            {isEditing && (
-              <MarkdownEditor
-                initialValue={currentStructureEntity?.content}
-                onChange={handleChangeEditor}
-                onFocus={handleFocus}
-              />
-            )}
-          </div>
-          {isEditing && (
-            <div className="flex flex-col px-12 py-6 border-t border-white border-opacity-10 bg-black bg-opacity-30 2xl:flex-row 2xl:justify-between 2xl:items-center">
-              <div className="flex flex-col flex-grow mb-8 2xl:mb-0 lg:mr-10 lg:flex-row">
-                <div className="flex-shrink-0 flex-grow mb-8 lg:mb-0 lg:mr-2">
-                  <FormControl
-                    label="name"
-                    value={currentStructureEntity?.name}
-                    onChange={handleChangeInput('name')}
-                  />
-                </div>
-                <div className="flex-shrink-0 flex-grow lg:ml-2">
-                  <FormControl
-                    label="type (react, vue, kotlin, etc)"
-                    value={currentStructureEntity?.type}
-                    onChange={handleChangeInput('type')}
-                  />
-                </div>
-              </div>
-              <Button
-                filled
-                size="large"
-                spinner={isSending}
-                disabled={isSending}
-                onClick={handleSave}
-              >{buttonLabel}</Button>
             </div>
+          )}
+          {isEditing && (
+            <StructureForm
+              entity={currentStructureEntity}
+              isSending={isSending}
+              onSave={handleSave}
+              onChange={handleChangeInput}
+              onFocus={handleFocus}
+            />
           )}
         </div>
       </div>
