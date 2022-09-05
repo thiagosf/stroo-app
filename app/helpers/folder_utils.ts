@@ -22,19 +22,21 @@ const getIcon = (name: string): string => {
   const mapIcons = {
     generic: 'folder-generic',
     github: 'folder-github',
-    yml: 'yaml',
-    yaml: 'yaml',
-    js: 'javascript',
+    md: 'markdown',
+    eslintrc: 'eslint',
+    gitignore: 'git',
+    scss: 'sass',
     ts: 'typescript',
     tsx: 'typescript',
-    json: 'json',
-    md: 'markdown',
+    js: 'javascript',
+    yml: 'yaml',
   }
+  if (name.indexOf('.') === -1) return mapIcons.generic
   let key = name.split('.').pop()
   if (name[0] === '.') {
     key = name.split('.').pop()
   }
-  return mapIcons[key] ?? mapIcons.generic
+  return mapIcons[key] ?? key
 }
 
 const buildParseItem = (name: string, path: string[], level?: number): FolderParseResult => {
