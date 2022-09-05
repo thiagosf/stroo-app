@@ -17,7 +17,7 @@ export const Header: React.FC<Props> = function ({ children }) {
   }
 
   return (
-    <div className="flex flex-shrink justify-between p-12">
+    <div className="flex flex-wrap flex-shrink gap-4 justify-between p-12 md:flex-nowrap">
       <div className="flex flex-grow">
         {children}
       </div>
