@@ -13,10 +13,12 @@ export interface Props {
   onSave: () => void;
   onChange: (field: string, value: string) => void;
   onFocus: (path: string) => void;
+  onDestroy: () => void;
 }
 
-export const StructureForm: React.FC<Props> = function ({ entity, isSending, onChange, onSave, onFocus }) {
-  const buttonLabel = !!entity?.code && entity?.code !== '...' ? 'Update' : 'Publish'
+export const StructureForm: React.FC<Props> = function ({ entity, isSending, onChange, onSave, onFocus, onDestroy }) {
+  const isPublished = !!entity?.code && entity?.code
+  const buttonLabel = isPublished !== '...' ? 'Update' : 'Publish'
 
   function handleChangeInput(field: string) {
     return (e: any) => {
@@ -58,13 +60,24 @@ export const StructureForm: React.FC<Props> = function ({ entity, isSending, onC
             />
           </div>
         </div>
-        <Button
-          filled
-          size="large"
-          spinner={isSending}
-          disabled={isSending}
-          onClick={onSave}
-        >{buttonLabel}</Button>
+        <div className="flex justify-center items-center center gap-4">
+          <Button
+            filled
+            size="large"
+            spinner={isSending}
+            disabled={isSending}
+            onClick={onSave}
+          >{buttonLabel}</Button>
+          {isPublished && (
+            <Button
+              bordered
+              size="small"
+              spinner={isSending}
+              disabled={isSending}
+              onClick={onDestroy}
+            >Delete</Button>
+          )}
+        </div>
       </div>
     </>
   )

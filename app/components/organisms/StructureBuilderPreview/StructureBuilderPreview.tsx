@@ -16,17 +16,17 @@ import {
 import { UserContext } from '../../../contexts/user_context'
 import { FOLDER_SEPARATOR, parse } from '../../../helpers/folder_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
-import { CREATE_STRUCTURE, UPDATE_STRUCTURE } from '../../../queries/structure_queries'
+import { CREATE_STRUCTURE, DESTROY_STRUCTURE, UPDATE_STRUCTURE } from '../../../queries/structure_queries'
 import { getStructureLink } from '../../../helpers/structure_utils'
 import { useLocalStorage } from '../../../hooks/use_local_storage'
 
 import { Button } from '../../molecules/Button/Button'
-import { Logo } from '../../molecules/Logo/Logo'
 
 import { MarkdownPreview } from '../MarkdownPreview/MarkdownPreview'
 import { Structure } from '../Structure/Structure'
 import { StructureInfo } from '../StructureInfo/StructureInfo'
 import { StructureForm } from '../StructureForm/StructureForm'
+import { Header } from '../Header/Header'
 
 export enum Mode {
   PREVIEW = 'preview',
@@ -47,6 +47,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
   const userContextValue = useContext(UserContext)
   const [createStructure] = useMutation(CREATE_STRUCTURE)
   const [updateStructure] = useMutation(UPDATE_STRUCTURE)
+  const [destroyStructure] = useMutation(DESTROY_STRUCTURE)
 
   const [markdowWrapperTop, setMarkdowWrapperTop] = useState(0)
   const [structureValues, setStructureValues] = useState<StructureContextProps>({
@@ -150,6 +151,23 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
     router.push('/new')
   }
 
+  async function handleDestroy() {
+    if (confirm('Are you sure?!')) {
+      setIsSending(() => true)
+      destroyStructure({
+        variables: { code: entity.code },
+        onCompleted(data) {
+          setIsSending(() => false)
+          if (data?.destroyStructure) {
+            router.push('/')
+          } else {
+            // @todo show error
+          }
+        }
+      })
+    }
+  }
+
   const handleFocus = useCallback((path: string) => {
     structureValues.dispatch('currentPath', path.split(FOLDER_SEPARATOR))
     structureValues.dispatch('clickFrom', 'title')
@@ -234,8 +252,8 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
           </div>
         </div>
         <div className="flex-1 flex flex-col">
-          <div className="flex justify-between items-center px-12 py-6">
-            <div className="flex flex-grow">
+          <Header>
+            <>
               <div className="mr-4">
                 <Button
                   bordered
@@ -266,11 +284,8 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
                   onClick={onNew}
                 >new</Button>
               )}
-            </div>
-            <div className="">
-              <Logo />
-            </div>
-          </div>
+            </>
+          </Header>
           {isPreviewing && (
             <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
               <div className="max-w-4xl">
@@ -289,6 +304,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
               onSave={handleSave}
               onChange={handleChangeInput}
               onFocus={handleFocus}
+              onDestroy={handleDestroy}
             />
           )}
         </div>

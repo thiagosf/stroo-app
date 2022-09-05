@@ -64,3 +64,9 @@ export const UPDATE_STRUCTURE = gql`
     }
   }
 `
+
+export const DESTROY_STRUCTURE = gql`
+  mutation destroyStructure($code: String!) {
+    destroyStructure (code: $code)
+  }
+`
