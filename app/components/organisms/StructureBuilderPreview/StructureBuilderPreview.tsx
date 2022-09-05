@@ -95,45 +95,50 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
 
     if (currentUser) {
       setIsSending(() => true)
-      try {
-        const payload: any = {
-          input: {
-            type: currentStructureEntity?.type,
-            name: currentStructureEntity?.name,
-            content: currentStructureEntity?.content
+      const payload: any = {
+        input: {
+          type: currentStructureEntity?.type,
+          name: currentStructureEntity?.name,
+          content: currentStructureEntity?.content
+        }
+      }
+      if (!currentStructureEntity?.code || currentStructureEntity?.code === '...') {
+        await createStructure({
+          variables: payload,
+          onCompleted(data) {
+            setIsSending(() => false)
+            if (data) {
+              setSavedStructureEntity({})
+              router.push(getStructureLink(data.createStructure))
+            } else {
+              // @todo show errors
+            }
+          },
+          onError(error) {
+            // @todo show error
+            setIsSending(() => false)
+            console.log('createStructure::error', error)
           }
-        }
-        if (!currentStructureEntity?.code || currentStructureEntity?.code === '...') {
-          await createStructure({
-            variables: payload,
-            onCompleted(data) {
-              setIsSending(() => false)
-              if (data) {
-                setSavedStructureEntity({})
-                router.push(getStructureLink(data.createStructure))
-              } else {
-                // @todo show errors
-              }
+        })
+      } else {
+        payload.code = currentStructureEntity?.code
+        await updateStructure({
+          variables: payload,
+          onCompleted(data) {
+            setIsSending(() => false)
+            if (data) {
+              setSavedStructureEntity({})
+              router.push(getStructureLink(data.updateStructure))
+            } else {
+              // @todo show errors
             }
-          })
-        } else {
-          payload.code = currentStructureEntity?.code
-          await updateStructure({
-            variables: payload,
-            onCompleted(data) {
-              setIsSending(() => false)
-              if (data) {
-                setSavedStructureEntity({})
-                router.push(getStructureLink(data.updateStructure))
-              } else {
-                // @todo show errors
-              }
-            }
-          })
-        }
-      } catch (error) {
-        console.log('error', error)
-        setIsSending(() => false)
+          },
+          onError(error) {
+            // @todo show error
+            setIsSending(() => false)
+            console.log('updateStructure::error', error)
+          }
+        })
       }
     } else {
       openModal()
@@ -158,11 +163,12 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
         variables: { code: entity.code },
         onCompleted(data) {
           setIsSending(() => false)
-          if (data?.destroyStructure) {
-            router.push('/')
-          } else {
-            // @todo show error
-          }
+          router.push('/')
+        },
+        onError(error) {
+          // @todo show error
+          setIsSending(() => false)
+          console.log('destroyStructure::error', error)
         }
       })
     }
