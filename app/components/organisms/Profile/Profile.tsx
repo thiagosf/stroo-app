@@ -33,7 +33,7 @@ export const Profile: React.FC<Props> = function ({ user, structures }) {
             <UserAvatar url={user.avatar} />
           </div>
           <div className="ml-4">
-            <UserName name={user.name} />
+            <UserName user={user} />
             <StructureName name="Structures" />
           </div>
         </div>

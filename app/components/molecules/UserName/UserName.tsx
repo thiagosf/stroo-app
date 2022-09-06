@@ -1,13 +1,15 @@
 import React from 'react'
 
+import { UserEntity } from '../../../contexts/user_context'
+
 export interface Props {
-  name: string;
+  user: UserEntity;
 }
 
-export const UserName: React.FC<Props> = function ({ name }) {
+export const UserName: React.FC<Props> = function ({ user }) {
   return (
-    <div className="flex text-sm opacity-50 leading-5">
-      {name}
+    <div className="flex text-sm leading-5">
+      @{user.username}
     </div>
   )
 }
