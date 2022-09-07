@@ -28,7 +28,7 @@ import { StructureInfo } from '../StructureInfo/StructureInfo'
 import { StructureForm } from '../StructureForm/StructureForm'
 import { Header } from '../Header/Header'
 import { SiteContext } from '../../../contexts/site_context'
-import { randomEmoji } from '../../../helpers/emoji'
+import { getEmoji, randomEmoji } from '../../../helpers/emoji'
 
 export enum Mode {
   PREVIEW = 'preview',
@@ -181,20 +181,28 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
   }
 
   async function handleDestroy() {
-    if (confirm('Are you sure?!')) {
-      setIsSending(() => true)
-      destroyStructure({
-        variables: { code: entity.code },
-        onCompleted() {
-          setIsSending(() => false)
-          router.push('/')
-        },
-        onError(error) {
-          setIsSending(() => false)
-          console.log('destroyStructure::error', error)
-        }
-      })
-    }
+    siteContextValue.setAlert({
+      icon: getEmoji('warning'),
+      title: 'Are you sure?!',
+      delay: 30000,
+      onConfirm: () => {
+        setIsSending(() => true)
+        destroyStructure({
+          variables: { code: entity.code },
+          onCompleted() {
+            setIsSending(() => false)
+            router.push('/')
+          },
+          onError(error) {
+            setIsSending(() => false)
+            console.log('destroyStructure::error', error)
+          }
+        })
+      },
+      onCancel: () => {
+        siteContextValue.clean()
+      }
+    })
   }
 
   const handleFocus = useCallback((path: string) => {

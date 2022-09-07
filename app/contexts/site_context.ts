@@ -4,8 +4,9 @@ export interface Alert {
   title: string;
   icon?: string;
   description?: string;
-  isConfirmation?: boolean;
   delay?: number;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
 export interface SiteContextProps {

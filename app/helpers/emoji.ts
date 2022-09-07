@@ -1,12 +1,12 @@
 export type RandomType = 'happy' | 'unhappy'
 
 export const list = {
-  invalid: '⚠️',
   party: '🥳',
   sunglasses: '😎',
   tada: '🎉',
   anxious: '😰',
   fear: '😱',
+  warning: '🚨',
 }
 
 export const happy = [
@@ -18,11 +18,12 @@ export const happy = [
 export const unhappy = [
   list.anxious,
   list.fear,
+  list.warning,
 ]
 
 const randomLists = { happy, unhappy }
 
-export function getEmoji(name: RandomType): string {
+export function getEmoji(name: keyof typeof list): string {
   return list[name]
 }
 
