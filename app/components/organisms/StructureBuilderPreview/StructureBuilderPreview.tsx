@@ -28,6 +28,7 @@ import { StructureInfo } from '../StructureInfo/StructureInfo'
 import { StructureForm } from '../StructureForm/StructureForm'
 import { Header } from '../Header/Header'
 import { SiteContext } from '../../../contexts/site_context'
+import { randomEmoji } from '../../../helpers/emoji'
 
 export enum Mode {
   PREVIEW = 'preview',
@@ -111,15 +112,26 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
             setIsSending(() => false)
             if (data) {
               setSavedStructureEntity({})
-              siteContextValue.setAlert({ title: 'Structure created successfully 🥳' })
+              siteContextValue.setAlert({
+                icon: randomEmoji('happy'),
+                title: 'Structure created successfully!',
+              })
               router.push(getStructureLink(data.createStructure))
             } else {
-              siteContextValue.setAlert({ title: JSON.stringify(data.error), delay: 10000 })
+              siteContextValue.setAlert({
+                icon: randomEmoji('unhappy'),
+                title: JSON.stringify(data.error),
+                delay: 10000,
+              })
             }
           },
           onError(error) {
             setIsSending(() => false)
-            siteContextValue.setAlert({ title: error.message, delay: 10000 })
+            siteContextValue.setAlert({
+              icon: randomEmoji('unhappy'),
+              title: error.message,
+              delay: 10000,
+            })
           }
         })
       } else {
@@ -129,16 +141,26 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
           onCompleted(data) {
             setIsSending(() => false)
             if (data) {
-              siteContextValue.setAlert({ title: 'Structure updated successfully 😎' })
+              siteContextValue.setAlert({
+                icon: randomEmoji('happy'),
+                title: 'Structure updated successfully!',
+              })
               setSavedStructureEntity({})
               router.push(getStructureLink(data.updateStructure))
             } else {
-              siteContextValue.setAlert({ title: JSON.stringify(data.error), delay: 10000 })
+              siteContextValue.setAlert({
+                icon: randomEmoji('unhappy'),
+                title: JSON.stringify(data.error),
+                delay: 10000,
+              })
             }
           },
           onError(error) {
             setIsSending(() => false)
-            siteContextValue.setAlert({ title: error.message, delay: 10000 })
+            siteContextValue.setAlert({
+              icon: randomEmoji('unhappy'),
+              title: error.message, delay: 10000,
+            })
           }
         })
       }
@@ -163,12 +185,11 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
       setIsSending(() => true)
       destroyStructure({
         variables: { code: entity.code },
-        onCompleted(data) {
+        onCompleted() {
           setIsSending(() => false)
           router.push('/')
         },
         onError(error) {
-          // @todo show error
           setIsSending(() => false)
           console.log('destroyStructure::error', error)
         }

@@ -17,6 +17,9 @@ export const AlertModal: React.FC<Props> = function ({ alert, isLeaving, onClose
     : 'animate-to-up md:animate-to-right'
   return (
     <div className={`${animationClasses} fixed z-50 top-0 left-0 right-0 h-1/2 bg-gradient-to-tr from-purple-700 to-purple-900 flex flex-col gap-8 justify-center items-center text-white text-2xl shadow-lg p-5 text-center origin-top-right md:p-8 md:text-4xl md:right-auto md:bottom-0 md:h-auto md:w-1/2 md:gap-10`}>
+      {alert.icon && (
+        <div className="mb-2 text-5xl md:text-7xl">{alert.icon}</div>
+      )}
       <div>{alert.title}</div>
       {alert.description && (
         <div className="text-lg md:text-2xl">{alert.description}</div>

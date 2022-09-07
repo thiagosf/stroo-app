@@ -2,6 +2,7 @@ import React from 'react'
 
 export interface Alert {
   title: string;
+  icon?: string;
   description?: string;
   isConfirmation?: boolean;
   delay?: number;
