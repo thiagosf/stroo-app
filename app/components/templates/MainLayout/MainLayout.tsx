@@ -26,12 +26,19 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
   const [openedLoginModal, setOpenedLoginModal] = useState(false)
   const [loadingAuthURL, setLoadingAuthURL] = useState(false)
   const [, setLastPage] = useLocalStorage<string>('last_page', null)
-  const [token] = useLocalStorage('token', null)
+  const [token, setToken] = useLocalStorage('token', null)
   const { data: urlData } = useQuery(GITHUB_AUTH_URL)
   const { data: profileData } = useQuery(PRIVATE_PROFILE)
 
   const [userContextValue, setUserContextValue] = useState<UserContextProps>({
     currentUser: null,
+    onLogout: () => {
+      setToken(null)
+      setUserContextValue((d) => ({
+        ...d,
+        currentUser: undefined
+      }))
+    },
     openModal: () => setOpenedLoginModal(() => true),
     closeModal: () => setOpenedLoginModal(() => false),
   })

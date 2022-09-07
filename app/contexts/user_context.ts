@@ -12,7 +12,7 @@ export interface UserLoginEntity extends UserEntity {
 
 export interface UserContextProps {
   currentUser?: UserLoginEntity;
-  onLogin?: () => void;
+  onLogout?: () => void;
   openModal?: () => void;
   closeModal?: () => void;
 }

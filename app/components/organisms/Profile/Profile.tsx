@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
-import { UserEntity } from '../../../contexts/user_context'
+import { UserContext, UserEntity } from '../../../contexts/user_context'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 
 import { StructureListItem } from '../../molecules/StructureListItem/StructureListItem'
@@ -16,6 +16,8 @@ export interface Props {
 }
 
 export const Profile: React.FC<Props> = function ({ user, structures }) {
+  const userContextValue = useContext(UserContext)
+
   const items = structures.map(item => {
     return (
       <StructureListItem
@@ -25,6 +27,10 @@ export const Profile: React.FC<Props> = function ({ user, structures }) {
     )
   })
 
+  function handleLogout() {
+    userContextValue.onLogout()
+  }
+
   return (
     <div className="flex flex-col w-full h-full">
       <Header>
@@ -33,7 +39,14 @@ export const Profile: React.FC<Props> = function ({ user, structures }) {
             <UserAvatar url={user.avatar} />
           </div>
           <div className="ml-4">
-            <UserName user={user} />
+            <div className="flex items-center gap-2">
+              <UserName user={user} />
+              {userContextValue.currentUser?.username === user.username && (
+                <div className="text-sm border-b-2 cursor-pointer opacity-50" onClick={handleLogout}>
+                  logout
+                </div>
+              )}
+            </div>
             <StructureName name="Structures" />
           </div>
         </div>
