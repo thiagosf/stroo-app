@@ -17,8 +17,8 @@ export interface Props {
 }
 
 export const StructureForm: React.FC<Props> = function ({ entity, isSending, onChange, onSave, onFocus, onDestroy }) {
-  const isPublished = !!entity?.code && entity?.code
-  const buttonLabel = isPublished !== '...' ? 'Update' : 'Publish'
+  const isPublished = !!entity?.code && entity?.code !== '...'
+  const buttonLabel = isPublished ? 'Update' : 'Publish'
 
   function handleChangeInput(field: string) {
     return (e: any) => {
