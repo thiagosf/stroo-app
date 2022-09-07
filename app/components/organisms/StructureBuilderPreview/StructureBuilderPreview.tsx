@@ -195,7 +195,11 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
           },
           onError(error) {
             setIsSending(() => false)
-            console.log('destroyStructure::error', error)
+            siteContextValue.setAlert({
+              icon: randomEmoji('unhappy'),
+              title: error.message,
+              delay: 10000,
+            })
           }
         })
       },
