@@ -35,6 +35,34 @@ module.exports = {
           'sans-serif',
         ],
       },
+      animation: {
+        'from-up': 'fromUp 700ms forwards cubic-bezier(0.16, 1, 0.3, 1)',
+        'from-right': 'fromRight 700ms forwards cubic-bezier(0.16, 1, 0.3, 1)',
+        'to-up': 'toUp 400ms forwards cubic-bezier(0.7, 0, 0.84, 0)',
+        'to-right': 'toRight 400ms forwards cubic-bezier(0.7, 0, 0.84, 0)',
+      },
+      keyframes: {
+        'fromUp': {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(0%)' },
+        },
+        'fromRight': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0%)' },
+        },
+        'toUp': {
+          '0%': { transform: 'translateY(0%)' },
+          '100%': { transform: 'translateY(-100%)' },
+        },
+        'toRight': {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+      },
+      transitionTimingFunction: {
+        'in-expo': 'cubic-bezier(0.95, 0.05, 0.795, 0.035)',
+        'out-expo': 'cubic-bezier(0.19, 1, 0.22, 1)',
+      },
     },
   },
   variants: {

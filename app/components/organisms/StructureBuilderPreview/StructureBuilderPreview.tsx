@@ -27,6 +27,7 @@ import { Structure } from '../Structure/Structure'
 import { StructureInfo } from '../StructureInfo/StructureInfo'
 import { StructureForm } from '../StructureForm/StructureForm'
 import { Header } from '../Header/Header'
+import { SiteContext } from '../../../contexts/site_context'
 
 export enum Mode {
   PREVIEW = 'preview',
@@ -45,6 +46,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
   const markdowWrapperRef = useRef<HTMLDivElement>()
   const [savedStructureEntity, setSavedStructureEntity] = useLocalStorage<any>('saved_structure_entity', {})
   const userContextValue = useContext(UserContext)
+  const siteContextValue = useContext(SiteContext)
   const [createStructure] = useMutation(CREATE_STRUCTURE)
   const [updateStructure] = useMutation(UPDATE_STRUCTURE)
   const [destroyStructure] = useMutation(DESTROY_STRUCTURE)
@@ -109,15 +111,15 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
             setIsSending(() => false)
             if (data) {
               setSavedStructureEntity({})
+              siteContextValue.setAlert({ title: 'Structure created successfully 🥳' })
               router.push(getStructureLink(data.createStructure))
             } else {
-              // @todo show errors
+              siteContextValue.setAlert({ title: JSON.stringify(data.error), delay: 10000 })
             }
           },
           onError(error) {
-            // @todo show error
             setIsSending(() => false)
-            console.log('createStructure::error', error)
+            siteContextValue.setAlert({ title: error.message, delay: 10000 })
           }
         })
       } else {
@@ -127,16 +129,16 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
           onCompleted(data) {
             setIsSending(() => false)
             if (data) {
+              siteContextValue.setAlert({ title: 'Structure updated successfully 😎' })
               setSavedStructureEntity({})
               router.push(getStructureLink(data.updateStructure))
             } else {
-              // @todo show errors
+              siteContextValue.setAlert({ title: JSON.stringify(data.error), delay: 10000 })
             }
           },
           onError(error) {
-            // @todo show error
             setIsSending(() => false)
-            console.log('updateStructure::error', error)
+            siteContextValue.setAlert({ title: error.message, delay: 10000 })
           }
         })
       }
