@@ -6,6 +6,8 @@ export function formatItem(item: any): StructureEntity {
     name: item.name,
     type: item.type,
     content: item.content,
+    like_count: item.like_count,
+    liked: item.liked,
     date: item.created_at,
     link: getStructureLink(item),
     user: {

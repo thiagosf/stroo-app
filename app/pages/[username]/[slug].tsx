@@ -5,8 +5,10 @@ import { MainLayout, SeoMeta } from '../../components/templates/MainLayout/MainL
 import { StructureBuilderPreview } from '../../components/organisms/StructureBuilderPreview/StructureBuilderPreview'
 import { formatItem, parseCodeFromSlug } from '../../helpers/structure_utils'
 import { SHOW_STRUCTURE } from '../../queries/structure_queries'
-import NotFoundPage from '../404'
 import { UserEntity } from '../../contexts/user_context'
+import { useFavorite } from '../../hooks/use_favorite'
+
+import NotFoundPage from '../404'
 
 export interface StructureEntity {
   code?: string;
@@ -15,6 +17,8 @@ export interface StructureEntity {
   content: string;
   date?: string;
   link?: string;
+  like_count: number;
+  liked?: boolean;
   user: UserEntity;
 }
 
@@ -27,6 +31,7 @@ const StructurePage: NextPage<Props> = ({ code }) => {
     variables: { code }
   })
   const structure = data ? formatItem(data.getStructure) : null
+  const [onFavorite] = useFavorite()
 
   if (loading) return <div>...</div>
 
@@ -35,10 +40,6 @@ const StructurePage: NextPage<Props> = ({ code }) => {
   const seo: SeoMeta = {
     title: `${structure.name} by ${structure.user.name}`,
     description: `Structure by ${structure.user.name}`,
-  }
-
-  const onFavorite = (entity: StructureEntity) => {
-    console.log('onFavorite', entity)
   }
 
   const onComplain = (entity: StructureEntity) => {

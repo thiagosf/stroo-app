@@ -7,6 +7,8 @@ export const LIST_STRUCTURES = gql`
       name,
       slug,
       type,
+      like_count,
+      liked,
       user {
         name,
         username,
@@ -24,6 +26,8 @@ export const SHOW_STRUCTURE = gql`
       slug,
       type,
       content,
+      like_count,
+      liked,
       user {
         name,
         username,
@@ -36,12 +40,14 @@ export const SHOW_STRUCTURE = gql`
 export const CREATE_STRUCTURE = gql`
   mutation createStructure($input: CreateStructureInput!) {
     createStructure (input: $input) {
-      code
-      name
-      slug
-      content
-      created_at
-      updated_at
+      code,
+      name,
+      slug,
+      content,
+      like_count,
+      liked,
+      created_at,
+      updated_at,
       user {
         username
       }
@@ -52,12 +58,14 @@ export const CREATE_STRUCTURE = gql`
 export const UPDATE_STRUCTURE = gql`
   mutation updateStructure($code: String!, $input: UpdateStructureInput!) {
     updateStructure (code: $code, input: $input) {
-      code
-      name
-      slug
-      content
-      created_at
-      updated_at
+      code,
+      name,
+      slug,
+      content,
+      like_count,
+      liked,
+      created_at,
+      updated_at,
       user {
         username
       }

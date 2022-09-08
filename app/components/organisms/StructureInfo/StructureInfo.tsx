@@ -23,6 +23,7 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
     ? 'opacity-30 pointer-events-none'
     : ''
   const userProfileLink = getUserProfileLink(entity.user)
+  const heartIcon = entity.liked ? 'heart-filled' : 'heart'
 
   const handleFavorite = () => {
     if (onFavorite) {
@@ -64,8 +65,8 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
       <div className={`flex justify-center items-start ${actionsClasses}`}>
         <div className="mr-2 cursor-pointer" onClick={handleFavorite}>
           <Tooltip text="Good!">
-            <Counter count={365874}>
-              <Icon name="heart-filled" svgClasses="w-6 h-6" />
+            <Counter count={entity.like_count}>
+              <Icon name={heartIcon} svgClasses="w-6 h-6" />
             </Counter>
           </Tooltip>
         </div>
