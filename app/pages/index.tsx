@@ -12,8 +12,4 @@ const HomePage: NextPage<Props> = ({ }) => {
   )
 }
 
-// HomePage.getInitialProps = function () {
-//   return {}
-// }
-
 export default HomePage
