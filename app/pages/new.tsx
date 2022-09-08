@@ -38,6 +38,8 @@ StructurePage.getInitialProps = function () {
       "And... That's all! Start now, share and store your project folders structure.",
       "😎",
     ].join("\n\n"),
+    like_count: 0,
+    liked: false,
     date: (new Date()).toUTCString(),
     link: '/new',
     user: {
