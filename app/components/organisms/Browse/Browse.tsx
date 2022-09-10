@@ -40,7 +40,7 @@ export const Browse: React.FC<Props> = function ({ loading, list, loadMore }) {
         onReachedBottom={loadMore}
       >
         {loading && (
-          <div className="p-12">
+          <div className="p-12 text-center">
             <Spinner />
           </div>
         )}

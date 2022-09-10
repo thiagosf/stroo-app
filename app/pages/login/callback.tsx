@@ -63,7 +63,9 @@ const LoginCallback: NextPage<Props> = ({ code }) => {
 
   return (
     <MainLayout>
-      <Spinner />
+      <div className="p-12 text-center">
+        <Spinner />
+      </div>
     </MainLayout>
   )
 }
