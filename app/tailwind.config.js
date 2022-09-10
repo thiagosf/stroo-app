@@ -7,7 +7,6 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
   ],
-  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       fontFamily: {
@@ -40,6 +39,7 @@ module.exports = {
         'from-right': 'fromRight 700ms forwards cubic-bezier(0.16, 1, 0.3, 1)',
         'to-up': 'toUp 400ms forwards cubic-bezier(0.7, 0, 0.84, 0)',
         'to-right': 'toRight 400ms forwards cubic-bezier(0.7, 0, 0.84, 0)',
+        'spin-fast': 'spin 500ms linear infinite',
       },
       keyframes: {
         'fromUp': {
