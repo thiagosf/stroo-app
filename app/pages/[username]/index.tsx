@@ -25,8 +25,8 @@ const AuthorPage: NextPage<Props> = ({ username }) => {
 
   const { profile: user } = userData
   const seo: SeoMeta = {
-    title: user.name,
-    description: `Structures by ${user.name}`,
+    title: `@${user.username}`,
+    description: `Structures by @${user.username}`,
   }
 
   return (

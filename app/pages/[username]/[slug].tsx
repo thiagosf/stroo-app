@@ -48,8 +48,8 @@ const StructurePage: NextPage<Props> = ({ code }) => {
   if (!structure) return <NotFoundPage />
 
   const seo: SeoMeta = {
-    title: `${structure.name} by ${structure.user.name}`,
-    description: `Structure by ${structure.user.name}`,
+    title: `${structure.name} by @${structure.user.username}`,
+    description: `Structure by @${structure.user.username}`,
   }
 
   const onComplain = (entity: StructureEntity) => {
