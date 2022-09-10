@@ -63,7 +63,7 @@ const LoginCallback: NextPage<Props> = ({ code }) => {
 
   return (
     <MainLayout>
-      <div className="p-12 text-center">
+      <div className="flex grow justify-center items-center p-12">
         <Spinner />
       </div>
     </MainLayout>
