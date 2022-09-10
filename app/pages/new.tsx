@@ -1,26 +1,38 @@
+import { useContext, useEffect } from 'react'
 import { NextPage } from 'next'
+
 import { MainLayout, SeoMeta } from '../components/templates/MainLayout/MainLayout'
 import { StructureBuilderPreview } from '../components/organisms/StructureBuilderPreview/StructureBuilderPreview'
+import { SiteContext } from '../contexts/site_context'
+
 import { StructureEntity } from './[username]/[slug]'
 
 interface Props {
-  data: StructureEntity;
+  structure: StructureEntity;
 }
 
-const StructurePage: NextPage<Props> = ({ data }) => {
+const StructurePage: NextPage<Props> = ({ structure }) => {
+  const siteContextValue = useContext(SiteContext)
   const seo: SeoMeta = {
     title: 'New Structure',
     description: 'Create a new project structure reference',
   }
+
+  useEffect(() => {
+    siteContextValue.setStructure(structure)
+  }, [structure])
+
   return (
     <MainLayout seo={seo}>
-      <StructureBuilderPreview entity={data} />
+      {siteContextValue.structure && (
+        <StructureBuilderPreview />
+      )}
     </MainLayout>
   )
 }
 
 StructurePage.getInitialProps = function () {
-  const data: StructureEntity = {
+  const structure: StructureEntity = {
     code: "...",
     name: "new-structure",
     type: "type",
@@ -49,7 +61,7 @@ StructurePage.getInitialProps = function () {
     }
   }
   return {
-    data
+    structure
   }
 }
 
