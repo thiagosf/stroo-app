@@ -20,7 +20,7 @@ export interface Props {
 export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
   const router = useRouter()
   const alertTimer = useRef<any>()
-  const [setToken] = useLocalStorage('token', null)
+  const [, setToken] = useLocalStorage('token', null)
   const [openedLoginModal, setOpenedLoginModal] = useState(false)
   const [loadingAuthURL, setLoadingAuthURL] = useState(false)
   const [, setLastPage] = useLocalStorage<string>('last_page', null)
