@@ -26,7 +26,9 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
   return (
     <MainLayout seo={seo}>
       {siteContextValue.structure && (
-        <StructureBuilderPreview />
+        <StructureBuilderPreview
+          key={siteContextValue.structure.code}
+        />
       )}
     </MainLayout>
   )
