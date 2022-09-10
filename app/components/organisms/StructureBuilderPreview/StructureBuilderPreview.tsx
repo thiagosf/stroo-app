@@ -285,6 +285,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
 
   useEffect(() => {
     setCurrentStructureEntity(entity)
+    setFolderData(parse(entity.content))
   }, [entity.code])
 
   return (
