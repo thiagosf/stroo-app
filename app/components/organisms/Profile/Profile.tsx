@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { UserContext, UserEntity } from '../../../contexts/user_context'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 
+import { ScrollSpy } from '../../molecules/ScrollSpy/ScrollSpy'
 import { StructureListItem } from '../../molecules/StructureListItem/StructureListItem'
 import { StructureName } from '../../molecules/StructureName/StructureName'
 import { UserAvatar } from '../../molecules/UserAvatar/UserAvatar'
@@ -13,9 +14,11 @@ import { Header } from '../Header/Header'
 export interface Props {
   user: UserEntity;
   structures: Array<StructureEntity>;
+  structuresLoading: boolean;
+  loadMoreStructures: () => Promise<void>;
 }
 
-export const Profile: React.FC<Props> = function ({ user, structures }) {
+export const Profile: React.FC<Props> = function ({ user, structures, loadMoreStructures }) {
   const userContextValue = useContext(UserContext)
 
   const items = structures.map(item => {
@@ -51,9 +54,12 @@ export const Profile: React.FC<Props> = function ({ user, structures }) {
           </div>
         </div>
       </Header>
-      <div className="flex-grow h-full overflow-y-auto overflow-x-hidden">
+      <ScrollSpy
+        className="flex-grow h-full overflow-y-auto overflow-x-hidden"
+        onReachedBottom={loadMoreStructures}
+      >
         {items}
-      </div>
+      </ScrollSpy>
     </div>
   )
 }
