@@ -252,6 +252,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
     if (isNew) {
       setCurrentStructureEntity((data) => ({
         ...data,
+        code: savedStructureEntity?.code ?? entity.code,
         name: savedStructureEntity?.name ?? entity.name,
         type: savedStructureEntity?.type ?? entity.type,
         content: savedStructureEntity?.content ?? entity.content,
