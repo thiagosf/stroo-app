@@ -256,7 +256,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
         name: savedStructureEntity?.name ?? entity.name,
         type: savedStructureEntity?.type ?? entity.type,
         content: savedStructureEntity?.content ?? entity.content,
-        user: savedStructureEntity?.user ?? entity.user,
+        user: savedStructureEntity?.user ?? userContextValue.currentUser ?? entity.user,
       }))
       setFolderData(parse(savedStructureEntity?.content ?? entity.content))
     }
