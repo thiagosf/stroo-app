@@ -2,7 +2,8 @@ import React from 'react'
 
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 
-import { Spinner } from '../../atoms/Spinner/Spinner';
+import { Spinner } from '../../atoms/Spinner/Spinner'
+import { ScrollSpy } from '../../molecules/ScrollSpy/ScrollSpy'
 import { StructureListItem } from '../../molecules/StructureListItem/StructureListItem'
 
 import { Header } from '../Header/Header'
@@ -10,9 +11,10 @@ import { Header } from '../Header/Header'
 export interface Props {
   loading: boolean;
   list: Array<StructureEntity>;
+  loadMore: () => Promise<void>;
 }
 
-export const Browse: React.FC<Props> = function ({ loading, list }) {
+export const Browse: React.FC<Props> = function ({ loading, list, loadMore }) {
   const items = list.map((item) => {
     return (
       <StructureListItem
@@ -32,7 +34,11 @@ export const Browse: React.FC<Props> = function ({ loading, list }) {
           </div>
         </div>
       </Header>
-      <div className="flex-grow h-full overflow-y-auto overflow-x-hidden">
+      <ScrollSpy
+        className="flex-grow h-full overflow-y-auto overflow-x-hidden"
+        threshold={100}
+        onReachedBottom={loadMore}
+      >
         {loading && (
           <div className="p-12">
             <Spinner />
@@ -42,7 +48,7 @@ export const Browse: React.FC<Props> = function ({ loading, list }) {
         {!loading && items.length === 0 && (
           <div className="p-12 text-4xl">Sorry, nothing found 😔</div>
         )}
-      </div>
+      </ScrollSpy>
     </div>
   )
 }
