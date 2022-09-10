@@ -283,6 +283,10 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
     }))
   }, [entity.liked, entity.like_count])
 
+  useEffect(() => {
+    setCurrentStructureEntity(entity)
+  }, [entity.code])
+
   return (
     <StructureContext.Provider value={structureValues}>
       <div className="flex flex-col flex-grow lg:flex-row">
