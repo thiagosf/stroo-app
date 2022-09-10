@@ -4,6 +4,7 @@ import { NextPage } from 'next'
 import { MainLayout, SeoMeta } from '../components/templates/MainLayout/MainLayout'
 import { StructureBuilderPreview } from '../components/organisms/StructureBuilderPreview/StructureBuilderPreview'
 import { SiteContext } from '../contexts/site_context'
+import { unauthenticatedUser } from '../helpers/user_utils'
 
 import { StructureEntity } from './[username]/[slug]'
 
@@ -54,11 +55,7 @@ StructurePage.getInitialProps = function () {
     liked: false,
     date: (new Date()).toUTCString(),
     link: '/new',
-    user: {
-      name: "You",
-      username: "you",
-      avatar: "",
-    }
+    user: unauthenticatedUser()
   }
   return {
     structure

@@ -29,6 +29,7 @@ import { StructureForm } from '../StructureForm/StructureForm'
 import { Header } from '../Header/Header'
 import { SiteContext } from '../../../contexts/site_context'
 import { getEmoji, randomEmoji } from '../../../helpers/emoji'
+import { unauthenticatedUser } from '../../../helpers/user_utils'
 
 export enum Mode {
   PREVIEW = 'preview',
@@ -171,7 +172,13 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
 
   async function onDuplicate() {
     setIsDuplicating(true)
-    setSavedStructureEntity(currentStructureEntity)
+    setSavedStructureEntity({
+      ...currentStructureEntity,
+      code: '...',
+      user: userContextValue.currentUser
+        ? { ...userContextValue.currentUser }
+        : { ...unauthenticatedUser() },
+    })
     router.push('/new')
   }
 
@@ -242,12 +249,16 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
   }, [markdowWrapperTop, structureValues.currentPath, structureValues.clickFrom])
 
   useEffect(() => {
-    setCurrentStructureEntity((data) => ({
-      ...data,
-      name: savedStructureEntity?.name ?? entity.name,
-      type: savedStructureEntity?.type ?? entity.type,
-      content: savedStructureEntity?.content ?? entity.content,
-    }))
+    if (isNew) {
+      setCurrentStructureEntity((data) => ({
+        ...data,
+        name: savedStructureEntity?.name ?? entity.name,
+        type: savedStructureEntity?.type ?? entity.type,
+        content: savedStructureEntity?.content ?? entity.content,
+        user: savedStructureEntity?.user ?? entity.user,
+      }))
+      setFolderData(parse(savedStructureEntity?.content ?? entity.content))
+    }
   }, [])
 
   useEffect(() => {
@@ -276,16 +287,20 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
   }, [currentUserIsOwner, isEditing])
 
   useEffect(() => {
-    setCurrentStructureEntity((data) => ({
-      ...data,
-      like_count: entity.like_count,
-      liked: entity.liked
-    }))
+    if (!isNew) {
+      setCurrentStructureEntity((data) => ({
+        ...data,
+        like_count: entity.like_count,
+        liked: entity.liked
+      }))
+    }
   }, [entity.liked, entity.like_count])
 
   useEffect(() => {
-    setCurrentStructureEntity(entity)
-    setFolderData(parse(entity.content))
+    if (!isNew && currentStructureEntity.code !== entity.code) {
+      setCurrentStructureEntity(entity)
+      setFolderData(parse(entity.content))
+    }
   }, [entity.code])
 
   return (
