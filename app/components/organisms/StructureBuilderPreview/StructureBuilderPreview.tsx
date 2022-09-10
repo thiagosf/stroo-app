@@ -198,6 +198,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
           variables: { code: entity.code },
           onCompleted() {
             setIsSending(() => false)
+            siteContextValue.clean()
             router.push('/')
           },
           onError(error) {
