@@ -10,6 +10,7 @@ import { Alert, SiteContext, SiteContextProps } from '../../../contexts/site_con
 import { UserContext, UserContextProps } from '../../../contexts/user_context'
 import { useLocalStorage } from '../../../hooks/use_local_storage'
 import { GITHUB_AUTH_URL } from '../../../queries/user_queries'
+import { StructureEntity } from '../../../pages/[username]/[slug]'
 
 export interface Props {
   Component: any;
@@ -37,6 +38,9 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
       alertTimer.current = setTimeout(() => {
         setSiteContextValue((data) => ({ ...data, isLeaving: false, alert: undefined }))
       }, 400)
+    },
+    setStructure: (structure: StructureEntity) => {
+      setSiteContextValue((data) => ({ ...data, structure }))
     },
   })
 

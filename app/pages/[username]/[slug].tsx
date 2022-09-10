@@ -1,14 +1,17 @@
+import { useContext, useEffect } from 'react'
 import { NextPage } from 'next'
 import { useQuery } from '@apollo/client'
 
 import { MainLayout, SeoMeta } from '../../components/templates/MainLayout/MainLayout'
 import { StructureBuilderPreview } from '../../components/organisms/StructureBuilderPreview/StructureBuilderPreview'
-import { formatItem, parseCodeFromSlug } from '../../helpers/structure_utils'
-import { SHOW_STRUCTURE } from '../../queries/structure_queries'
 import { UserEntity } from '../../contexts/user_context'
+import { SiteContext } from '../../contexts/site_context'
+import { SHOW_STRUCTURE } from '../../queries/structure_queries'
+import { formatItem, parseCodeFromSlug } from '../../helpers/structure_utils'
 import { useFavorite } from '../../hooks/use_favorite'
 
 import NotFoundPage from '../404'
+
 
 export interface StructureEntity {
   code?: string;
@@ -27,11 +30,18 @@ interface Props {
 }
 
 const StructurePage: NextPage<Props> = ({ code }) => {
+  const siteContextValue = useContext(SiteContext)
   const { data, loading } = useQuery(SHOW_STRUCTURE, {
     variables: { code }
   })
   const structure = data ? formatItem(data.getStructure) : null
   const [onFavorite] = useFavorite()
+
+  useEffect(() => {
+    if (structure && siteContextValue.structure?.code !== code) {
+      siteContextValue.setStructure(structure)
+    }
+  }, [structure])
 
   if (loading) return <div>...</div>
 
@@ -48,11 +58,12 @@ const StructurePage: NextPage<Props> = ({ code }) => {
 
   return (
     <MainLayout seo={seo}>
-      <StructureBuilderPreview
-        entity={structure}
-        onFavorite={onFavorite}
-        onComplain={onComplain}
-      />
+      {siteContextValue.structure && (
+        <StructureBuilderPreview
+          onFavorite={onFavorite}
+          onComplain={onComplain}
+        />
+      )}
     </MainLayout>
   )
 }

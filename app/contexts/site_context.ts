@@ -1,4 +1,5 @@
 import React from 'react'
+import { StructureEntity } from '../pages/[username]/[slug]';
 
 export interface Alert {
   title: string;
@@ -11,8 +12,10 @@ export interface Alert {
 
 export interface SiteContextProps {
   alert?: Alert;
+  structure?: StructureEntity;
   isLeaving?: boolean;
   setAlert: (alert: Alert) => void;
+  setStructure: (structure: StructureEntity) => void;
   clean: () => void;
 }
 

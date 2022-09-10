@@ -36,21 +36,20 @@ export enum Mode {
 }
 
 export interface Props {
-  entity: StructureEntity;
   startMode?: Mode;
   onFavorite?: (entity: StructureEntity) => void;
   onComplain?: (entity: StructureEntity) => void;
 }
 
-export const StructureBuilderPreview: React.FC<Props> = function ({ entity, startMode, onFavorite, onComplain }) {
+export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, onFavorite, onComplain }) {
   const router = useRouter()
-  const markdowWrapperRef = useRef<HTMLDivElement>()
-  const [savedStructureEntity, setSavedStructureEntity] = useLocalStorage<any>('saved_structure_entity', {})
-  const userContextValue = useContext(UserContext)
   const siteContextValue = useContext(SiteContext)
+  const userContextValue = useContext(UserContext)
+  const markdowWrapperRef = useRef<HTMLDivElement>()
   const [createStructure] = useMutation(CREATE_STRUCTURE)
   const [updateStructure] = useMutation(UPDATE_STRUCTURE)
   const [destroyStructure] = useMutation(DESTROY_STRUCTURE)
+  const [savedStructureEntity, setSavedStructureEntity] = useLocalStorage<any>('saved_structure_entity', {})
 
   const [markdowWrapperTop, setMarkdowWrapperTop] = useState(0)
   const [structureValues, setStructureValues] = useState<StructureContextProps>({
@@ -64,6 +63,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
       }))
     },
   })
+  const entity = siteContextValue.structure
   const [isSending, setIsSending] = useState(false)
   const [folderData, setFolderData] = useState(parse(entity.content))
   const [currentStructureEntity, setCurrentStructureEntity] = useState<StructureEntity>(entity)
@@ -274,6 +274,14 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ entity, star
       setSavedStructureEntity({})
     }
   }, [currentUserIsOwner, isEditing])
+
+  useEffect(() => {
+    setCurrentStructureEntity((data) => ({
+      ...data,
+      like_count: entity.like_count,
+      liked: entity.liked
+    }))
+  }, [entity.liked, entity.like_count])
 
   return (
     <StructureContext.Provider value={structureValues}>
