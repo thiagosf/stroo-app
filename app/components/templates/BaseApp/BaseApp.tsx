@@ -30,9 +30,9 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
     setAlert: (alert: Alert) => {
       setSiteContextValue((data) => ({ ...data, alert }))
       clearTimeout(alertTimer.current)
-      alertTimer.current = setTimeout(() => siteContextValue.clean(), alert.delay ?? 3000)
+      alertTimer.current = setTimeout(() => siteContextValue.cleanAlert(), alert.delay ?? 3000)
     },
-    clean: () => {
+    cleanAlert: () => {
       setSiteContextValue((data) => ({ ...data, isLeaving: true }))
       clearTimeout(alertTimer.current)
       alertTimer.current = setTimeout(() => {
@@ -71,7 +71,7 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
         <AlertModal
           alert={siteContextValue.alert}
           isLeaving={siteContextValue.isLeaving}
-          onClose={siteContextValue.clean}
+          onClose={siteContextValue.cleanAlert}
         />
         <LoginModal
           loading={loadingAuthURL}

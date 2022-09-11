@@ -38,3 +38,9 @@ export const PUBLIC_PROFILE = gql`
     }
   }
 `
+
+export const DESTROY_ACCOUNT = gql`
+  mutation destroyAccount {
+    destroyAccount
+  }
+`

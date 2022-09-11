@@ -15,8 +15,8 @@ export interface SiteContextProps {
   structure?: StructureEntity;
   isLeaving?: boolean;
   setAlert: (alert: Alert) => void;
+  cleanAlert: () => void;
   setStructure: (structure: StructureEntity) => void;
-  clean: () => void;
 }
 
 export const SiteContext = React.createContext<SiteContextProps>(null)

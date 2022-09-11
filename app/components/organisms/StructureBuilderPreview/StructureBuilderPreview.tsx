@@ -198,7 +198,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
           variables: { code: entity.code },
           onCompleted() {
             setIsSending(() => false)
-            siteContextValue.clean()
+            siteContextValue.cleanAlert()
             router.push('/')
           },
           onError(error) {
@@ -212,7 +212,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
         })
       },
       onCancel: () => {
-        siteContextValue.clean()
+        siteContextValue.cleanAlert()
       }
     })
   }
