@@ -14,6 +14,7 @@ import { StructureName } from '../../molecules/StructureName/StructureName'
 import { UserAvatar } from '../../molecules/UserAvatar/UserAvatar'
 import { UserName } from '../../molecules/UserName/UserName'
 
+import { EmptyStructures } from '../EmptyStructures/EmptyStructures'
 import { Header } from '../Header/Header'
 
 export interface Props {
@@ -23,7 +24,7 @@ export interface Props {
   loadMoreStructures: () => Promise<void>;
 }
 
-export const Profile: React.FC<Props> = function ({ user, structures, loadMoreStructures }) {
+export const Profile: React.FC<Props> = function ({ user, structures, structuresLoading, loadMoreStructures }) {
   const router = useRouter()
   const siteContextValue = useContext(SiteContext)
   const userContextValue = useContext(UserContext)
@@ -68,7 +69,7 @@ export const Profile: React.FC<Props> = function ({ user, structures, loadMoreSt
   }
 
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-grow flex-col w-full h-full">
       <Header>
         <div className="flex items-center">
           <div className="flex-shrink-0">
@@ -88,16 +89,23 @@ export const Profile: React.FC<Props> = function ({ user, structures, loadMoreSt
                 </>
               )}
             </div>
-            <StructureName name="Structures" />
+            <StructureName name="Profile" />
           </div>
         </div>
       </Header>
-      <ScrollSpy
-        className="flex-grow h-full overflow-y-auto overflow-x-hidden"
-        onReachedBottom={loadMoreStructures}
-      >
-        {items}
-      </ScrollSpy>
+      {!structuresLoading && items.length > 0 && (
+        <ScrollSpy
+          className="flex-grow h-full overflow-y-auto overflow-x-hidden"
+          onReachedBottom={loadMoreStructures}
+        >
+          {items}
+        </ScrollSpy>
+      )}
+      {!structuresLoading && items.length === 0 && (
+        <div className="flex flex-grow h-full px-12 py-12 justify-center items-center lg:py-0">
+          <EmptyStructures />
+        </div>
+      )}
     </div>
   )
 }
