@@ -23,7 +23,7 @@ module.exports = {
           'sans-serif',
         ],
         highlight: [
-          '"Luckiest Guy"',
+          '"DM Serif Display"',
           '-apple-system',
           'BlinkMacSystemFont',
           '"Segoe UI"',
