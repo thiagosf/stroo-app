@@ -42,16 +42,14 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
   }, [profileData])
 
   return (
-    <div className="">
+    <div>
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        <div className=" bg-gradient-to-tr from-gray-900 to-gray-800 text-white flex min-h-screen lg:overflow-hidden lg:h-screen">
-          {children}
-        </div>
+      <div className="bg-gradient-to-tr from-gray-900 to-gray-800 text-white flex min-h-screen lg:overflow-hidden lg:h-screen">
+        {children}
       </div>
     </div>
   )
