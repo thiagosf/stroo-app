@@ -305,6 +305,10 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
     }
   }, [entity.code])
 
+  useEffect(() => {
+    return () => siteContextValue.setStructure(null)
+  }, [])
+
   return (
     <StructureContext.Provider value={structureValues}>
       <div className="flex flex-col flex-grow lg:flex-row">
