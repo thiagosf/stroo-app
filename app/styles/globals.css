@@ -16,6 +16,10 @@
   margin: 0;
 }
 
+.hljs {
+  background: #0d131f !important;
+}
+
 @media (min-width: 1025px) {
   ::-webkit-scrollbar {
     width: 1rem;
