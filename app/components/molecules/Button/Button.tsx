@@ -1,12 +1,14 @@
 import React from 'react'
 import { Icon } from '../../atoms/Icon/Icon'
 
+export type ButtonSize = 'large'
+
 export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   as?: string;
   spinner?: boolean;
   bordered?: boolean;
   filled?: boolean;
-  size?: string;
+  size?: ButtonSize;
   children?: React.ReactNode;
 }
 
