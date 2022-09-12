@@ -146,6 +146,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
                 icon: randomEmoji('happy'),
                 title: 'Structure updated successfully!',
               })
+              siteContextValue.setStructure(currentStructureEntity)
               setSavedStructureEntity({})
               router.push(getStructureLink(data.updateStructure))
             } else {
