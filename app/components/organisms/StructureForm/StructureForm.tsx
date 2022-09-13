@@ -71,7 +71,6 @@ export const StructureForm: React.FC<Props> = function ({ entity, isSending, onC
           {isPublished && (
             <Button
               bordered
-              size="small"
               spinner={isSending}
               disabled={isSending}
               onClick={onDestroy}
