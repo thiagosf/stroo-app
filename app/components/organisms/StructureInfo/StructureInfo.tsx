@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import { isEnabledFeature } from '../../../helpers/config_utils'
 import { getUserProfileLink } from '../../../helpers/user_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { Icon } from '../../atoms/Icon/Icon'
@@ -18,6 +19,7 @@ export interface Props {
 }
 
 export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, onComplain }) {
+  const isEnalbedComplain = isEnabledFeature('complain')
   const disabledActions = onFavorite == undefined
   const actionsClasses = disabledActions
     ? 'opacity-30 pointer-events-none'
@@ -70,11 +72,13 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
             </Counter>
           </Tooltip>
         </div>
-        <div className="cursor-pointer" onClick={handleComplain}>
-          <Tooltip text="Complain">
-            <Icon name="complaint" svgClasses="w-6 h-6" />
-          </Tooltip>
-        </div>
+        {isEnalbedComplain && (
+          <div className="cursor-pointer" onClick={handleComplain}>
+            <Tooltip text="Complain">
+              <Icon name="complaint" svgClasses="w-6 h-6" />
+            </Tooltip>
+          </div>
+        )}
       </div>
     </div>
   )
