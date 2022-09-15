@@ -19,6 +19,9 @@ import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { CREATE_STRUCTURE, DESTROY_STRUCTURE, UPDATE_STRUCTURE } from '../../../queries/structure_queries'
 import { getStructureLink } from '../../../helpers/structure_utils'
 import { useLocalStorage } from '../../../hooks/use_local_storage'
+import { SiteContext } from '../../../contexts/site_context'
+import { getEmoji, randomEmoji } from '../../../helpers/emoji'
+import { unauthenticatedUser } from '../../../helpers/user_utils'
 
 import { Button } from '../../molecules/Button/Button'
 
@@ -27,9 +30,6 @@ import { Structure } from '../Structure/Structure'
 import { StructureInfo } from '../StructureInfo/StructureInfo'
 import { StructureForm } from '../StructureForm/StructureForm'
 import { Header } from '../Header/Header'
-import { SiteContext } from '../../../contexts/site_context'
-import { getEmoji, randomEmoji } from '../../../helpers/emoji'
-import { unauthenticatedUser } from '../../../helpers/user_utils'
 
 export enum Mode {
   PREVIEW = 'preview',
@@ -356,12 +356,6 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
                   >duplicate</Button>
                 )}
               </div>
-              {!isNew && (
-                <Button
-                  filled
-                  onClick={onNew}
-                >new</Button>
-              )}
             </>
           </Header>
           {isPreviewing && (
