@@ -200,7 +200,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
           onCompleted() {
             setIsSending(() => false)
             siteContextValue.cleanAlert()
-            router.push('/')
+            router.push(`/@${userContextValue.currentUser.username}`)
           },
           onError(error) {
             setIsSending(() => false)
