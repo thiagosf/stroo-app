@@ -52,7 +52,7 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
           </div>
           <div className="ml-4">
             <Link href={userProfileLink}>
-              <a className="transition-opacity duration-200 opacity-50 hover:opacity-100">
+              <a>
                 <UserName user={entity.user} />
               </a>
             </Link>
