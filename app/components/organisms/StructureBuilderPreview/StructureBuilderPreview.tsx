@@ -307,7 +307,9 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
   }, [entity.code])
 
   useEffect(() => {
-    return () => siteContextValue.setStructure(null)
+    return () => {
+      if (!isNew) siteContextValue.setStructure(null)
+    }
   }, [])
 
   return (
