@@ -20,9 +20,7 @@ export interface Props {
 
 export const MainLayout: React.FC<Props> = function ({ seo, children }) {
   const [token, setToken] = useLocalStorage('token', null)
-  console.log('token', token, token === null);
-
-  const { data: profileData } = useQuery(PRIVATE_PROFILE, {
+  const { data: profileData, loading } = useQuery(PRIVATE_PROFILE, {
     skip: token === null
   })
   const userContextValue = useContext(UserContext)
@@ -35,6 +33,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
     : 'Lorem ipsum'
 
   useEffect(() => {
+    if (loading) return
     if (profileData) {
       userContextValue.setCurrentUser({
         name: profileData.me.name,
@@ -45,7 +44,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
     } else {
       setToken(null)
     }
-  }, [profileData])
+  }, [loading, profileData])
 
   return (
     <div>
