@@ -9,9 +9,7 @@ import { SiteContext } from '../../contexts/site_context'
 import { SHOW_STRUCTURE } from '../../queries/structure_queries'
 import { formatItem, parseCodeFromSlug } from '../../helpers/structure_utils'
 import { useFavorite } from '../../hooks/use_favorite'
-import { Spinner } from '../../components/atoms/Spinner/Spinner'
-
-import NotFoundPage from '../404'
+import { CustomSuspense } from '../../components/organisms/CustomSuspense/CustomSuspense'
 
 
 export interface StructureEntity {
@@ -44,13 +42,13 @@ const StructurePage: NextPage<Props> = ({ code }) => {
     }
   }, [structure])
 
-  if (loading) return <Spinner />
-
-  if (!structure) return <NotFoundPage />
-
   const seo: SeoMeta = {
-    title: `${siteContextValue.structure?.name} by @${siteContextValue.structure?.user.username}`,
-    description: `Structure by @${siteContextValue.structure?.user.username}`,
+    title: siteContextValue.structure
+      ? `${siteContextValue.structure?.name} by @${siteContextValue.structure?.user.username}`
+      : '...',
+    description: siteContextValue.structure
+      ? `Structure by @${siteContextValue.structure?.user.username}`
+      : '...',
   }
 
   async function onComplain(entity: StructureEntity) {
@@ -59,12 +57,17 @@ const StructurePage: NextPage<Props> = ({ code }) => {
 
   return (
     <MainLayout seo={seo}>
-      {siteContextValue.structure && (
-        <StructureBuilderPreview
-          onFavorite={onFavorite}
-          onComplain={onComplain}
-        />
-      )}
+      <CustomSuspense
+        loading={loading}
+        notFound={!loading && !structure}
+      >
+        {siteContextValue.structure && (
+          <StructureBuilderPreview
+            onFavorite={onFavorite}
+            onComplain={onComplain}
+          />
+        )}
+      </CustomSuspense>
     </MainLayout>
   )
 }
