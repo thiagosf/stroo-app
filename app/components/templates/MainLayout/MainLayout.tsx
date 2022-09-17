@@ -19,8 +19,12 @@ export interface Props {
 }
 
 export const MainLayout: React.FC<Props> = function ({ seo, children }) {
-  const [token] = useLocalStorage('token', null)
-  const { data: profileData } = useQuery(PRIVATE_PROFILE)
+  const [token, setToken] = useLocalStorage('token', null)
+  console.log('token', token, token === null);
+
+  const { data: profileData } = useQuery(PRIVATE_PROFILE, {
+    skip: token === null
+  })
   const userContextValue = useContext(UserContext)
 
   const title = seo?.title
@@ -38,6 +42,8 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         avatar: profileData.me.avatar,
         token,
       })
+    } else {
+      setToken(null)
     }
   }, [profileData])
 
