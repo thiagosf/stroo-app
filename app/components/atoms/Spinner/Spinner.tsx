@@ -8,7 +8,7 @@ export interface Props {
 
 export const Spinner: React.FC<Props> = function ({ size }) {
   const boxSize = size === 'small' ? '4' : '10'
-  const borderSize = size === 'small' ? '2' : '4'
+  const borderSize = size === 'small' ? '2' : '2'
   const circleSize = size === 'small' ? '2' : '6'
 
   return (
