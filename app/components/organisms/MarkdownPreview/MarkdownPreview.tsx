@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
-import '../../../node_modules/rehype-highlight/node_modules/highlight.js/styles/atom-one-dark.css'
+
+import '../../../node_modules/highlight.js/styles/atom-one-dark.css'
 import { PathTopPosition, StructureContext } from '../../../contexts/structure_context'
 import { FOLDER_SEPARATOR } from '../../../helpers/folder_utils'
 
