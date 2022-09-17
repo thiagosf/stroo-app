@@ -1,5 +1,6 @@
 import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+
 import configUtils from '../helpers/config_utils'
 
 class MyDocument extends Document {
