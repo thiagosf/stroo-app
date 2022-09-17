@@ -7,7 +7,10 @@ module.exports = {
   safelist: [
     { pattern: /(w|h)-(2|4|10)/ },
     { pattern: /border-(2|4)/ },
-    'hover:border-white',
+    ...`
+      hover:border-white
+      border-gray-800
+    `.split('\n').map(v => v.trim())
   ],
   theme: {
     extend: {
