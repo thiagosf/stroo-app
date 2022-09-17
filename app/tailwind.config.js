@@ -2,6 +2,12 @@ module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
+  ],
+  safelist: [
+    { pattern: /(w|h)-(2|4|10)/ },
+    { pattern: /border-(2|4)/ },
+    'hover:border-white',
   ],
   theme: {
     extend: {
