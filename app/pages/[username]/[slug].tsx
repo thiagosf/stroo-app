@@ -9,6 +9,7 @@ import { SiteContext } from '../../contexts/site_context'
 import { SHOW_STRUCTURE } from '../../queries/structure_queries'
 import { formatItem, parseCodeFromSlug } from '../../helpers/structure_utils'
 import { useFavorite } from '../../hooks/use_favorite'
+import { Spinner } from '../../components/atoms/Spinner/Spinner'
 
 import NotFoundPage from '../404'
 
@@ -43,7 +44,7 @@ const StructurePage: NextPage<Props> = ({ code }) => {
     }
   }, [structure])
 
-  if (loading) return <div>...</div>
+  if (loading) return <Spinner />
 
   if (!structure) return <NotFoundPage />
 
@@ -52,7 +53,7 @@ const StructurePage: NextPage<Props> = ({ code }) => {
     description: `Structure by @${siteContextValue.structure?.user.username}`,
   }
 
-  const onComplain = (entity: StructureEntity) => {
+  async function onComplain(entity: StructureEntity) {
     console.log('onComplain', entity)
   }
 
