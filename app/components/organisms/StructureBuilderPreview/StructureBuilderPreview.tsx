@@ -38,8 +38,8 @@ export enum Mode {
 
 export interface Props {
   startMode?: Mode;
-  onFavorite?: (entity: StructureEntity) => void;
-  onComplain?: (entity: StructureEntity) => void;
+  onFavorite?: (entity: StructureEntity) => Promise<void>;
+  onComplain?: (entity: StructureEntity) => Promise<void>;
 }
 
 export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, onFavorite, onComplain }) {
