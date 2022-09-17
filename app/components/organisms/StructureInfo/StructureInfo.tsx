@@ -1,10 +1,12 @@
+import React, { useState } from 'react'
 import Link from 'next/link'
-import React from 'react'
+
 import { isEnabledFeature } from '../../../helpers/config_utils'
 import { getUserProfileLink } from '../../../helpers/user_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { Icon } from '../../atoms/Icon/Icon'
 import { Counter } from '../../molecules/Counter/Counter'
+import { Spinned } from '../../molecules/Spinned/Spinned'
 import { StructureKey } from '../../molecules/StructureKey/StructureKey'
 import { StructureName } from '../../molecules/StructureName/StructureName'
 import { StructureType } from '../../molecules/StructureType/StructureType'
@@ -14,8 +16,8 @@ import { UserName } from '../../molecules/UserName/UserName'
 
 export interface Props {
   entity: StructureEntity;
-  onFavorite?: (entity: StructureEntity) => void;
-  onComplain?: (entity: StructureEntity) => void;
+  onFavorite?: (entity: StructureEntity) => Promise<void>;
+  onComplain?: (entity: StructureEntity) => Promise<void>;
 }
 
 export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, onComplain }) {
@@ -26,16 +28,24 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
     : ''
   const userProfileLink = getUserProfileLink(entity.user)
   const heartIcon = entity.liked ? 'heart-filled' : 'heart'
+  const [isSendingLike, setIsSendingLike] = useState(false)
 
-  const handleFavorite = () => {
+  async function handleFavorite() {
     if (onFavorite) {
-      onFavorite(entity)
+      try {
+        setIsSendingLike(() => true)
+        await onFavorite(entity)
+      } finally {
+        setIsSendingLike(() => false)
+      }
     }
   }
 
-  const handleComplain = () => {
+  async function handleComplain() {
     if (onComplain) {
-      onComplain(entity)
+      try {
+        await onComplain(entity)
+      } finally { }
     }
   }
 
@@ -64,14 +74,16 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
         <StructureType type={entity.type} />
         <StructureKey code={entity.code} />
       </div>
-      <div className={`flex justify-center items-start ${actionsClasses}`}>
-        <div className="mr-2 cursor-pointer" onClick={handleFavorite}>
-          <Tooltip text="Good!">
-            <Counter count={entity.like_count}>
-              <Icon name={heartIcon} svgClasses="w-6 h-6" />
-            </Counter>
-          </Tooltip>
-        </div>
+      <div className={`flex gap-2 justify-center items-start ${actionsClasses}`}>
+        <Spinned actived={isSendingLike}>
+          <div className="cursor-pointer" onClick={handleFavorite}>
+            <Tooltip text="Good!">
+              <Counter count={entity.like_count}>
+                <Icon name={heartIcon} svgClasses="w-6 h-6" />
+              </Counter>
+            </Tooltip>
+          </div>
+        </Spinned>
         {isEnalbedComplain && (
           <div className="cursor-pointer" onClick={handleComplain}>
             <Tooltip text="Complain">
