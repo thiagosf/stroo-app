@@ -22,13 +22,13 @@ export function useFavorite() {
       userContextValue.openModal()
     } else {
       if (!entity.liked) {
-        like({
+        await like({
           variables: { code: entity.code },
           onCompleted: (data) => updateCounter(data.like, true),
           onError
         })
       } else {
-        dislike({
+        await dislike({
           variables: { code: entity.code },
           onCompleted: (data) => updateCounter(data.dislike, false),
           onError
