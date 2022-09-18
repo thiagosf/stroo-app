@@ -54,7 +54,12 @@ export function useFavorite() {
 
   useEffect(() => {
     async function applyLastAction() {
-      if (lastAction && lastAction.action === 'like' && userContextValue.currentUser) {
+      if (
+        siteContextValue.structure &&
+        lastAction &&
+        lastAction.action === 'like' &&
+        userContextValue.currentUser
+      ) {
         like({
           variables: { code: lastAction.value },
           onCompleted: (data) => {
@@ -72,7 +77,7 @@ export function useFavorite() {
     }
 
     applyLastAction()
-  }, [userContextValue.currentUser, lastAction])
+  }, [siteContextValue.structure, userContextValue.currentUser, lastAction])
 
   return [onFavorite]
 }
