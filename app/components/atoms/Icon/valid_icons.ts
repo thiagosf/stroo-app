@@ -1,4 +1,4 @@
-const icons = [
+export default [
   'abc',
   'actionscript',
   'ada',
@@ -757,5 +757,3 @@ const icons = [
   'zig',
   'zip',
 ]
-
-export default icons

@@ -40,7 +40,7 @@ const StructurePage: NextPage<Props> = ({ code }) => {
     if (structure && siteContextValue.structure?.code !== code) {
       siteContextValue.setStructure(structure)
     }
-  }, [structure, code, siteContextValue])
+  }, [structure])
 
   const seo: SeoMeta = {
     title: siteContextValue.structure

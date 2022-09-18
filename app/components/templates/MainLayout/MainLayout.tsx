@@ -44,7 +44,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
     } else {
       setToken(null)
     }
-  }, [loading, profileData, setToken, token, userContextValue])
+  }, [loading, profileData])
 
   return (
     <div>

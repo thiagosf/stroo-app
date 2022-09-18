@@ -222,11 +222,11 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
   const handleFocus = useCallback((path: string) => {
     structureValues.dispatch('currentPath', path.split(FOLDER_SEPARATOR))
     structureValues.dispatch('clickFrom', 'title')
-  }, [structureValues])
+  }, [])
 
   const onMountElements = useCallback((pathsTopPositions: Array<PathTopPosition>) => {
     structureValues.dispatch('pathsTopPositions', pathsTopPositions)
-  }, [structureValues])
+  }, [])
 
   useEffect(() => {
     if (markdowWrapperRef.current) {
@@ -249,7 +249,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
         })
       }
     }
-  }, [markdowWrapperTop, structureValues.currentPath, structureValues.clickFrom, structureValues])
+  }, [markdowWrapperTop, structureValues.currentPath, structureValues.clickFrom])
 
   useEffect(() => {
     if (isNew) {
@@ -263,7 +263,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
       }))
       setFolderData(parse(savedStructureEntity?.content ?? entity.content))
     }
-  }, [entity.code, entity.content, entity.name, entity.type, entity.user, isNew, savedStructureEntity?.code, savedStructureEntity?.content, savedStructureEntity?.name, savedStructureEntity?.type, savedStructureEntity?.user, userContextValue.currentUser])
+  }, [])
 
   useEffect(() => {
     if (userContextValue.currentUser && currentUserIsOwner) {
@@ -282,13 +282,13 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
     if ((currentUserIsOwner || isNew) && isEditing) {
       setSavedStructureEntity(currentStructureEntity)
     }
-  }, [currentStructureEntity, currentUserIsOwner, isEditing, isNew, setSavedStructureEntity])
+  }, [currentStructureEntity, currentUserIsOwner, isEditing, isNew])
 
   useEffect(() => {
     if (currentUserIsOwner && isEditing) {
       setSavedStructureEntity({})
     }
-  }, [currentUserIsOwner, isEditing, setSavedStructureEntity])
+  }, [currentUserIsOwner, isEditing])
 
   useEffect(() => {
     if (!isNew) {
@@ -298,20 +298,20 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
         liked: entity.liked
       }))
     }
-  }, [entity.liked, entity.like_count, isNew])
+  }, [entity.liked, entity.like_count])
 
   useEffect(() => {
     if (!isNew && currentStructureEntity.code !== entity.code) {
       setCurrentStructureEntity(entity)
       setFolderData(parse(entity.content))
     }
-  }, [currentStructureEntity.code, entity, entity.code, isNew])
+  }, [entity.code])
 
   useEffect(() => {
     return () => {
       if (!isNew) siteContextValue.setStructure(null)
     }
-  }, [isNew, siteContextValue])
+  }, [])
 
   return (
     <StructureContext.Provider value={structureValues}>
