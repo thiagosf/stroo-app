@@ -12,7 +12,7 @@ export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 
-export const Button: React.FC<Props> = React.forwardRef(({ as, spinner, bordered, filled, size, children, className, ...props }, ref) => {
+export const Button: React.FC<Props> = React.forwardRef(function Button({ as, spinner, bordered, filled, size, children, className, ...props }, ref) {
   const Component: any = as ? as : 'button'
   const additionalClasses = []
   if (bordered) {

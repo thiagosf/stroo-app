@@ -6,7 +6,7 @@ export interface Props {
   data: { [key: string]: FolderParseResult };
 }
 
-export const Structure: React.FC<Props> = React.memo(({ data }) => {
+export const Structure: React.FC<Props> = React.memo(function Structure({ data }) {
   const buildChildren = (item: FolderParseResult) => {
     let children: any
     if (Object.keys(item.children).length > 0) {
@@ -18,8 +18,7 @@ export const Structure: React.FC<Props> = React.memo(({ data }) => {
       <StructureItem
         key={`${item.path.join('_')}`}
         entity={item}
-        children={children}
-      />
+      >{children}</StructureItem>
     )
   }
 

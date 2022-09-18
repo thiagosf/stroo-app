@@ -16,7 +16,7 @@ export const LoginModal: React.FC<Props> = function ({ opened, loading, onLogin,
   return (
     <Modal opened={opened} title="Login">
       <>
-        <p>Relax, it is only for auth purpose, we'll never use your data 🤓</p>
+        <p>Relax, it is only for auth purpose, we&apos;ll never use your data 🤓</p>
         <div className="flex justify-center mt-4 lg:mt-6">
           <GitHubButton loading={loading} onClick={onLogin} />
         </div>

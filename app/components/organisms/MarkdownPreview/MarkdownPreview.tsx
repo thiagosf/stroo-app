@@ -14,7 +14,7 @@ export interface Props {
   onMountElements: (pathsTopPositions: Array<PathTopPosition>) => void;
 }
 
-export const MarkdownPreview: React.FC<Props> = React.memo(({ value, originalValue, onTitleClick, onMountElements }) => {
+export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPreview({ value, originalValue, onTitleClick, onMountElements }) {
   const structureValues = useContext(StructureContext)
   const boxRef = useRef<HTMLDivElement>()
   const [currentPath, setCurrentPath] = useState('')
