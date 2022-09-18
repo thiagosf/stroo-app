@@ -17,7 +17,7 @@ export type FormatType = 'tree' | 'markdown'
 
 export const FOLDER_SEPARATOR = '/'
 
-const getIcon = (name: string): string => {
+function getIcon(name: string): string {
   // @todo map all common files
   const mapIcons = {
     generic: 'folder-generic',
@@ -44,7 +44,7 @@ const getIcon = (name: string): string => {
   return mapIcons[key] ?? key
 }
 
-const buildParseItem = (name: string, path: string[], level?: number): FolderParseResult => {
+function buildParseItem(name: string, path: string[], level?: number): FolderParseResult {
   return {
     level,
     name,
@@ -54,23 +54,23 @@ const buildParseItem = (name: string, path: string[], level?: number): FolderPar
   }
 }
 
-export const formatType = (text: string): FormatType => {
+export function formatType(text: string): FormatType {
   return text.includes('├──') && !text.includes('#')
     ? 'tree'
     : 'markdown'
 }
 
-export const isTreeFormatType = (text: string): boolean => {
+export function isTreeFormatType(text: string): boolean {
   return formatType(text) === 'tree'
 }
 
-export const parse = (text: string): FolderParseResultItem => {
+export function parse(text: string): FolderParseResultItem {
   if (!text) return {}
   const parser = isTreeFormatType(text) ? parseFromTree : parseMarkdown
   return parser(text)
 }
 
-export const parseMarkdown = (text: string): FolderParseResultItem => {
+export function parseMarkdown(text: string): FolderParseResultItem {
   const output: FolderParseResultItem = {}
   if (text) {
     const result = text.match(/^(##[^\n#]+)+$/gmi) ?? []
@@ -105,7 +105,7 @@ export const parseMarkdown = (text: string): FolderParseResultItem => {
   return output
 }
 
-export const parseFromTree = (text: string): FolderParseResultItem => {
+export function parseFromTree(text: string): FolderParseResultItem {
   const output: FolderParseResultItem = {}
   const lines = text.trim().split('\n')
   const lastLevels = []
@@ -135,7 +135,7 @@ export const parseFromTree = (text: string): FolderParseResultItem => {
   return output
 }
 
-export const parseLineTree = (line: string): LineTree => {
+export function parseLineTree(line: string): LineTree {
   const SEPARATOR_ONE = '├──'
   const SEPARATOR_TWO = '└──'
   const regex = new RegExp(`(${SEPARATOR_ONE}|${SEPARATOR_TWO})`)
@@ -158,7 +158,7 @@ export const parseLineTree = (line: string): LineTree => {
   return { name, level }
 }
 
-export const convertTreeToMarkdown = (value: string): string => {
+export function convertTreeToMarkdown(value: string): string {
   if (!isTreeFormatType(value)) return value
   const tree = parseFromTree(value)
   let output = ''
@@ -169,7 +169,7 @@ export const convertTreeToMarkdown = (value: string): string => {
   return output
 }
 
-export const convertTreeItemToMarkdown = (item: FolderParseResult): string => {
+export function convertTreeItemToMarkdown(item: FolderParseResult): string {
   let value = item.path.join('/')
   value = `## ${value}\n\n`
   for (const key of Object.keys(item.children)) {
