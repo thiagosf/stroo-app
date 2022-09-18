@@ -178,3 +178,15 @@ export function convertTreeItemToMarkdown(item: FolderParseResult): string {
   }
   return value
 }
+
+export function getTitles(text: string): Array<string> {
+  const titles: Array<string> = []
+  const lines = text.split('\n')
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    if (line.substring(0, 2) === '##') {
+      titles.push(line.replace('##', '').trim())
+    }
+  }
+  return titles
+}

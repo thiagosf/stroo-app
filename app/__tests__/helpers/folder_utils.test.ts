@@ -1,4 +1,11 @@
-import { convertTreeToMarkdown, parse, parseFromTree, parseLineTree } from '../../helpers/folder_utils'
+import {
+  convertTreeToMarkdown,
+  parse,
+  parseFromTree,
+  parseLineTree,
+  getTitles,
+  // replaceTitles
+} from '../../helpers/folder_utils'
 
 describe('folder_utils', () => {
   describe('parse', () => {
@@ -261,6 +268,29 @@ describe('folder_utils', () => {
 ## root/app/tailwind.config.js
 
 `
+      expect(result).toStrictEqual(expected)
+    })
+  })
+
+  describe('getTitles', () => {
+    it('gets titles', () => {
+      const text = `# Introduction
+
+This is a introduction
+
+## root
+
+## root/README.md
+
+## root/app`
+
+      const result = getTitles(text)
+
+      const expected = [
+        'root',
+        'root/README.md',
+        'root/app',
+      ]
       expect(result).toStrictEqual(expected)
     })
   })
