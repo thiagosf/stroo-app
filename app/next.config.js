@@ -7,13 +7,6 @@ module.exports = withReactSvg({
   webpack(config, options) {
     config.module.rules.push({
       test: /\.md$/,
-      loader: 'file-loader',
-      options: {
-        name: 'dist/[path][name].[ext]',
-      },
-    })
-    config.module.rules.push({
-      test: /\.md$/,
       use: 'raw-loader',
     })
     return config
