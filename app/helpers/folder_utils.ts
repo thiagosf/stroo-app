@@ -30,6 +30,11 @@ const getIcon = (name: string): string => {
     tsx: 'typescript',
     js: 'javascript',
     yml: 'yaml',
+    png: 'image',
+    jpg: 'image',
+    jpeg: 'image',
+    gif: 'image',
+    wepp: 'image',
   }
   if (name.indexOf('.') === -1) return mapIcons.generic
   let key = name.split('.').pop()

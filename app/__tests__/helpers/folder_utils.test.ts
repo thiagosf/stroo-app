@@ -110,7 +110,7 @@ describe('folder_utils', () => {
               'image.png': {
                 level: 3,
                 name: 'image.png',
-                icon: 'folder-generic',
+                icon: 'image',
                 path: ['app', 'assets', 'image.png'],
                 children: {}
               }
@@ -212,7 +212,7 @@ describe('folder_utils', () => {
                     'image.png': {
                       level: 3,
                       name: 'image.png',
-                      icon: 'folder-generic',
+                      icon: 'image',
                       path: ['root', 'app', 'assets', 'image.png'],
                       children: {}
                     }
