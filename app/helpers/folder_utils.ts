@@ -191,7 +191,7 @@ export function getTitles(text: string): Array<string> {
   return titles
 }
 
-export function replaceTitles(text: string): string {
+export function replaceTitlesByIndexes(text: string): string {
   const lines = text.split('\n')
   const newText: Array<string> = []
   let index = 0
@@ -205,4 +205,9 @@ export function replaceTitles(text: string): string {
     }
   }
   return newText.join('\n')
+}
+
+export function getTitleIndex(text: string): number | null {
+  const index = Number(text.replace('##', '').trim())
+  return !isNaN(index) ? index : null
 }
