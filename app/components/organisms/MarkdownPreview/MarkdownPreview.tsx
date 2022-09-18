@@ -79,11 +79,11 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, originalVal
       </div>
   }
 
-  const handleClick = (title: string) => {
+  function handleClick(title: string) {
     return () => onTitleClick(title)
   }
 
-  const setPositions = () => {
+  function setPositions() {
     const pathsTopPositions: Array<PathTopPosition> = []
     boxRef.current.querySelectorAll('[data-title]')
       .forEach((e) => {
