@@ -190,3 +190,19 @@ export function getTitles(text: string): Array<string> {
   }
   return titles
 }
+
+export function replaceTitles(text: string): string {
+  const lines = text.split('\n')
+  const newText: Array<string> = []
+  let index = 0
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    if (line.substring(0, 2) === '##') {
+      newText.push(`## ${index}`)
+      ++index
+    } else {
+      newText.push(line)
+    }
+  }
+  return newText.join('\n')
+}

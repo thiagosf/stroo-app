@@ -4,7 +4,7 @@ import {
   parseFromTree,
   parseLineTree,
   getTitles,
-  // replaceTitles
+  replaceTitles
 } from '../../helpers/folder_utils'
 
 describe('folder_utils', () => {
@@ -291,6 +291,33 @@ This is a introduction
         'root/README.md',
         'root/app',
       ]
+      expect(result).toStrictEqual(expected)
+    })
+  })
+
+  describe('replaceTitles', () => {
+    it('replaces titles with indexes', () => {
+      const text = `# Introduction
+
+This is a introduction
+
+## root
+
+## root/README.md
+
+## root/app`
+
+      const result = replaceTitles(text)
+
+      const expected = `# Introduction
+
+This is a introduction
+
+## 0
+
+## 1
+
+## 2`
       expect(result).toStrictEqual(expected)
     })
   })
