@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
@@ -83,7 +83,7 @@ export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPrev
     return () => onTitleClick(title)
   }
 
-  function setPositions() {
+  const setPositions = useCallback(() => {
     const pathsTopPositions: Array<PathTopPosition> = []
     boxRef.current.querySelectorAll('[data-title]')
       .forEach((e) => {
@@ -94,13 +94,13 @@ export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPrev
         })
       })
     onMountElements(pathsTopPositions)
-  }
+  }, [onMountElements])
 
   useEffect(() => {
     if (boxRef.current) {
       setPositions()
     }
-  }, [boxRef])
+  }, [boxRef, setPositions])
 
   useEffect(() => {
     if (structureValues.currentPath.length > 0) {

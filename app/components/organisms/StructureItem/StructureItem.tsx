@@ -51,7 +51,7 @@ export const StructureItem: React.FC<Props> = function ({ entity, children }) {
         }
       }
     }
-  }, [structureValues])
+  }, [entity.path, structureValues])
 
   return (
     <div className="relative">

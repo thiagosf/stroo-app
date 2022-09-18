@@ -59,7 +59,7 @@ const LoginCallback: NextPage<Props> = ({ code }) => {
     }
 
     doAuth()
-  }, [code])
+  }, [code, auth, lastPage, router, setLastPage, setToken])
 
   return (
     <MainLayout>

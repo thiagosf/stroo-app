@@ -1,4 +1,4 @@
-export default [
+const icons = [
   'abc',
   'actionscript',
   'ada',
@@ -757,3 +757,5 @@ export default [
   'zig',
   'zip',
 ]
+
+export default icons

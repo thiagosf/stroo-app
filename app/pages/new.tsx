@@ -21,7 +21,7 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
 
   useEffect(() => {
     siteContextValue.setStructure(structure)
-  }, [structure])
+  }, [structure, siteContextValue])
 
   return (
     <MainLayout seo={seo}>
