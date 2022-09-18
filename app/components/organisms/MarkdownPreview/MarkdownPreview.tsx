@@ -5,18 +5,20 @@ import rehypeHighlight from 'rehype-highlight'
 
 import '../../../node_modules/highlight.js/styles/atom-one-dark.css'
 import { PathTopPosition, StructureContext } from '../../../contexts/structure_context'
-import { FOLDER_SEPARATOR } from '../../../helpers/folder_utils'
+import { FOLDER_SEPARATOR, getTitleIndex, getTitles } from '../../../helpers/folder_utils'
 
 export interface Props {
   value: string;
+  originalValue: string;
   onTitleClick: (path: string) => void;
   onMountElements: (pathsTopPositions: Array<PathTopPosition>) => void;
 }
 
-export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClick, onMountElements }) => {
+export const MarkdownPreview: React.FC<Props> = React.memo(({ value, originalValue, onTitleClick, onMountElements }) => {
   const structureValues = useContext(StructureContext)
   const boxRef = useRef<HTMLDivElement>()
   const [currentPath, setCurrentPath] = useState('')
+  const titles = getTitles(originalValue)
 
   const blockElements = (baseClass: string) => `${baseClass}`
 
@@ -33,8 +35,14 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClic
   const components = {
     h1: ({ node, ...props }) =>
       <h1 {...props} className={titleElements('text-4xl -mt-8')} />,
-    h2: ({ node, ...props }) =>
-      <h2 {...props} className={titleElements("text-2xl cursor-pointer transition-colors duration-300 hover:text-purple-500", props, true)} onClick={handleClick(node)} data-title />,
+    h2: ({ node, ...props }) => {
+      const index = getTitleIndex(props.children[0])
+      const title = titles?.[index] ?? props.children
+
+      return (
+        <h2 {...props} className={titleElements("text-2xl cursor-pointer transition-colors duration-300 hover:text-purple-500", props, true)} onClick={handleClick(title)} data-title>{title}</h2>
+      )
+    },
     h3: ({ node, ...props }) =>
       <h3 {...props} className={titleElements('text-1xl')} />,
     h4: ({ node, ...props }) =>
@@ -71,11 +79,8 @@ export const MarkdownPreview: React.FC<Props> = React.memo(({ value, onTitleClic
       </div>
   }
 
-  const handleClick = (node: any) => {
-    return () => {
-      const { value } = node.children[0]
-      onTitleClick(value)
-    }
+  const handleClick = (title: string) => {
+    return () => onTitleClick(title)
   }
 
   const setPositions = () => {

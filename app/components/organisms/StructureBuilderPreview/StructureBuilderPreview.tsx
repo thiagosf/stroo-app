@@ -14,7 +14,7 @@ import {
   StructureContextProps
 } from '../../../contexts/structure_context'
 import { UserContext } from '../../../contexts/user_context'
-import { FOLDER_SEPARATOR, parse } from '../../../helpers/folder_utils'
+import { FOLDER_SEPARATOR, parse, replaceTitlesByIndexes } from '../../../helpers/folder_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { CREATE_STRUCTURE, DESTROY_STRUCTURE, UPDATE_STRUCTURE } from '../../../queries/structure_queries'
 import { getStructureLink } from '../../../helpers/structure_utils'
@@ -76,6 +76,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
   const isEditing = mode === Mode.EDITOR
   const currentUserIsOwner = userContextValue.currentUser?.username === entity.user.username
   const showEditorButton = isNew || currentUserIsOwner
+  const preview = replaceTitlesByIndexes(currentStructureEntity?.content)
 
   function handleChangeInput(field: string, value: string) {
     if (field === 'content') {
@@ -362,7 +363,8 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
             <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
               <div className="max-w-4xl">
                 <MarkdownPreview
-                  value={currentStructureEntity?.content}
+                  value={preview}
+                  originalValue={currentStructureEntity?.content}
                   onTitleClick={handleFocus}
                   onMountElements={onMountElements}
                 />
