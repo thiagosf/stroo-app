@@ -22,10 +22,10 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
           <meta name="theme-color" content="#000000" />
           {/* Global Site Tag (gtag.js) - Google Analytics */}
-          {/* <script
+          <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${configUtils.gaTrackingId}`}
-          /> */}
+          />
           <script
             dangerouslySetInnerHTML={{
               __html: `
