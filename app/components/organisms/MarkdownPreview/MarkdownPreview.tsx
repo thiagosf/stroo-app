@@ -19,6 +19,7 @@ export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPrev
   const boxRef = useRef<HTMLDivElement>()
   const [currentPath, setCurrentPath] = useState('')
   const titles = getTitles(originalValue)
+  const rehypeHighlightOptions = { ignoreMissing: true }
 
   const blockElements = (baseClass: string) => `${baseClass}`
 
@@ -114,7 +115,7 @@ export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPrev
       <ReactMarkdown
         components={components}
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
+        rehypePlugins={[[rehypeHighlight, rehypeHighlightOptions]]}
       >{value}</ReactMarkdown>
     </div>
   )
