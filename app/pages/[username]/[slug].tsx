@@ -29,10 +29,13 @@ interface Props {
 const StructurePage: NextPage<Props> = ({ structure }) => {
   const siteContextValue = useContext(SiteContext)
   const [onFavorite] = useFavorite()
+  const seoStructure = siteContextValue.structure
+    ? siteContextValue.structure
+    : structure
 
   const seo: SeoMeta = {
-    title: `${siteContextValue.structure?.name} by @${siteContextValue.structure?.user.username}`,
-    description: `Structure by @${siteContextValue.structure?.user.username}`
+    title: `${seoStructure.name} by @${seoStructure.user.username}`,
+    description: `Structure by @${seoStructure.user.username}`
   }
 
   async function onComplain(entity: StructureEntity) {
