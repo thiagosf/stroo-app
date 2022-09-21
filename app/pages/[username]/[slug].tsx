@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { NextPage } from 'next'
 
 import { MainLayout, SeoMeta } from '../../components/templates/MainLayout/MainLayout'
@@ -28,7 +28,6 @@ interface Props {
 
 const StructurePage: NextPage<Props> = ({ structure }) => {
   const siteContextValue = useContext(SiteContext)
-  siteContextValue.setStructure(structure)
   const [onFavorite] = useFavorite()
 
   const seo: SeoMeta = {
@@ -39,6 +38,10 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
   async function onComplain(entity: StructureEntity) {
     console.log('onComplain', entity)
   }
+
+  useEffect(() => {
+    siteContextValue.setStructure(structure)
+  }, [])
 
   return (
     <MainLayout seo={seo}>
