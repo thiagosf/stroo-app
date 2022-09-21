@@ -1,3 +1,5 @@
+import removeMD from 'remove-markdown'
+
 export interface FolderParseResult {
   level?: number;
   name: string;
@@ -210,4 +212,8 @@ export function replaceTitlesByIndexes(text: string): string {
 export function getTitleIndex(text: string): number | null {
   const index = Number(text.replace('##', '').trim())
   return !isNaN(index) ? index : null
+}
+
+export function removeMarkdown(text: string): string {
+  return removeMD(text)
 }

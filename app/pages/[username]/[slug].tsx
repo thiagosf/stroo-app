@@ -9,6 +9,8 @@ import { SHOW_STRUCTURE } from '../../queries/structure_queries'
 import { parseCodeFromSlug } from '../../helpers/structure_utils'
 import { useFavorite } from '../../hooks/use_favorite'
 import { apolloClient } from '../../lib/apollo_client'
+import { removeMarkdown } from '../../helpers/folder_utils'
+import { removeBreakLines, truncate } from '../../helpers/string_utils'
 
 export interface StructureEntity {
   code?: string;
@@ -35,7 +37,7 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
 
   const seo: SeoMeta = {
     title: `${seoStructure.name} by @${seoStructure.user.username}`,
-    description: `Structure by @${seoStructure.user.username}`
+    description: removeBreakLines(truncate(removeMarkdown(seoStructure.content), 255))
   }
 
   async function onComplain(entity: StructureEntity) {
