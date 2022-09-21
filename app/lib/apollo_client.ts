@@ -5,8 +5,8 @@ const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_API_URL,
 })
 
-const authLink = setContext((_, { headers, ...all }) => {
-  const token = localStorage.getItem('stroo_token')
+const authLink = setContext((_, { headers }) => {
+  const token = typeof localStorage !== 'undefined' ? localStorage.getItem('stroo_token') : null
   return {
     headers: {
       ...headers,
@@ -16,6 +16,7 @@ const authLink = setContext((_, { headers, ...all }) => {
 })
 
 export const apolloClient = new ApolloClient({
+  ssrMode: typeof window === 'undefined',
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
   defaultOptions: {
