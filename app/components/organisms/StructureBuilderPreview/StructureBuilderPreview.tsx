@@ -184,11 +184,6 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
     router.push('/new')
   }
 
-  async function onNew() {
-    setSavedStructureEntity({})
-    router.push('/new')
-  }
-
   async function handleDestroy() {
     siteContextValue.setAlert({
       icon: getEmoji('warning'),
