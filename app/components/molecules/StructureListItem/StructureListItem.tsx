@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link'
 
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 
 import { UserAvatar } from '../UserAvatar/UserAvatar'
 import { UserName } from '../UserName/UserName'
+import { SiteContext } from '../../../contexts/site_context'
 
 export interface Props {
   entity: StructureEntity;
@@ -12,9 +13,15 @@ export interface Props {
 }
 
 export const StructureListItem: React.FC<Props> = function ({ entity, showAuthor }) {
+  const siteContextValue = useContext(SiteContext)
+
+  function handleClick() {
+    siteContextValue.setFullLoading(true)
+  }
+
   return (
     <Link href={entity.link}>
-      <a className="group">
+      <a className="group" onClick={handleClick}>
         <div className="flex flex-col px-12 py-4 transition transform-gpu group md:px-24 md:py-6 group-hover:bg-purple-900 hover:translate-x-1">
           {showAuthor && (
             <div className="flex gap-2 items-center transition text-white group-hover:text-white">

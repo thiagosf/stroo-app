@@ -1,16 +1,17 @@
+import { useEffect, useRef, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
-import { useRef, useState } from 'react'
-import 'tailwindcss/tailwind.css'
-import { AlertModal } from '../../organisms/AlertModal/AlertModal'
-import { CookieBanner } from '../../organisms/CookieBanner/CookieBanner'
-import { LoginModal } from '../../organisms/LoginModal/LoginModal'
 
 import { Alert, SiteContext, SiteContextProps } from '../../../contexts/site_context'
 import { UserContext, UserContextProps } from '../../../contexts/user_context'
 import { useLocalStorage } from '../../../hooks/use_local_storage'
 import { GITHUB_AUTH_URL } from '../../../queries/user_queries'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
+
+import { AlertModal } from '../../organisms/AlertModal/AlertModal'
+import { CookieBanner } from '../../organisms/CookieBanner/CookieBanner'
+import { LoginModal } from '../../organisms/LoginModal/LoginModal'
+import { FullSpinner } from '../../molecules/FullSpinner/FullSpinner'
 
 export interface Props {
   Component: any;
@@ -27,6 +28,7 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
   const { data: urlData } = useQuery(GITHUB_AUTH_URL)
 
   const [siteContextValue, setSiteContextValue] = useState<SiteContextProps>({
+    fullLoading: false,
     setAlert: (alert: Alert) => {
       setSiteContextValue((data) => ({ ...data, alert }))
       clearTimeout(alertTimer.current)
@@ -42,6 +44,9 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
     setStructure: (structure: StructureEntity) => {
       setSiteContextValue((data) => ({ ...data, structure }))
     },
+    setFullLoading(fullLoading: boolean) {
+      setSiteContextValue((data) => ({ ...data, fullLoading }))
+    }
   })
 
   const [userContextValue, setUserContextValue] = useState<UserContextProps>({
@@ -63,9 +68,16 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
     document.location.href = urlData.githubAuthURL
   }
 
+  useEffect(() => {
+    siteContextValue.setFullLoading(false)
+  }, [router.pathname])
+
   return (
     <SiteContext.Provider value={siteContextValue}>
       <UserContext.Provider value={userContextValue}>
+        {siteContextValue.fullLoading && (
+          <FullSpinner />
+        )}
         <Component {...pageProps} />
         <CookieBanner />
         <AlertModal
@@ -83,5 +95,3 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
     </SiteContext.Provider>
   )
 }
-
-export default BaseApp
