@@ -16,6 +16,7 @@ import configUtils from '../../helpers/config_utils'
 export interface StructureEntity {
   code?: string;
   name: string;
+  slug?: string;
   type: string;
   content: string;
   date?: string;
@@ -39,7 +40,12 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
   const seo: SeoMeta = {
     title: `${seoStructure.name} by @${seoStructure.user.username}`,
     description: removeBreakLines(truncate(removeMarkdown(seoStructure.content), 255)),
-    image: `${configUtils.assetsURL}/files/structures/${seoStructure.code}.png`
+    image: `${configUtils.assetsURL}/files/structures/${seoStructure.code}.png`,
+    url: `${configUtils.siteURL}/@${seoStructure.user.username}/${seoStructure.slug}-${seoStructure.code}`,
+    custom: [
+      { label: 'Type', value: `${seoStructure.type} 🎯` },
+      { label: 'Likes', value: `${seoStructure.like_count} ❤` },
+    ]
   }
 
   async function onComplain(entity: StructureEntity) {

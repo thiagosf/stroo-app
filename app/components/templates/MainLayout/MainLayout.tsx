@@ -7,10 +7,17 @@ import configUtils from '../../../helpers/config_utils'
 import { useLocalStorage } from '../../../hooks/use_local_storage'
 import { PRIVATE_PROFILE } from '../../../queries/user_queries'
 
+export interface SeoMetaCustom {
+  label: string;
+  value: string;
+}
+
 export interface SeoMeta {
   title: string;
   description: string;
   image?: string;
+  url?: string;
+  custom?: Array<SeoMetaCustom>
 }
 
 export interface Props {
@@ -30,7 +37,9 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
     : configUtils.siteName
   const description = seo?.description
     ? seo.description
-    : 'Lorem ipsum'
+    : 'Stroo app'
+  const image = seo?.image ? seo.image : null
+  const url = seo?.url ? seo.url : null
 
   useEffect(() => {
     if (loading) return
@@ -51,6 +60,29 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
+
+        {url && (
+          <meta property="og:url" content={url} />
+        )}
+        {image && (
+          <>
+            <meta property="og:image" content={image} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="600" />
+          </>
+        )}
+        <meta property="og:site_name" content={configUtils.siteName} />
+        <meta property="og:type" content="object" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+
+        {seo.custom.map((item, index) => (
+          <>
+            <meta name={`twitter:label${index + 1}`} content={item.label} />
+            <meta name={`twitter:data${index + 1}`} content={item.value} />
+          </>
+        ))}
+
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="bg-gradient-to-tr from-gray-900 to-gray-800 text-white flex min-h-screen lg:overflow-hidden lg:h-screen">
