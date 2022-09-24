@@ -66,6 +66,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         )}
         {image && (
           <>
+            <meta property="twitter:image:src" content={image} />
             <meta property="og:image" content={image} />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="600" />
@@ -75,8 +76,11 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         <meta property="og:type" content="object" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta name="twitter:card" content="summary_large_image" />
 
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@strooapp" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
         {seo?.custom?.map((item, index) => (
           <>
             <meta name={`twitter:label${index + 1}`} content={item.label} />
