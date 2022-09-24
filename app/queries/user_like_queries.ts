@@ -11,3 +11,9 @@ export const DISLIKE = gql`
     dislike (code: $code)
   }
 `
+
+export const IS_LIKED = gql`
+  query isLiked($code: String!) {
+    isLiked (code: $code)
+  }
+`

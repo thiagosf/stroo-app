@@ -1,11 +1,11 @@
 import { useContext, useEffect } from 'react'
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 
 import { SiteContext } from '../contexts/site_context'
 import { UserContext } from '../contexts/user_context'
 import { randomEmoji } from '../helpers/emoji'
 import { StructureEntity } from '../pages/[username]/[slug]'
-import { DISLIKE, LIKE } from '../queries/user_like_queries'
+import { DISLIKE, IS_LIKED, LIKE } from '../queries/user_like_queries'
 
 import { useLocalStorage } from './use_local_storage'
 
@@ -15,6 +15,7 @@ export function useFavorite() {
   const [lastAction, setLastAction] = useLocalStorage('last_action', null)
   const [like] = useMutation(LIKE)
   const [dislike] = useMutation(DISLIKE)
+  const [isLiked] = useLazyQuery(IS_LIKED)
 
   async function onFavorite(entity: StructureEntity) {
     if (!userContextValue.currentUser) {
@@ -79,5 +80,20 @@ export function useFavorite() {
     applyLastAction()
   }, [siteContextValue.structure, userContextValue.currentUser, lastAction])
 
-  return [onFavorite]
+  async function isFavorite(entity: StructureEntity) {
+    if (userContextValue.currentUser) {
+      await isLiked({
+        variables: { code: entity.code },
+        onCompleted: (data) => {
+          siteContextValue.setStructure({
+            ...siteContextValue.structure,
+            liked: data.isLiked
+          })
+        },
+        onError: () => { }
+      })
+    }
+  }
+
+  return [onFavorite, isFavorite]
 }

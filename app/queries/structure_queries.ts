@@ -8,7 +8,6 @@ export const LIST_STRUCTURES = gql`
       slug,
       type,
       like_count,
-      liked,
       user {
         name,
         username,
@@ -27,7 +26,6 @@ export const SHOW_STRUCTURE = gql`
       type,
       content,
       like_count,
-      liked,
       user {
         name,
         username,
@@ -45,7 +43,6 @@ export const CREATE_STRUCTURE = gql`
       slug,
       content,
       like_count,
-      liked,
       created_at,
       updated_at,
       user {
@@ -63,7 +60,6 @@ export const UPDATE_STRUCTURE = gql`
       slug,
       content,
       like_count,
-      liked,
       created_at,
       updated_at,
       user {

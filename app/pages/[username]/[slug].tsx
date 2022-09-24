@@ -3,7 +3,7 @@ import { NextPage } from 'next'
 
 import { MainLayout, SeoMeta } from '../../components/templates/MainLayout/MainLayout'
 import { StructureBuilderPreview } from '../../components/organisms/StructureBuilderPreview/StructureBuilderPreview'
-import { UserEntity } from '../../contexts/user_context'
+import { UserContext, UserEntity } from '../../contexts/user_context'
 import { SiteContext } from '../../contexts/site_context'
 import { SHOW_STRUCTURE } from '../../queries/structure_queries'
 import { parseCodeFromSlug } from '../../helpers/structure_utils'
@@ -32,7 +32,8 @@ interface Props {
 
 const StructurePage: NextPage<Props> = ({ structure }) => {
   const siteContextValue = useContext(SiteContext)
-  const [onFavorite] = useFavorite()
+  const userContextValue = useContext(UserContext)
+  const [onFavorite, isFavorite] = useFavorite()
   const seoStructure = siteContextValue.structure
     ? siteContextValue.structure
     : structure
@@ -55,6 +56,12 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
   useEffect(() => {
     siteContextValue.setStructure(structure)
   }, [])
+
+  useEffect(() => {
+    if (userContextValue.currentUser) {
+      isFavorite(structure)
+    }
+  }, [userContextValue.currentUser])
 
   return (
     <MainLayout seo={seo}>
