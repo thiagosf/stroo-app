@@ -58,10 +58,10 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
   }, [])
 
   useEffect(() => {
-    if (userContextValue.currentUser) {
+    if (userContextValue.currentUser && siteContextValue.structure) {
       isFavorite(structure)
     }
-  }, [userContextValue.currentUser])
+  }, [siteContextValue.structure, userContextValue.currentUser])
 
   return (
     <MainLayout seo={seo}>
