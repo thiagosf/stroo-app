@@ -38,7 +38,9 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
   const description = seo?.description
     ? seo.description
     : 'Stroo app'
-  const image = seo?.image ? seo.image : null
+  const image = seo?.image
+    ? seo.image
+    : `${configUtils.siteURL}/images/seo-image.png`
   const url = seo?.url ? seo.url : null
 
   useEffect(() => {
