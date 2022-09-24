@@ -75,6 +75,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         <meta property="og:type" content="object" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
+        <meta name="twitter:card" content="summary_large_image" />
 
         {seo?.custom?.map((item, index) => (
           <>
