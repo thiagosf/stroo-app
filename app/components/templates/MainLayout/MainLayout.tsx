@@ -76,7 +76,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
 
-        {seo.custom?.map((item, index) => (
+        {seo?.custom?.map((item, index) => (
           <>
             <meta name={`twitter:label${index + 1}`} content={item.label} />
             <meta name={`twitter:data${index + 1}`} content={item.value} />
