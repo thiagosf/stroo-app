@@ -31,6 +31,7 @@ BrowsePage.getInitialProps = function ({ query }) {
     type: query.type?.toString(),
     search: query.search?.toString(),
     username: query.username?.toString(),
+    favorites: query.favorites?.toString() === 'true' ? true : undefined,
     limit: 20,
   }
 

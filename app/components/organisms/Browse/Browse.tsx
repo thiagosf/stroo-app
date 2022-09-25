@@ -5,6 +5,7 @@ import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { Spinner } from '../../atoms/Spinner/Spinner'
 import { ScrollSpy } from '../../molecules/ScrollSpy/ScrollSpy'
 import { StructureListItem } from '../../molecules/StructureListItem/StructureListItem'
+import { BrowseFilters } from '../BrowseFilters/BrowseFilters'
 
 import { Header } from '../Header/Header'
 
@@ -34,6 +35,7 @@ export const Browse: React.FC<Props> = function ({ loading, list, loadMore }) {
           </div>
         </div>
       </Header>
+      <BrowseFilters />
       <ScrollSpy
         className="flex-grow h-full overflow-y-auto overflow-x-hidden"
         threshold={100}
