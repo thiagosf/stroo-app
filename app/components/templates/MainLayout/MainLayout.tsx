@@ -37,7 +37,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
     : configUtils.siteName
   const description = seo?.description
     ? seo.description
-    : 'Stroo app'
+    : configUtils.siteDescription
   const image = seo?.image
     ? seo.image
     : `${configUtils.siteURL}/images/seo-image.png`
