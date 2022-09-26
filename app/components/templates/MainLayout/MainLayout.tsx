@@ -84,10 +84,10 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         {seo?.custom?.map((item, index) => (
-          <>
+          <React.Fragment key={index}>
             <meta name={`twitter:label${index + 1}`} content={item.label} />
             <meta name={`twitter:data${index + 1}`} content={item.value} />
-          </>
+          </React.Fragment>
         ))}
 
         <link rel="icon" href="/favicon.ico" />
