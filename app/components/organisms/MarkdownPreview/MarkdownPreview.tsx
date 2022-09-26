@@ -39,9 +39,10 @@ export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPrev
     h2: ({ node, ...props }) => {
       const index = getTitleIndex(props.children[0])
       const title = titles?.[index] ?? props.children
+      props.children = [title]
 
       return (
-        <h2 {...props} className={titleElements("text-2xl cursor-pointer transition-colors duration-300 hover:text-purple-500", props, true)} onClick={handleClick(title)} data-title>{title}</h2>
+        <h2 {...props} className={titleElements("text-2xl cursor-pointer transition-colors duration-300 hover:text-purple-500", props, true)} onClick={handleClick(title)} data-title />
       )
     },
     h3: ({ node, ...props }) =>
