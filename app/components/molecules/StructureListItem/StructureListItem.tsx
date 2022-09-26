@@ -29,7 +29,7 @@ export const StructureListItem: React.FC<Props> = function ({ entity, showAuthor
               <UserName user={entity.user} />
             </div>
           )}
-          <div className="flex text-4xl mb-2 md:text-6xl">
+          <div className="flex text-4xl mb-2 md:text-4xl 2xl:text-6xl">
             {entity.name}
           </div>
           <div className="flex items-center">

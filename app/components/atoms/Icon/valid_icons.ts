@@ -1,4 +1,4 @@
-export default [
+const icons = [
   'abc',
   'actionscript',
   'ada',
@@ -21,6 +21,7 @@ export default [
   'appveyor',
   'arduino',
   'arrow-down',
+  'arrow-up',
   'arrow-right',
   'asciidoc',
   'assembly',
@@ -757,3 +758,5 @@ export default [
   'zig',
   'zip',
 ]
+
+export default icons
