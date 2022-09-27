@@ -45,7 +45,6 @@ export const Landing: React.FC<Props> = function ({ }) {
           </Link>
         </HoverUnderlined>
       </div>
-      <div className="pointer-events-none absolute z-0 top-0 left-0 right-0 bottom-0 p-10 bg-contain bg-no-repeat opacity-30 md:bg-center"></div>
     </div>
   )
 }
