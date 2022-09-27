@@ -7,7 +7,7 @@ import { ScrollSpy } from '../../molecules/ScrollSpy/ScrollSpy'
 import { StructureListItem } from '../../molecules/StructureListItem/StructureListItem'
 import { BrowseFilters } from '../BrowseFilters/BrowseFilters'
 
-import { Header } from '../Header/Header'
+import { Header } from '../MainHeader/Header'
 
 export interface Props {
   loading: boolean;

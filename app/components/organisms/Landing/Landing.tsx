@@ -8,7 +8,7 @@ export interface Props { }
 
 export const Landing: React.FC<Props> = function ({ }) {
   return (
-    <div className="w-full flex flex-col p-12 relative">
+    <div className="w-full flex flex-col relative">
       <div className="flex w-full justify-center items-center relative z-10">
         <Logo size="large" />
       </div>
@@ -31,19 +31,6 @@ export const Landing: React.FC<Props> = function ({ }) {
             </HoverUnderlined>
           </div>
         </div>
-      </div>
-      <div className="flex gap-2 relative z-10">
-        <HoverUnderlined>
-          <Link href="https://github.com/thiagosf/stroo-app" target="_blank" rel="noopener noreferrer">
-            <a>Github</a>
-          </Link>
-        </HoverUnderlined>
-        <span className="opacity-20">•</span>
-        <HoverUnderlined>
-          <Link href="/privacy-policy">
-            <a>Privacy Policy</a>
-          </Link>
-        </HoverUnderlined>
       </div>
     </div>
   )

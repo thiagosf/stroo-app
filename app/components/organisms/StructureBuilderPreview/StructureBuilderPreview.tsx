@@ -29,7 +29,7 @@ import { MarkdownPreview } from '../MarkdownPreview/MarkdownPreview'
 import { Structure } from '../Structure/Structure'
 import { StructureInfo } from '../StructureInfo/StructureInfo'
 import { StructureForm } from '../StructureForm/StructureForm'
-import { Header } from '../Header/Header'
+import { Header } from '../MainHeader/Header'
 
 export enum Mode {
   PREVIEW = 'preview',

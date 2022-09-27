@@ -15,7 +15,7 @@ import { UserAvatar } from '../../molecules/UserAvatar/UserAvatar'
 import { UserName } from '../../molecules/UserName/UserName'
 
 import { EmptyStructures } from '../EmptyStructures/EmptyStructures'
-import { Header } from '../Header/Header'
+import { Header } from '../MainHeader/Header'
 
 export interface Props {
   user: UserEntity;

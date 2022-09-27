@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 
-import { Header } from '../Header/Header'
+import { Header } from '../MainHeader/Header'
 
 import text from './text.md'
 
