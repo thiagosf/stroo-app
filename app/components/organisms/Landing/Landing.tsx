@@ -32,7 +32,13 @@ export const Landing: React.FC<Props> = function ({ }) {
           </div>
         </div>
       </div>
-      <div className="flex relative z-10">
+      <div className="flex gap-2 relative z-10">
+        <HoverUnderlined>
+          <Link href="https://github.com/thiagosf/stroo-app" target="_blank" rel="noopener noreferrer">
+            <a>Github</a>
+          </Link>
+        </HoverUnderlined>
+        <span className="opacity-20">•</span>
         <HoverUnderlined>
           <Link href="/privacy-policy">
             <a>Privacy Policy</a>
