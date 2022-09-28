@@ -12,6 +12,7 @@ import { apolloClient } from '../../lib/apollo_client'
 import { removeMarkdown } from '../../helpers/folder_utils'
 import { removeBreakLines, truncate } from '../../helpers/string_utils'
 import configUtils from '../../helpers/config_utils'
+import { FlexFixed } from '../../components/atoms/FlexFixed/FlexFixed'
 
 export interface StructureEntity {
   code?: string;
@@ -66,10 +67,12 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
   return (
     <MainLayout seo={seo}>
       {siteContextValue.structure && (
-        <StructureBuilderPreview
-          onFavorite={onFavorite}
-          onComplain={onComplain}
-        />
+        <FlexFixed>
+          <StructureBuilderPreview
+            onFavorite={onFavorite}
+            onComplain={onComplain}
+          />
+        </FlexFixed>
       )}
     </MainLayout>
   )

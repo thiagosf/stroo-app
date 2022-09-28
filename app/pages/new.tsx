@@ -7,6 +7,7 @@ import { SiteContext } from '../contexts/site_context'
 import { unauthenticatedUser } from '../helpers/user_utils'
 
 import { StructureEntity } from './[username]/[slug]'
+import { FlexFixed } from '../components/atoms/FlexFixed/FlexFixed'
 
 interface Props {
   structure: StructureEntity;
@@ -26,9 +27,11 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
   return (
     <MainLayout seo={seo}>
       {siteContextValue.structure && (
-        <StructureBuilderPreview
-          key={siteContextValue.structure.code}
-        />
+        <FlexFixed>
+          <StructureBuilderPreview
+            key={siteContextValue.structure.code}
+          />
+        </FlexFixed>
       )}
     </MainLayout>
   )
