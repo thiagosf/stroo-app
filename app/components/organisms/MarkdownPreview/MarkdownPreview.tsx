@@ -112,7 +112,7 @@ export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPrev
   }, [structureValues])
 
   return (
-    <div className="p-12 break-words" ref={boxRef}>
+    <div className="p-12" ref={boxRef} style={{ wordBreak: 'break-word' }}>
       <ReactMarkdown
         components={components}
         remarkPlugins={[remarkGfm]}
