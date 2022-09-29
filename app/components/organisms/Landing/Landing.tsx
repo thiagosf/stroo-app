@@ -16,10 +16,10 @@ export const Landing: React.FC<Props> = function ({ }) {
         <div className="flex flex-col justify-between items-center flex-grow lg:px-40 lg:flex-row">
           <div className="my-10 text-center lg:mr-10 lg:my-0 lg:text-left">
             <h1 className="font-highlight text-4xl 2xl:text-6xl mb-2">Publish software structures</h1>
-            <p className="text-2xl lg:text-4xl text-gray-400">to share knowledge and best practices.</p>
-            <p className="lg:text-lg text-green-500 mt-2"><span className="border-b border-dotted pb-1 border-green-500">It&apos;s totally free!</span></p>
+            <p className="text-2xl 2xl:text-4xl text-gray-400">to share knowledge and best practices.</p>
+            <p className="2xl:text-lg text-green-500 mt-2"><span className="border-b border-dotted pb-1 border-green-500">It&apos;s totally free!</span></p>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center text-center">
             <Link href="/new" passHref>
               <Button as="a" bordered size="large">Create</Button>
             </Link>

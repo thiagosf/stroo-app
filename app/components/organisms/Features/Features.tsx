@@ -33,7 +33,7 @@ export const FeatureItem: React.FC<Props> = function ({ title, text, image, imag
 export const Features: React.FC = function () {
   return (
     <div className="max-w-6xl m-auto">
-      <div className="grid gap-12 md:grid-cols-2 md:gap-16 2xl:grid-cols-3">
+      <div className="grid gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-3">
         <FeatureItem
           title="Markdown support"
           text="Use a markdown to format your structures and give more context and style."
