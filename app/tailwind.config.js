@@ -15,7 +15,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: [
+        mono: [
           '"Nanum Gothic Coding"',
           '-apple-system',
           'BlinkMacSystemFont',
