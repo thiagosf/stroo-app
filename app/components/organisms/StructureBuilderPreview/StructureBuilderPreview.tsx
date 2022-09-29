@@ -325,7 +325,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
             </div>
           </div>
         </div>
-        <div className="flex-1 flex flex-col">
+        <div className="flex flex-1 flex-col">
           <Header>
             <>
               <div className="mr-4">
