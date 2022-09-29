@@ -92,7 +92,7 @@ export const MainLayout: React.FC<Props> = function ({ seo, children }) {
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="bg-gradient-to-tr from-gray-900 to-gray-800 text-white flex min-h-screen lg:overflow-hidden lg:h-screen">
+      <div className="bg-gradient-to-tr from-gray-900 to-gray-800 text-white min-h-screen lg:flex lg:overflow-hidden lg:h-screen">
         {children}
       </div>
     </div>

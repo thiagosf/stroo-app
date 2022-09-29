@@ -6,7 +6,7 @@ interface Props {
 
 export const FlexFixed: React.FC<Props> = ({ children }) => {
   useEffect(() => {
-    const overflowHidden = 'md:overflow-hidden'
+    const overflowHidden = 'lg:overflow-hidden'
     document.body.classList.add(overflowHidden)
 
     return () => {
@@ -15,7 +15,7 @@ export const FlexFixed: React.FC<Props> = ({ children }) => {
   }, [])
 
   return (
-    <div className="flex md:fixed md:top-0 md:left-0 md:right-0 md:bottom-0">
+    <div className="lg:flex lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:bottom-0">
       {children}
     </div>
   )
