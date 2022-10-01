@@ -57,7 +57,7 @@ export const PrivacyPolicy: React.FC = function () {
       <Header>
         <h1>Privacy Policy</h1>
       </Header>
-      <div className="flex-grow h-full overflow-y-auto overflow-x-hidden max-w-lg m-auto py-10 px-12 lg:px-0">
+      <div className="font-mono flex-grow h-full overflow-y-auto overflow-x-hidden max-w-lg m-auto py-10 px-12 lg:px-0">
         <ReactMarkdown components={components}>{text}</ReactMarkdown>
       </div>
     </div>
