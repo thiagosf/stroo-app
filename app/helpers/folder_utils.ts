@@ -19,7 +19,7 @@ export type FormatType = 'tree' | 'markdown'
 
 export const FOLDER_SEPARATOR = '/'
 
-function getIcon(name: string): string {
+export function getIcon(name: string): string {
   // @todo map all common files
   const mapIcons = {
     generic: 'folder-generic',

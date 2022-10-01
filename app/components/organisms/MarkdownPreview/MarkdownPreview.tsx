@@ -5,7 +5,8 @@ import rehypeHighlight from 'rehype-highlight'
 
 import '../../../node_modules/highlight.js/styles/atom-one-dark.css'
 import { PathTopPosition, StructureContext } from '../../../contexts/structure_context'
-import { FOLDER_SEPARATOR, getTitleIndex, getTitles } from '../../../helpers/folder_utils'
+import { FOLDER_SEPARATOR, getIcon, getTitleIndex, getTitles } from '../../../helpers/folder_utils'
+import { Icon } from '../../atoms/Icon/Icon'
 
 export interface Props {
   value: string;
@@ -42,7 +43,7 @@ export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPrev
       props.children = [title]
 
       return (
-        <h2 {...props} className={titleElements("text-2xl cursor-pointer transition-colors duration-300 hover:text-purple-500", props, true)} onClick={handleClick(title)} data-title />
+        <h2 {...props} className={titleElements("flex items-center gap-2 text-2xl cursor-pointer transition-colors duration-300 hover:text-purple-500", props, true)} onClick={handleClick(title)} data-title><Icon name={getIcon(title)} svgClasses="w-5 h-5" /> {props.children}</h2>
       )
     },
     h3: ({ node, ...props }) =>
