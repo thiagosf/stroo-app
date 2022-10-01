@@ -48,7 +48,7 @@ export const Browse: React.FC<Props> = function ({ loading, list, loadMore }) {
         )}
         {!loading && items.length > 0 && items}
         {!loading && items.length === 0 && (
-          <div className="p-12 text-4xl">Sorry, nothing found 😔</div>
+          <div className="font-mono p-12 text-4xl">Sorry, nothing found 😔</div>
         )}
       </ScrollSpy>
     </div>

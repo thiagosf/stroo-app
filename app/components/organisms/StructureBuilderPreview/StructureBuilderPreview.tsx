@@ -333,7 +333,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
                   bordered
                   disabled={isPreviewing}
                   onClick={changeMode(Mode.PREVIEW)}
-                >preview</Button>
+                >PREVIEW</Button>
               </div>
               <div className="mr-4">
                 {showEditorButton && (
@@ -341,7 +341,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
                     bordered
                     disabled={isEditing}
                     onClick={changeMode(Mode.EDITOR)}
-                  >editor</Button>
+                  >EDITOR</Button>
                 )}
                 {!showEditorButton && (
                   <Button
@@ -349,7 +349,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
                     onClick={onDuplicate}
                     spinner={isDuplicating}
                     disabled={isDuplicating}
-                  >duplicate</Button>
+                  >DUPLICATE</Button>
                 )}
               </div>
             </>

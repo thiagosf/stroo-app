@@ -9,13 +9,14 @@ module.exports = {
     { pattern: /border-(2|4)/ },
     ...`
       hover:border-white
-      border-gray-800
+      border-gray-700
+      border-purple-500
     `.split('\n').map(v => v.trim())
   ],
   theme: {
     extend: {
       fontFamily: {
-        sans: [
+        mono: [
           '"Nanum Gothic Coding"',
           '-apple-system',
           'BlinkMacSystemFont',
