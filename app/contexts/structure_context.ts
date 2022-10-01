@@ -13,6 +13,7 @@ export interface StructureContextProps {
   currentPath: string[];
   clickFrom: StructureClickFrom;
   pathsTopPositions: PathTopPosition[];
+  expandAll: boolean;
   dispatch: (key: string, value: any) => void;
 }
 
