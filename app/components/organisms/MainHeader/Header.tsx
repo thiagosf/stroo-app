@@ -20,7 +20,7 @@ export const Header: React.FC<Props> = function ({ children }) {
   }
 
   return (
-    <div className="flex flex-wrap flex-shrink gap-4 justify-between p-12 md:flex-nowrap">
+    <div className="font-mono flex flex-wrap flex-shrink gap-4 justify-between p-12 md:flex-nowrap">
       <div className="flex flex-grow">
         {children}
       </div>
@@ -28,18 +28,18 @@ export const Header: React.FC<Props> = function ({ children }) {
         {currentUser && !isNewPathname && (
           <Link href="/new">
             <a>
-              <Button filled>New</Button>
+              <Button filled>NEW</Button>
             </a>
           </Link>
         )}
-        <div className="text-white cursor-pointer font-bold bg-white bg-opacity-5 rounded-full px-4 py-2 transition-colors duration-300 hover:bg-opacity-10">
+        <Button filled color="white-opacity">
           {currentUser && (
             <span onClick={goProfile}>@{currentUser.username}</span>
           )}
           {!currentUser && (
             <span onClick={openModal}>login</span>
           )}
-        </div>
+        </Button>
         <Logo />
       </div>
     </div>

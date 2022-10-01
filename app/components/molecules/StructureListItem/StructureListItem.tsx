@@ -21,7 +21,7 @@ export const StructureListItem: React.FC<Props> = function ({ entity, showAuthor
 
   return (
     <Link href={entity.link}>
-      <a className="group" onClick={handleClick}>
+      <a className="group font-mono" onClick={handleClick}>
         <div className="flex flex-col px-12 py-4 transition transform-gpu group md:px-24 md:py-6 group-hover:bg-purple-900 hover:translate-x-1">
           {showAuthor && (
             <div className="flex gap-2 items-center transition text-white group-hover:text-white">

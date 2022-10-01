@@ -27,7 +27,7 @@ export const Structure: React.FC<Props> = React.memo(function Structure({ data }
   })
 
   return (
-    <div className="flex flex-col bg-gradient-to-tl from-gray-900 to-gray-800 rounded-2xl p-10 text-2xl overflow-x-auto shadow-2xl lg:absolute lg:top-0 lg:left-0 lg:right-0 lg:bottom-0">
+    <div className="font-mono flex flex-col bg-gradient-to-tl from-gray-900 to-gray-800 rounded-2xl p-10 text-2xl overflow-x-auto shadow-2xl lg:absolute lg:top-0 lg:left-0 lg:right-0 lg:bottom-0">
       {items}
     </div>
   )

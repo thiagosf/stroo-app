@@ -18,7 +18,7 @@ export interface Props {
 
 export const StructureForm: React.FC<Props> = function ({ entity, isSending, onChange, onSave, onFocus, onDestroy }) {
   const isPublished = !!entity?.code && entity?.code !== '...'
-  const buttonLabel = isPublished ? 'Update' : 'Publish'
+  const buttonLabel = isPublished ? 'UPDATE' : 'PUBLISH'
 
   function handleChangeInput(field: string) {
     return (value: any) => {
@@ -66,7 +66,7 @@ export const StructureForm: React.FC<Props> = function ({ entity, isSending, onC
               spinner={isSending}
               disabled={isSending}
               onClick={onDestroy}
-            >Delete</Button>
+            >DELETE</Button>
           )}
         </div>
       </div>
