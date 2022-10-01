@@ -57,6 +57,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
     currentPath: [],
     clickFrom: null,
     pathsTopPositions: [],
+    expandAll: false,
     dispatch: (key: string, value: any) => {
       setStructureValues((v) => ({
         ...v,

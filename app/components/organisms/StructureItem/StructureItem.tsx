@@ -50,6 +50,8 @@ export const StructureItem: React.FC<Props> = function ({ entity, children }) {
           setIsCurrent(false)
         }
       }
+    } else {
+      setOpened(structureValues.expandAll)
     }
   }, [structureValues])
 

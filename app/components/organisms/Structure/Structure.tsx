@@ -1,5 +1,8 @@
 import React from 'react'
+
 import { FolderParseResult } from '../../../helpers/folder_utils'
+
+import { StructureActions } from '../StructureActions/StructureActions'
 import { StructureItem } from '../StructureItem/StructureItem'
 
 export interface Props {
@@ -27,8 +30,13 @@ export const Structure: React.FC<Props> = React.memo(function Structure({ data }
   })
 
   return (
-    <div className="font-mono flex flex-col bg-gradient-to-tl from-gray-900 to-gray-800 rounded-2xl p-10 text-2xl overflow-x-auto shadow-2xl lg:absolute lg:top-0 lg:left-0 lg:right-0 lg:bottom-0">
-      {items}
+    <div className="font-mono relative flex flex-col bg-gradient-to-tl from-gray-900 to-gray-800 rounded-2xl p-10 text-2xl overflow-x-auto shadow-2xl select-none lg:absolute lg:top-0 lg:left-0 lg:right-0 lg:bottom-0">
+      <div className="absolute top-3 right-3">
+        <StructureActions />
+      </div>
+      <div className="">
+        {items}
+      </div>
     </div>
   )
 })
