@@ -50,7 +50,7 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
   }
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center font-mono">
       <div className="flex-grow mr-8">
         <div className="flex items-center">
           <div className="flex-shrink-0">

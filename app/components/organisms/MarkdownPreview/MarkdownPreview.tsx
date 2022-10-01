@@ -24,11 +24,11 @@ export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPrev
   const blockElements = (baseClass: string) => `${baseClass}`
 
   const titleElements = (baseClass: string, props: any = {}, pathElement: boolean = false) => {
-    const classes = `relative border-b border-dotted border-gray-800 pb-2 mt-8 mb-4 ${baseClass}`.split(' ')
+    const classes = `relative font-thin border-b border-dotted border-gray-700 pb-2 mt-8 mb-4 ${baseClass}`.split(' ')
     if (pathElement && props.children[0] === currentPath) {
       classes.push('border-purple-500 text-purple-500')
     } else {
-      classes.push('text-gray-500')
+      classes.push('text-gray-400')
     }
     return classes.join(' ')
   }

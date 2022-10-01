@@ -4,7 +4,7 @@ import { HoverUnderlined } from '../../atoms/HoverUnderlined/HoverUnderlined'
 
 export const MainFooter: React.FC = function () {
   return (
-    <div className="flex gap-2 relative z-10">
+    <div className="font-mono flex gap-2 relative z-10">
       <HoverUnderlined>
         <Link href="https://github.com/thiagosf/stroo-app" target="_blank" rel="noopener noreferrer">
           <a>Github</a>
