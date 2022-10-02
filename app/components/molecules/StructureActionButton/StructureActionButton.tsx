@@ -15,7 +15,7 @@ export const StructureActionButton: React.FC<Props> = function ({ icon, onClick,
 
   return (
     <div className={`cursor-pointer w-8 h-8  flex justify-center items-center p-2 rounded-full transition duration-200 ${activeClasses}`} onClick={onClick}>
-      <Icon name={icon} />
+      <Icon name={icon} svgClasses="w-full h-full" />
     </div>
   )
 }
