@@ -43,7 +43,7 @@ export const PrivacyPolicy: React.FC = function () {
       )
     },
     a: ({ node, ...props }) =>
-      <a {...props} className={'underline border-b border-dashed border-purple-500 text-purple-500'} target="_blank" rel="noopener"></a>,
+      <a {...props} className={'underline text-purple-500'} target="_blank" rel="noopener"></a>,
     ul: ({ node, ...props }) =>
       <ul {...props} className="mb-4 pl-4 list-disc" />,
     ol: ({ node, ...props }) =>
