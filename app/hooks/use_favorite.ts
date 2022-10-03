@@ -81,7 +81,7 @@ export function useFavorite() {
   }, [siteContextValue.structure, userContextValue.currentUser, lastAction])
 
   async function isFavorite(entity: StructureEntity) {
-    if (userContextValue.currentUser) {
+    if (userContextValue.currentUser && siteContextValue.structure.liked === undefined) {
       await isLiked({
         variables: { code: entity.code },
         onCompleted: (data) => {
