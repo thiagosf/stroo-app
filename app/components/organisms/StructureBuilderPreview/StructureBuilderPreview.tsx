@@ -30,6 +30,7 @@ import { Structure } from '../Structure/Structure'
 import { StructureInfo } from '../StructureInfo/StructureInfo'
 import { StructureForm } from '../StructureForm/StructureForm'
 import { Header } from '../MainHeader/Header'
+import { event } from '../../../helpers/gtag'
 
 export enum Mode {
   PREVIEW = 'preview',
@@ -91,6 +92,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
 
   function changeMode(newMode: Mode) {
     return () => {
+      event({ action: `change_mode_${newMode}`.toLowerCase() })
       setMode(newMode)
     }
   }
@@ -98,8 +100,10 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
   async function handleSave() {
     if (isSending) return
     const { currentUser, openModal } = userContextValue
+    event({ action: 'publish' })
 
     if (currentUser) {
+      event({ action: 'publish_logged' })
       setIsSending(() => true)
       const payload: any = {
         input: {
@@ -169,6 +173,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
         })
       }
     } else {
+      event({ action: 'publish_unlogged' })
       openModal()
     }
   }
