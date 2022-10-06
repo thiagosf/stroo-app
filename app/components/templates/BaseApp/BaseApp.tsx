@@ -12,6 +12,7 @@ import { AlertModal } from '../../organisms/AlertModal/AlertModal'
 import { CookieBanner } from '../../organisms/CookieBanner/CookieBanner'
 import { LoginModal } from '../../organisms/LoginModal/LoginModal'
 import { FullSpinner } from '../../molecules/FullSpinner/FullSpinner'
+import { event } from '../../../helpers/gtag'
 
 export interface Props {
   Component: any;
@@ -58,11 +59,18 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
       setToken(null)
       setUserContextValue((data) => ({ ...data, currentUser: undefined }))
     },
-    openModal: () => setOpenedLoginModal(() => true),
-    closeModal: () => setOpenedLoginModal(() => false),
+    openModal: () => {
+      event({ action: 'open_login_modal' })
+      setOpenedLoginModal(() => true)
+    },
+    closeModal: () => {
+      event({ action: 'close_login_modal' })
+      setOpenedLoginModal(() => false)
+    },
   })
 
   async function onLogin() {
+    event({ action: 'login' })
     setLoadingAuthURL(true)
     setLastPage(router.asPath)
     document.location.href = urlData.githubAuthURL
