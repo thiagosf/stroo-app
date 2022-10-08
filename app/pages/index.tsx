@@ -59,7 +59,7 @@ StructurePage.getInitialProps = function () {
     like_count: 0,
     liked: false,
     date: (new Date()).toUTCString(),
-    link: '/new',
+    link: '/',
     user: unauthenticatedUser()
   }
   return {
