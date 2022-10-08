@@ -25,6 +25,8 @@ export const Button: React.FC<Props> = React.forwardRef(function Button({ as, sp
   }
   if (size === 'large') {
     additionalClasses.push('text-lg py-4 px-8')
+  } else if (size === 'small') {
+    additionalClasses.push('text-xs py-1 px-3')
   } else {
     additionalClasses.push('py-2 px-4')
   }

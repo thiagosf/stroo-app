@@ -3,6 +3,7 @@ export type ButtonColor =
   | 'white-opacity'
 
 export type ButtonSize =
+  | 'small'
   | 'large'
 
 export class ButtonService {
