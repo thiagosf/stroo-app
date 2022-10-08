@@ -73,7 +73,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
   const [mode, setMode] = useState<Mode>(startMode ?? Mode.PREVIEW)
   const [isDuplicating, setIsDuplicating] = useState(false)
 
-  const isNew = router.pathname === '/new'
+  const isNew = router.pathname === '/'
   const isPreviewing = mode === Mode.PREVIEW
   const isEditing = mode === Mode.EDITOR
   const currentUserIsOwner = userContextValue.currentUser?.username === entity.user.username
@@ -187,7 +187,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
         ? { ...userContextValue.currentUser }
         : { ...unauthenticatedUser() },
     })
-    router.push('/new')
+    router.push('/')
   }
 
   async function handleDestroy() {

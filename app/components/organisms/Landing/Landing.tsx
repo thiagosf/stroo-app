@@ -20,7 +20,7 @@ export const Landing: React.FC<Props> = function ({ }) {
             <p className="font-mono 2xl:text-lg text-green-500 mt-2"><span className="border-b border-dotted pb-1 border-green-500">It&apos;s totally free!</span></p>
           </div>
           <div className="flex flex-col items-center text-center">
-            <Link href="/new" passHref>
+            <Link href="/" passHref>
               <Button as="a" bordered size="large">CREATE</Button>
             </Link>
             <div className="mt-4"></div>

@@ -11,4 +11,13 @@ module.exports = withReactSvg({
     })
     return config
   },
+  async redirects() {
+    return [
+      {
+        source: '/new',
+        destination: '/',
+        permanent: true
+      }
+    ]
+  }
 })

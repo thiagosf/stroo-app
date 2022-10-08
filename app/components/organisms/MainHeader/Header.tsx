@@ -14,7 +14,7 @@ export interface Props {
 export const Header: React.FC<Props> = function ({ children }) {
   const router = useRouter()
   const { openModal, currentUser } = useContext(UserContext)
-  const isNewPathname = router.pathname === '/new'
+  const isNewPathname = router.pathname === '/'
   const isBrowsePathname = router.pathname === '/browse'
   const mainButtonText = currentUser
     ? truncateUsername(currentUser.username)
@@ -48,7 +48,7 @@ export const Header: React.FC<Props> = function ({ children }) {
             </Link>
           )}
           {currentUser && !isNewPathname && (
-            <Link href="/new">
+            <Link href="/">
               <a>
                 <Button filled size="small">NEW</Button>
               </a>
