@@ -57,6 +57,7 @@ export function useFavorite() {
     async function applyLastAction() {
       if (
         siteContextValue.structure &&
+        siteContextValue.structure.liked === undefined &&
         lastAction &&
         lastAction.action === 'like' &&
         userContextValue.currentUser
