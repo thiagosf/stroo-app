@@ -7,6 +7,7 @@ import '../../../node_modules/highlight.js/styles/atom-one-dark.css'
 import { PathTopPosition, StructureContext } from '../../../contexts/structure_context'
 import { FOLDER_SEPARATOR, getIcon, getTitleIndex, getTitles } from '../../../helpers/folder_utils'
 import { Icon } from '../../atoms/Icon/Icon'
+import { ContentPadding } from '../../atoms/ContentPadding/ContentPadding'
 
 export interface Props {
   value: string;
@@ -113,12 +114,14 @@ export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPrev
   }, [structureValues])
 
   return (
-    <div className="p-12" ref={boxRef} style={{ wordBreak: 'break-word' }}>
-      <ReactMarkdown
-        components={components}
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[[rehypeHighlight, rehypeHighlightOptions]]}
-      >{value}</ReactMarkdown>
-    </div>
+    <ContentPadding>
+      <div ref={boxRef} style={{ wordBreak: 'break-word' }}>
+        <ReactMarkdown
+          components={components}
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[[rehypeHighlight, rehypeHighlightOptions]]}
+        >{value}</ReactMarkdown>
+      </div>
+    </ContentPadding>
   )
 })

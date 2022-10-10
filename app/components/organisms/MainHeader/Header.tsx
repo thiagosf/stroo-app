@@ -4,6 +4,7 @@ import React, { useContext } from 'react'
 
 import { UserContext } from '../../../contexts/user_context'
 import { truncate } from '../../../helpers/string_utils'
+import { ContentPadding } from '../../atoms/ContentPadding/ContentPadding'
 import { Button } from '../../molecules/Button/Button'
 import { Logo } from '../../molecules/Logo/Logo'
 
@@ -34,7 +35,7 @@ export const Header: React.FC<Props> = function ({ children }) {
   }
 
   return (
-    <div className="font-mono flex flex-wrap flex-shrink gap-4 justify-between p-12 md:flex-nowrap">
+    <ContentPadding className="font-mono flex flex-wrap flex-shrink gap-4 justify-between md:flex-nowrap">
       <div className="flex flex-grow">
         {children}
       </div>
@@ -62,6 +63,6 @@ export const Header: React.FC<Props> = function ({ children }) {
           <Logo />
         </div>
       </div>
-    </div>
+    </ContentPadding>
   )
 }
