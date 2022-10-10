@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useContext } from 'react'
+import { SiteContext } from '../../../contexts/site_context'
 
 import { UserContext } from '../../../contexts/user_context'
 import { truncate } from '../../../helpers/string_utils'
+import { ContentPadding } from '../../atoms/ContentPadding/ContentPadding'
 import { Button } from '../../molecules/Button/Button'
 import { Logo } from '../../molecules/Logo/Logo'
 
@@ -13,6 +15,7 @@ export interface Props {
 
 export const Header: React.FC<Props> = function ({ children }) {
   const router = useRouter()
+  const { setIsShowingAbout } = useContext(SiteContext)
   const { openModal, currentUser } = useContext(UserContext)
   const isNewPathname = router.pathname === '/'
   const isBrowsePathname = router.pathname === '/browse'
@@ -33,8 +36,12 @@ export const Header: React.FC<Props> = function ({ children }) {
     return truncate(`@${username}`, 10)
   }
 
+  function onLogoClick() {
+    setIsShowingAbout(true)
+  }
+
   return (
-    <div className="font-mono flex flex-wrap flex-shrink gap-4 justify-between p-12 md:flex-nowrap">
+    <ContentPadding className="font-mono flex flex-wrap flex-shrink gap-4 justify-between md:flex-nowrap">
       <div className="flex flex-grow">
         {children}
       </div>
@@ -59,9 +66,11 @@ export const Header: React.FC<Props> = function ({ children }) {
           <Button filled color="white-opacity" onClick={handleMainButtonClick}>
             {mainButtonText}
           </Button>
-          <Logo />
+          <div className="cursor-pointer">
+            <Logo onClick={onLogoClick} />
+          </div>
         </div>
       </div>
-    </div>
+    </ContentPadding>
   )
 }

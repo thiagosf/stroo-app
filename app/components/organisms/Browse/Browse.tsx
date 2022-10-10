@@ -35,22 +35,26 @@ export const Browse: React.FC<Props> = function ({ loading, list, loadMore }) {
           </div>
         </div>
       </Header>
-      <BrowseFilters />
-      <ScrollSpy
-        className="flex-grow h-full overflow-y-auto overflow-x-hidden"
-        threshold={100}
-        onReachedBottom={loadMore}
-      >
-        {loading && (
-          <div className="p-12 text-center">
-            <Spinner />
-          </div>
-        )}
-        {!loading && items.length > 0 && items}
-        {!loading && items.length === 0 && (
-          <div className="font-mono p-12 text-4xl">Sorry, nothing found 😔</div>
-        )}
-      </ScrollSpy>
+      <div className="flex grow shrink flex-col min-h-0 md:flex-row">
+        <div className="">
+          <BrowseFilters />
+        </div>
+        <ScrollSpy
+          className="grow h-full overflow-y-auto overflow-x-hidden"
+          threshold={100}
+          onReachedBottom={loadMore}
+        >
+          {loading && (
+            <div className="p-12 text-center">
+              <Spinner />
+            </div>
+          )}
+          {!loading && items.length > 0 && items}
+          {!loading && items.length === 0 && (
+            <div className="font-mono p-12 text-4xl">Sorry, nothing found 😔</div>
+          )}
+        </ScrollSpy>
+      </div>
     </div>
   )
 }

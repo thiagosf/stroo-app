@@ -15,10 +15,12 @@ export interface SiteContextProps {
   structure?: StructureEntity;
   isLeaving?: boolean;
   fullLoading?: boolean;
+  isShowingAbout?: boolean;
   setAlert: (alert: Alert) => void;
   cleanAlert: () => void;
   setStructure: (structure: StructureEntity) => void;
   setFullLoading: (value: boolean) => void;
+  setIsShowingAbout: (value: boolean) => void;
 }
 
 export const SiteContext = React.createContext<SiteContextProps>(null)

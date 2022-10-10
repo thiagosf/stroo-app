@@ -1,20 +1,18 @@
 import React from 'react'
-import Link from 'next/link'
+
 import { Icon } from '../../atoms/Icon/Icon'
 
-export interface Props {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   size?: string;
 }
 
-export const Logo: React.FC<Props> = function ({ size }) {
+export const Logo: React.FC<Props> = function ({ size, ...rest }) {
   const svgClasses = size === 'large'
     ? 'w-24 h-12'
     : 'w-12 h-6'
   return (
-    <Link href="/">
-      <a className="flex">
-        <Icon name="logo" svgClasses={svgClasses} />
-      </a>
-    </Link>
+    <div {...rest}>
+      <Icon name="logo" svgClasses={svgClasses} />
+    </div>
   )
 }

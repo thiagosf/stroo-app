@@ -31,6 +31,7 @@ import { StructureInfo } from '../StructureInfo/StructureInfo'
 import { StructureForm } from '../StructureForm/StructureForm'
 import { Header } from '../MainHeader/Header'
 import { event } from '../../../helpers/gtag'
+import { ContentPadding } from '../../atoms/ContentPadding/ContentPadding'
 
 export enum Mode {
   PREVIEW = 'preview',
@@ -318,7 +319,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
     <StructureContext.Provider value={structureValues}>
       <div className="flex flex-col flex-grow lg:flex-row">
         <div className="flex flex-1 bg-gradient-to-tl from-red-700 to-purple-800 justify-end">
-          <div className="p-12 flex-grow h-full flex flex-col max-w-4xl">
+          <ContentPadding className="flex-grow h-full flex flex-col max-w-4xl">
             <div className="flex-shrink-0">
               <StructureInfo
                 entity={currentStructureEntity}
@@ -329,7 +330,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
             <div className="flex-grow mt-8 relative">
               <Structure data={folderData} />
             </div>
-          </div>
+          </ContentPadding>
         </div>
         <div className="flex flex-1 flex-col md:overflow-hidden">
           <Header>

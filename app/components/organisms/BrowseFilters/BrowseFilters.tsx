@@ -25,9 +25,9 @@ export const BrowseFilters: React.FC = function () {
   }
 
   return (
-    <div className="px-12 mb-10 flex flex-col gap-6 items-center md:px-24 md:flex-row">
-      <label className="opacity-30 flex gap-1 items-center md:gap-0" onClick={toggleFilters}>Filters<span className="hidden md:inline">:</span><Icon name={icon} svgClasses="w-6 h-6 md:hidden" /></label>
-      <div className={`flex-col gap-4 items-center rounded-lg md:flex-row 2xl:p-6 2xl:bg-gray-900 ${filtersBoxClasses}`}>
+    <div className="px-12 flex flex-col gap-6 items-center md:px-12">
+      <label className="opacity-30 flex grow gap-1 items-center md:grow-0 md:gap-0" onClick={toggleFilters}>Filters<span className="hidden md:inline">:</span><Icon name={icon} svgClasses="w-6 h-6 md:hidden" /></label>
+      <div className={`flex-col gap-4 items-center rounded-lg 2xl:p-6 2xl:bg-gray-900 ${filtersBoxClasses}`}>
         <DashedInput
           label="search"
           value={filters.search}
