@@ -13,6 +13,7 @@ import { CookieBanner } from '../../organisms/CookieBanner/CookieBanner'
 import { LoginModal } from '../../organisms/LoginModal/LoginModal'
 import { FullSpinner } from '../../molecules/FullSpinner/FullSpinner'
 import { event } from '../../../helpers/gtag'
+import { AboutModal } from '../../organisms/AboutModal/AboutModal'
 
 export interface Props {
   Component: any;
@@ -47,6 +48,9 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
     },
     setFullLoading(fullLoading: boolean) {
       setSiteContextValue((data) => ({ ...data, fullLoading }))
+    },
+    setIsShowingAbout(isShowingAbout: boolean) {
+      setSiteContextValue((data) => ({ ...data, isShowingAbout }))
     }
   })
 
@@ -98,6 +102,9 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
           opened={openedLoginModal}
           onLogin={onLogin}
           onClose={userContextValue.closeModal}
+        />
+        <AboutModal
+          opened={siteContextValue.isShowingAbout}
         />
       </UserContext.Provider>
     </SiteContext.Provider>

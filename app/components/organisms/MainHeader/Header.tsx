@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useContext } from 'react'
+import { SiteContext } from '../../../contexts/site_context'
 
 import { UserContext } from '../../../contexts/user_context'
 import { truncate } from '../../../helpers/string_utils'
@@ -14,6 +15,7 @@ export interface Props {
 
 export const Header: React.FC<Props> = function ({ children }) {
   const router = useRouter()
+  const { setIsShowingAbout } = useContext(SiteContext)
   const { openModal, currentUser } = useContext(UserContext)
   const isNewPathname = router.pathname === '/'
   const isBrowsePathname = router.pathname === '/browse'
@@ -32,6 +34,10 @@ export const Header: React.FC<Props> = function ({ children }) {
 
   function truncateUsername(username: string): string {
     return truncate(`@${username}`, 10)
+  }
+
+  function onLogoClick() {
+    setIsShowingAbout(true)
   }
 
   return (
@@ -60,7 +66,9 @@ export const Header: React.FC<Props> = function ({ children }) {
           <Button filled color="white-opacity" onClick={handleMainButtonClick}>
             {mainButtonText}
           </Button>
-          <Logo />
+          <div className="cursor-pointer">
+            <Logo onClick={onLogoClick} />
+          </div>
         </div>
       </div>
     </ContentPadding>
