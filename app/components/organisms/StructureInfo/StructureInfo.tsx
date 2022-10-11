@@ -13,6 +13,7 @@ import { StructureType } from '../../molecules/StructureType/StructureType'
 import { Tooltip } from '../../molecules/Tooltip/Tooltip'
 import { UserAvatar } from '../../molecules/UserAvatar/UserAvatar'
 import { UserName } from '../../molecules/UserName/UserName'
+import { getTwitterShareURLForStructure } from '../../../helpers/share_utils'
 
 export interface Props {
   entity: StructureEntity;
@@ -29,6 +30,7 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
   const userProfileLink = getUserProfileLink(entity.user)
   const heartIcon = entity.liked ? 'heart-filled' : 'heart'
   const [isSendingLike, setIsSendingLike] = useState(false)
+  const twitterUrl = getTwitterShareURLForStructure(entity)
 
   async function handleFavorite() {
     if (onFavorite) {
@@ -91,6 +93,11 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
             </Tooltip>
           </div>
         )}
+        <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+          <Tooltip text="Share on Twitter!">
+            <Icon name="twitter" svgClasses="w-6 h-6" />
+          </Tooltip>
+        </a>
       </div>
     </div>
   )
