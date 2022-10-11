@@ -720,6 +720,7 @@ const icons = [
   'tune',
   'twig',
   'twine',
+  'twitter',
   'typescript-def',
   'typescript',
   'uml',
