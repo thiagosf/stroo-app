@@ -10,10 +10,12 @@ import { SiteContext } from '../../../contexts/site_context'
 export interface Props {
   entity: StructureEntity;
   showAuthor?: boolean;
+  full?: boolean;
 }
 
-export const StructureListItem: React.FC<Props> = function ({ entity, showAuthor }) {
+export const StructureListItem: React.FC<Props> = function ({ entity, showAuthor, full }) {
   const siteContextValue = useContext(SiteContext)
+  const customClasses = full ? '' : 'md:pl-6'
 
   function handleClick() {
     siteContextValue.setFullLoading(true)
@@ -22,7 +24,7 @@ export const StructureListItem: React.FC<Props> = function ({ entity, showAuthor
   return (
     <Link href={entity.link}>
       <a className="group font-mono" onClick={handleClick}>
-        <div className="flex flex-col p-6 transition transform-gpu group group-hover:bg-purple-900 hover:translate-x-1 md:px-24 md:pl-6 md:py-6">
+        <div className={`flex flex-col p-6 transition transform-gpu group group-hover:bg-purple-900 hover:translate-x-1 md:px-24 md:py-6 ${customClasses}`}>
           {showAuthor && (
             <div className="flex gap-2 items-center transition text-white group-hover:text-white">
               <UserAvatar url={entity.user.avatar} small />

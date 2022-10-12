@@ -35,6 +35,7 @@ export const Profile: React.FC<Props> = function ({ user, structures, structures
       <StructureListItem
         key={item.code}
         entity={item}
+        full
       />
     )
   })
