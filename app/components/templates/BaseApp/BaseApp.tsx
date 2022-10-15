@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 
 import { Alert, SiteContext, SiteContextProps } from '../../../contexts/site_context'
 import { UserContext, UserContextProps } from '../../../contexts/user_context'
 import { useLocalStorage } from '../../../hooks/use_local_storage'
-import { GITHUB_AUTH_URL } from '../../../queries/user_queries'
+import { GITHUB_AUTH_URL, TWITTER_AUTH_URL } from '../../../queries/user_queries'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 
 import { AlertModal } from '../../organisms/AlertModal/AlertModal'
 import { CookieBanner } from '../../organisms/CookieBanner/CookieBanner'
-import { LoginModal } from '../../organisms/LoginModal/LoginModal'
+import { AuthService, LoginModal } from '../../organisms/LoginModal/LoginModal'
 import { FullSpinner } from '../../molecules/FullSpinner/FullSpinner'
 import { event } from '../../../helpers/gtag'
 import { AboutModal } from '../../organisms/AboutModal/AboutModal'
@@ -27,7 +27,8 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
   const [openedLoginModal, setOpenedLoginModal] = useState(false)
   const [loadingAuthURL, setLoadingAuthURL] = useState(false)
   const [, setLastPage] = useLocalStorage<string>('last_page', null)
-  const { data: urlData } = useQuery(GITHUB_AUTH_URL)
+  const [githubAuthURL] = useLazyQuery(GITHUB_AUTH_URL)
+  const [twitterAuthURL] = useLazyQuery(TWITTER_AUTH_URL)
 
   const [siteContextValue, setSiteContextValue] = useState<SiteContextProps>({
     fullLoading: false,
@@ -73,11 +74,28 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
     },
   })
 
-  async function onLogin() {
+  async function onLogin(provider: AuthService) {
     event({ action: 'login' })
     setLoadingAuthURL(true)
     setLastPage(router.asPath)
-    document.location.href = urlData.githubAuthURL
+    try {
+      const providers = {
+        github: async (): Promise<string> => {
+          const urlData = await githubAuthURL()
+          console.log('github', urlData)
+          return urlData.data.githubAuthURL
+        },
+        twitter: async (): Promise<string> => {
+          const urlData = await twitterAuthURL()
+          console.log('twitter', urlData)
+          return urlData.data.twitterAuthURL
+        },
+      }
+      if (!providers[provider]) throw new Error('Invalid provider')
+      document.location.href = await providers[provider]()
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   useEffect(() => {

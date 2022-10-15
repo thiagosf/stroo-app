@@ -9,7 +9,7 @@ export interface Props {
 
 export const GitHubButton: React.FC<Props> = function ({ loading, onClick }) {
   return (
-    <Button bordered size="large" onClick={onClick} spinner={loading} disabled={loading}>
+    <Button color="black" filled size="large" onClick={onClick} spinner={loading} disabled={loading}>
       <div>
         Login with GitHub
       </div>
