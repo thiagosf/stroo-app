@@ -44,3 +44,22 @@ export const DESTROY_ACCOUNT = gql`
     destroyAccount
   }
 `
+
+export const TWITTER_AUTH_URL = gql`
+  query twitterAuthURL {
+    twitterAuthURL
+  }
+`
+
+export const AUTHORIZE_WITH_TWITTER = gql`
+  mutation authorizeWithTwitter($code: String!, $state: String!) {
+    authorizeWithTwitter (code: $code, state: $state) {
+      user {
+        name
+        username
+        avatar
+      }
+      token
+    }
+  }
+`

@@ -1,6 +1,8 @@
 export type ButtonColor =
   | 'white'
   | 'white-opacity'
+  | 'black'
+  | 'light-blue'
 
 export type ButtonSize =
   | 'small'
@@ -20,6 +22,12 @@ export class ButtonService {
 
       case 'white-opacity':
         return 'bg-white bg-opacity-5'
+
+      case 'black':
+        return 'bg-black'
+
+      case 'light-blue':
+        return 'bg-blue-500'
 
       default:
         return 'bg-purple-500'
