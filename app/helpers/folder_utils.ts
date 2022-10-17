@@ -37,6 +37,11 @@ export function getIcon(name: string): string {
     jpeg: 'image',
     gif: 'image',
     wepp: 'image',
+    config: 'settings',
+    confg: 'settings',
+    conf: 'settings',
+    cshtml: 'html',
+    cs: 'csharp',
   }
   if (name.indexOf('.') === -1) return mapIcons.generic
   let key = name.split('.').pop()
