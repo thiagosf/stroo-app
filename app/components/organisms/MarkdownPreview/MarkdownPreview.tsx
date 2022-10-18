@@ -93,7 +93,7 @@ export const MarkdownPreview: React.FC<Props> = React.memo(function MarkdownPrev
       .forEach((e) => {
         const rect = e.getClientRects()
         pathsTopPositions.push({
-          path: e.textContent,
+          path: e.textContent.trim(),
           top: rect.item(0).y,
         })
       })
