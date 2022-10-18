@@ -1,18 +1,22 @@
 import { useContext, useEffect } from 'react'
 import { NextPage } from 'next'
 
+import { SiteContext } from '../../contexts/site_context'
+import { UserContext, UserEntity } from '../../contexts/user_context'
+import configUtils from '../../helpers/config_utils'
+import { useFavorite } from '../../hooks/use_favorite'
+import { parseCodeFromSlug } from '../../helpers/structure_utils'
+import { removeMarkdown } from '../../helpers/folder_utils'
+import { isInsideIframe } from '../../helpers/iframe_utils'
+import { removeBreakLines, truncate } from '../../helpers/string_utils'
+import { apolloClient } from '../../lib/apollo_client'
+import { SHOW_STRUCTURE } from '../../queries/structure_queries'
+
 import { MainLayout, SeoMeta } from '../../components/templates/MainLayout/MainLayout'
 import { StructureBuilderPreview } from '../../components/organisms/StructureBuilderPreview/StructureBuilderPreview'
-import { UserContext, UserEntity } from '../../contexts/user_context'
-import { SiteContext } from '../../contexts/site_context'
-import { SHOW_STRUCTURE } from '../../queries/structure_queries'
-import { parseCodeFromSlug } from '../../helpers/structure_utils'
-import { useFavorite } from '../../hooks/use_favorite'
-import { apolloClient } from '../../lib/apollo_client'
-import { removeMarkdown } from '../../helpers/folder_utils'
-import { removeBreakLines, truncate } from '../../helpers/string_utils'
-import configUtils from '../../helpers/config_utils'
 import { FlexFixed } from '../../components/atoms/FlexFixed/FlexFixed'
+import { EmbeddedStructure } from '../../components/organisms/EmbeddedStructure/EmbeddedStructure'
+import { Spinner } from '../../components/atoms/Spinner/Spinner'
 
 export interface StructureEntity {
   code?: string;
@@ -63,6 +67,11 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
       isFavorite(structure)
     }
   }, [siteContextValue.structure, userContextValue.currentUser])
+
+  if (isInsideIframe()) {
+    if (!siteContextValue.structure) return <Spinner />
+    return <EmbeddedStructure structure={siteContextValue.structure} />
+  }
 
   return (
     <MainLayout seo={seo}>
