@@ -17,11 +17,12 @@ import { getTwitterShareURLForStructure } from '../../../helpers/share_utils'
 
 export interface Props {
   entity: StructureEntity;
+  hideActions?: boolean;
   onFavorite?: (entity: StructureEntity) => Promise<void>;
   onComplain?: (entity: StructureEntity) => Promise<void>;
 }
 
-export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, onComplain }) {
+export const StructureInfo: React.FC<Props> = function ({ entity, hideActions, onFavorite, onComplain }) {
   const isEnalbedComplain = isEnabledFeature('complain')
   const disabledActions = onFavorite == undefined
   const actionsClasses = disabledActions
@@ -72,33 +73,35 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-end justify-center mr-4">
+      <div className="flex flex-col items-end justify-center">
         <StructureType type={entity.type} />
         <StructureKey code={entity.code} />
       </div>
-      <div className={`flex gap-2 justify-center items-start ${actionsClasses}`}>
-        <Spinned actived={isSendingLike}>
-          <div className="cursor-pointer" onClick={handleFavorite}>
-            <Tooltip text="Good!">
-              <Counter count={entity.like_count}>
-                <Icon name={heartIcon} svgClasses="w-6 h-6" />
-              </Counter>
+      {!hideActions && (
+        <div className={`flex gap-2 justify-center items-start ml-4 ${actionsClasses}`}>
+          <Spinned actived={isSendingLike}>
+            <div className="cursor-pointer" onClick={handleFavorite}>
+              <Tooltip text="Good!">
+                <Counter count={entity.like_count}>
+                  <Icon name={heartIcon} svgClasses="w-6 h-6" />
+                </Counter>
+              </Tooltip>
+            </div>
+          </Spinned>
+          {isEnalbedComplain && (
+            <div className="cursor-pointer" onClick={handleComplain}>
+              <Tooltip text="Complain">
+                <Icon name="complaint" svgClasses="w-6 h-6" />
+              </Tooltip>
+            </div>
+          )}
+          <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+            <Tooltip text="Share on Twitter!">
+              <Icon name="twitter" svgClasses="w-6 h-6" />
             </Tooltip>
-          </div>
-        </Spinned>
-        {isEnalbedComplain && (
-          <div className="cursor-pointer" onClick={handleComplain}>
-            <Tooltip text="Complain">
-              <Icon name="complaint" svgClasses="w-6 h-6" />
-            </Tooltip>
-          </div>
-        )}
-        <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
-          <Tooltip text="Share on Twitter!">
-            <Icon name="twitter" svgClasses="w-6 h-6" />
-          </Tooltip>
-        </a>
-      </div>
+          </a>
+        </div>
+      )}
     </div>
   )
 }
