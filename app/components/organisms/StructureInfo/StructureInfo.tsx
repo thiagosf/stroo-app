@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
 
 import { isEnabledFeature } from '../../../helpers/config_utils'
 import { getUserProfileLink } from '../../../helpers/user_utils'
@@ -14,6 +13,7 @@ import { Tooltip } from '../../molecules/Tooltip/Tooltip'
 import { UserAvatar } from '../../molecules/UserAvatar/UserAvatar'
 import { UserName } from '../../molecules/UserName/UserName'
 import { getTwitterShareURLForStructure } from '../../../helpers/share_utils'
+import { Link } from '../../atoms/Link/Link'
 
 export interface Props {
   entity: StructureEntity;
@@ -58,16 +58,12 @@ export const StructureInfo: React.FC<Props> = function ({ entity, hideActions, o
         <div className="flex items-center">
           <div className="flex-shrink-0">
             <Link href={userProfileLink}>
-              <a>
-                <UserAvatar url={entity.user.avatar} />
-              </a>
+              <UserAvatar url={entity.user.avatar} />
             </Link>
           </div>
           <div className="ml-4">
             <Link href={userProfileLink}>
-              <a>
-                <UserName user={entity.user} />
-              </a>
+              <UserName user={entity.user} />
             </Link>
             <StructureName name={entity.name} />
           </div>

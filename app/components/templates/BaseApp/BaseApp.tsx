@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useLazyQuery, useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 
-import { Alert, SiteContext, SiteContextProps } from '../../../contexts/site_context'
+import { Alert, SiteContext, SiteContextProps, Theme } from '../../../contexts/site_context'
 import { UserContext, UserContextProps } from '../../../contexts/user_context'
 import { useLocalStorage } from '../../../hooks/use_local_storage'
 import { GITHUB_AUTH_URL, TWITTER_AUTH_URL } from '../../../queries/user_queries'
@@ -14,6 +14,7 @@ import { AuthService, LoginModal } from '../../organisms/LoginModal/LoginModal'
 import { FullSpinner } from '../../molecules/FullSpinner/FullSpinner'
 import { event } from '../../../helpers/gtag'
 import { AboutModal } from '../../organisms/AboutModal/AboutModal'
+import { isInsideIframe } from '../../../helpers/iframe_utils'
 
 export interface Props {
   Component: any;
@@ -29,8 +30,10 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
   const [, setLastPage] = useLocalStorage<string>('last_page', null)
   const [githubAuthURL] = useLazyQuery(GITHUB_AUTH_URL)
   const [twitterAuthURL] = useLazyQuery(TWITTER_AUTH_URL)
+  const themeParam = isInsideIframe() ? router.query.theme : null
 
   const [siteContextValue, setSiteContextValue] = useState<SiteContextProps>({
+    theme: 'dark',
     fullLoading: false,
     setAlert: (alert: Alert) => {
       setSiteContextValue((data) => ({ ...data, alert }))
@@ -52,6 +55,9 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
     },
     setIsShowingAbout(isShowingAbout: boolean) {
       setSiteContextValue((data) => ({ ...data, isShowingAbout }))
+    },
+    setTheme(theme: Theme) {
+      setSiteContextValue((data) => ({ ...data, theme }))
     }
   })
 
@@ -101,6 +107,10 @@ export const BaseApp: React.FC<Props> = function ({ Component, pageProps }) {
   useEffect(() => {
     siteContextValue.setFullLoading(false)
   }, [router.pathname])
+
+  useEffect(() => {
+    if (themeParam) siteContextValue.setTheme(themeParam as Theme)
+  }, [themeParam])
 
   return (
     <SiteContext.Provider value={siteContextValue}>

@@ -17,6 +17,7 @@ import { StructureBuilderPreview } from '../../components/organisms/StructureBui
 import { FlexFixed } from '../../components/atoms/FlexFixed/FlexFixed'
 import { EmbeddedStructure } from '../../components/organisms/EmbeddedStructure/EmbeddedStructure'
 import { Spinner } from '../../components/atoms/Spinner/Spinner'
+import { EmbedLayout } from '../../components/templates/EmbedLayout/EmbedLayout'
 
 export interface StructureEntity {
   code?: string;
@@ -70,7 +71,11 @@ const StructurePage: NextPage<Props> = ({ structure }) => {
 
   if (isInsideIframe()) {
     if (!siteContextValue.structure) return <Spinner />
-    return <EmbeddedStructure structure={siteContextValue.structure} />
+    return (
+      <EmbedLayout>
+        <EmbeddedStructure structure={siteContextValue.structure} />
+      </EmbedLayout>
+    )
   }
 
   return (

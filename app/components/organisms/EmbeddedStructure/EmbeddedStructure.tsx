@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 
 import { StructureContext, StructureContextProps } from '../../../contexts/structure_context'
+import configUtils from '../../../helpers/config_utils'
 import { parse } from '../../../helpers/folder_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
+import { Link } from '../../atoms/Link/Link'
+import { Logo } from '../../molecules/Logo/Logo'
 
 import { Structure } from '../Structure/Structure'
 import { StructureInfo } from '../StructureInfo/StructureInfo'
@@ -34,13 +37,21 @@ export const EmbeddedStructure: React.FC<Props> = function ({ structure }) {
     <StructureContext.Provider value={structureValues}>
       <div className="fixed top-0 left-0 right-0 bottom-0">
         <div className="flex flex-col h-full gap-2">
-          <div className="shrink-0">
-            <StructureInfo
-              hideActions
-              entity={structure}
-              onFavorite={onFavorite}
-              onComplain={onComplain}
-            />
+          <div className="flex items-center gap-6 shrink-0">
+            <div className="grow">
+              <StructureInfo
+                hideActions
+                entity={structure}
+                onFavorite={onFavorite}
+                onComplain={onComplain}
+              />
+            </div>
+            <div className="flex flex-col items-end">
+              <small className="text-[8px]">powered by</small>
+              <Link href={configUtils.siteURL}>
+                <Logo />
+              </Link>
+            </div>
           </div>
           <div className="flex grow overflow-auto text-white">
             <Structure data={folderData} />

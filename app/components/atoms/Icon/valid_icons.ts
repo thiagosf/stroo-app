@@ -550,6 +550,7 @@ const icons = [
   'lock',
   'log',
   'logo',
+  'logo-light',
   'lolcode',
   'lua',
   'makefile',
