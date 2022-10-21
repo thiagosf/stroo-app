@@ -113,6 +113,7 @@ const icons = [
   'elixir',
   'elm',
   'email',
+  'embed',
   'ember',
   'erlang',
   'eslint',
