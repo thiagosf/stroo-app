@@ -31,7 +31,7 @@ export const Structure: React.FC<Props> = React.memo(function Structure({ data }
 
   return (
     <div className="font-mono relative flex flex-1 flex-col lg:absolute lg:top-0 lg:left-0 lg:right-0 lg:bottom-0">
-      <div className="absolute top-3 right-3 z-10">
+      <div className="absolute top-3 right-5 z-10">
         <StructureActions />
       </div>
       <div className="bg-gradient-to-tl flex flex-1 flex-col from-gray-900 to-gray-800 rounded-2xl p-6 pt-12 text-2xl overflow-x-auto shadow-2xl select-none z-0 md:p-8 md:pt-12 lg:p-10">
