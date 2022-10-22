@@ -7,7 +7,7 @@ import { Tooltip } from '../../molecules/Tooltip/Tooltip'
 export const StructureActions: React.FC = function () {
   const structureValues = useContext(StructureContext)
   const icon = structureValues.expandAll ? 'expand' : 'collapse'
-  const expandCollapseText = structureValues.expandAll ? 'Expand' : 'Collapse'
+  const expandCollapseText = structureValues.expandAll ? 'Collapse' : 'Expand'
 
   function toggleExpand() {
     structureValues.dispatch('currentPath', [])
