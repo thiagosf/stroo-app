@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
 
 import { isEnabledFeature } from '../../../helpers/config_utils'
 import { getUserProfileLink } from '../../../helpers/user_utils'
@@ -14,14 +13,16 @@ import { Tooltip } from '../../molecules/Tooltip/Tooltip'
 import { UserAvatar } from '../../molecules/UserAvatar/UserAvatar'
 import { UserName } from '../../molecules/UserName/UserName'
 import { getTwitterShareURLForStructure } from '../../../helpers/share_utils'
+import { Link } from '../../atoms/Link/Link'
 
 export interface Props {
   entity: StructureEntity;
+  hideActions?: boolean;
   onFavorite?: (entity: StructureEntity) => Promise<void>;
   onComplain?: (entity: StructureEntity) => Promise<void>;
 }
 
-export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, onComplain }) {
+export const StructureInfo: React.FC<Props> = function ({ entity, hideActions, onFavorite, onComplain }) {
   const isEnalbedComplain = isEnabledFeature('complain')
   const disabledActions = onFavorite == undefined
   const actionsClasses = disabledActions
@@ -57,48 +58,46 @@ export const StructureInfo: React.FC<Props> = function ({ entity, onFavorite, on
         <div className="flex items-center">
           <div className="flex-shrink-0">
             <Link href={userProfileLink}>
-              <a>
-                <UserAvatar url={entity.user.avatar} />
-              </a>
+              <UserAvatar url={entity.user.avatar} />
             </Link>
           </div>
           <div className="ml-4">
             <Link href={userProfileLink}>
-              <a>
-                <UserName user={entity.user} />
-              </a>
+              <UserName user={entity.user} />
             </Link>
             <StructureName name={entity.name} />
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-end justify-center mr-4">
+      <div className="flex flex-col items-end justify-center">
         <StructureType type={entity.type} />
         <StructureKey code={entity.code} />
       </div>
-      <div className={`flex gap-2 justify-center items-start ${actionsClasses}`}>
-        <Spinned actived={isSendingLike}>
-          <div className="cursor-pointer" onClick={handleFavorite}>
-            <Tooltip text="Good!">
-              <Counter count={entity.like_count}>
-                <Icon name={heartIcon} svgClasses="w-6 h-6" />
-              </Counter>
+      {!hideActions && (
+        <div className={`flex gap-2 justify-center items-start ml-4 ${actionsClasses}`}>
+          <Spinned actived={isSendingLike}>
+            <div className="cursor-pointer" onClick={handleFavorite}>
+              <Tooltip text="Good!">
+                <Counter count={entity.like_count}>
+                  <Icon name={heartIcon} svgClasses="w-6 h-6" />
+                </Counter>
+              </Tooltip>
+            </div>
+          </Spinned>
+          {isEnalbedComplain && (
+            <div className="cursor-pointer" onClick={handleComplain}>
+              <Tooltip text="Complain">
+                <Icon name="complaint" svgClasses="w-6 h-6" />
+              </Tooltip>
+            </div>
+          )}
+          <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+            <Tooltip text="Share on Twitter!">
+              <Icon name="twitter" svgClasses="w-6 h-6" />
             </Tooltip>
-          </div>
-        </Spinned>
-        {isEnalbedComplain && (
-          <div className="cursor-pointer" onClick={handleComplain}>
-            <Tooltip text="Complain">
-              <Icon name="complaint" svgClasses="w-6 h-6" />
-            </Tooltip>
-          </div>
-        )}
-        <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
-          <Tooltip text="Share on Twitter!">
-            <Icon name="twitter" svgClasses="w-6 h-6" />
-          </Tooltip>
-        </a>
-      </div>
+          </a>
+        </div>
+      )}
     </div>
   )
 }
