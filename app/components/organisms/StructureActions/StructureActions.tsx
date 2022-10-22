@@ -20,13 +20,13 @@ export const StructureActions: React.FC = function () {
 
   return (
     <div className="flex gap-2">
-      <Tooltip text="Embed">
+      <Tooltip text="Embed" position="bottom">
         <StructureActionButton
           icon="embed"
           onClick={handleEmbed}
         />
       </Tooltip>
-      <Tooltip text={expandCollapseText}>
+      <Tooltip text={expandCollapseText} position="bottom">
         <StructureActionButton
           icon={icon}
           active={structureValues.expandAll}
