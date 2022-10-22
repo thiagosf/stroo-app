@@ -5,6 +5,7 @@ import { StructureContext, StructureContextProps } from '../../../contexts/struc
 import configUtils from '../../../helpers/config_utils'
 import { parse } from '../../../helpers/folder_utils'
 import { isTruthy } from '../../../helpers/param_utils'
+import { getStructureLink } from '../../../helpers/structure_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
 import { Link } from '../../atoms/Link/Link'
 import { Logo } from '../../molecules/Logo/Logo'
@@ -18,6 +19,7 @@ export interface Props {
 
 export const EmbeddedStructure: React.FC<Props> = function ({ structure }) {
   const router = useRouter()
+  const structureURL = configUtils.siteURL + getStructureLink(structure)
   const folderData = parse(structure.content)
   const hideHeader = isTruthy(router.query.hide_header)
   const [structureValues, setStructureValues] = useState<StructureContextProps>({
@@ -53,7 +55,7 @@ export const EmbeddedStructure: React.FC<Props> = function ({ structure }) {
               </div>
               <div className="flex flex-col items-end">
                 <small className="text-[8px]">powered by</small>
-                <Link href={configUtils.siteURL}>
+                <Link href={structureURL}>
                   <Logo />
                 </Link>
               </div>
