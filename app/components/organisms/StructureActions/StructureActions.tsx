@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React, { useContext, useState } from 'react'
 import { SiteContext } from '../../../contexts/site_context'
 import { StructureContext } from '../../../contexts/structure_context'
@@ -7,6 +8,8 @@ import { Tooltip } from '../../molecules/Tooltip/Tooltip'
 import { EmbedDialod } from '../EmbedDialog/EmbedDialog'
 
 export const StructureActions: React.FC = function () {
+  const router = useRouter()
+  const isNew = router.pathname === '/'
   const structureValues = useContext(StructureContext)
   const siteValues = useContext(SiteContext)
   const icon = structureValues.expandAll ? 'expand' : 'collapse'
@@ -25,13 +28,15 @@ export const StructureActions: React.FC = function () {
 
   return (
     <div className="flex gap-2">
-      <Tooltip text="Embed" position="bottom">
-        <StructureActionButton
-          icon="embed"
-          active={embedActive}
-          onClick={toggleEmbed}
-        />
-      </Tooltip>
+      {!isNew && (
+        <Tooltip text="Embed" position="bottom">
+          <StructureActionButton
+            icon="embed"
+            active={embedActive}
+            onClick={toggleEmbed}
+          />
+        </Tooltip>
+      )}
       <Tooltip text={expandCollapseText} position="bottom">
         <StructureActionButton
           icon={icon}
