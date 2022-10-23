@@ -365,6 +365,7 @@ export const StructureBuilderPreview: React.FC<Props> = function ({ startMode, o
             <div className="flex-grow overflow-x-auto" ref={markdowWrapperRef}>
               <div className="max-w-4xl">
                 <MarkdownPreview
+                  key={currentStructureEntity?.code ?? 'new'}
                   value={preview}
                   originalValue={currentStructureEntity?.content}
                   onTitleClick={handleFocus}

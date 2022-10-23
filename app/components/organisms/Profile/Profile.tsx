@@ -29,6 +29,7 @@ export const Profile: React.FC<Props> = function ({ user, structures, structures
   const siteContextValue = useContext(SiteContext)
   const userContextValue = useContext(UserContext)
   const [destroyAccount] = useMutation(DESTROY_ACCOUNT)
+  const isLoggedUserProfile = userContextValue.currentUser?.username === user.username
 
   const items = structures.map(item => {
     return (
@@ -79,7 +80,7 @@ export const Profile: React.FC<Props> = function ({ user, structures, structures
           <div className="ml-4">
             <div className="flex items-center gap-2">
               <UserName user={user} />
-              {userContextValue.currentUser?.username === user.username && (
+              {isLoggedUserProfile && (
                 <>
                   <div className="text-sm border-b-2 cursor-pointer opacity-50" onClick={handleLogout}>
                     logout
@@ -104,7 +105,7 @@ export const Profile: React.FC<Props> = function ({ user, structures, structures
       )}
       {!structuresLoading && items.length === 0 && (
         <div className="flex flex-grow h-full px-12 py-12 justify-center items-center lg:py-0">
-          <EmptyStructures />
+          <EmptyStructures isLoggedUserProfile={isLoggedUserProfile} />
         </div>
       )}
     </div>

@@ -54,7 +54,7 @@ export const Header: React.FC<Props> = function ({ children }) {
               </a>
             </Link>
           )}
-          {currentUser && !isNewPathname && (
+          {!isNewPathname && (
             <Link href="/">
               <a>
                 <Button filled size="small">NEW</Button>
