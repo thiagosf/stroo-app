@@ -46,7 +46,7 @@ StructurePage.getInitialProps = function () {
       "# Introduction",
       "Format with [Markdown](https://www.markdownguide.org), use double `#` to create your folders/files list. Like that:",
       "## app/src",
-      "Separete your tree with slashes and create files inside folders:",
+      "Separate your tree with slashes and create files inside folders:",
       "## app/src/tsconfig.json",
       "```json\n{ \"compilerOptions\": ... }\n```",
       "## Readme.md",
