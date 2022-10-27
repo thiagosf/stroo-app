@@ -9,8 +9,7 @@ export function createStructureCommands(mainDirectory: string, structure: Array<
 
 export function isSafeStructure(structure: Array<string>): boolean {
   return structure.every((directoryOrFile: string): boolean => {
-    // @todo implement it
-    return false
+    return !(/\.{2,}/.test(directoryOrFile))
   })
 }
 
@@ -18,8 +17,14 @@ export function wrapCommand(commands: string): string {
   return `#!/usr/bin/env bash \n\n${commands}`
 }
 
-function isFile(name: string): boolean {
-  // @todo implement it
+export function isFile(name: string): boolean {
+  const parts = name.split('.')
+  const filename = parts.shift()
+  const extension = parts.pop()
+
+  if (!filename) return SPECIAL_DOT_FILES.includes(extension)
+  if (!extension) return SPECIAL_FILES.includes(filename)
+  if (filename && extension) return true
   return false
 }
 
@@ -28,5 +33,17 @@ function directoryCommand(mainDirectory: string, directory: string): string {
 }
 
 function fileCommand(mainDirectory: string, filepath: string): string {
-  return `touch ${mainDirectory}/${filepath}`
+  const file = `${mainDirectory}/${filepath}`
+  return `mkdir -p "$(dirname ${file})" && touch ${file}`
 }
+
+const SPECIAL_DOT_FILES: Array<string> = [
+  'gitignore',
+  'env',
+  'eslint',
+  'babelrc',
+]
+
+const SPECIAL_FILES: Array<string> = [
+  'Dockerfile',
+]
