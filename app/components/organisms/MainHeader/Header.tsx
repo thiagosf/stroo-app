@@ -1,19 +1,21 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useContext } from 'react'
-import { SiteContext } from '../../../contexts/site_context'
 
+import { SiteContext } from '../../../contexts/site_context'
 import { UserContext } from '../../../contexts/user_context'
 import { truncate } from '../../../helpers/string_utils'
+
 import { ContentPadding } from '../../atoms/ContentPadding/ContentPadding'
 import { Button } from '../../molecules/Button/Button'
 import { Logo } from '../../molecules/Logo/Logo'
 
 export interface Props {
-  children: React.ReactChild
+  children: React.ReactChild;
+  hideContent?: boolean;
 }
 
-export const Header: React.FC<Props> = function ({ children }) {
+export const Header: React.FC<Props> = function ({ hideContent, children }) {
   const router = useRouter()
   const { setIsShowingAbout } = useContext(SiteContext)
   const { openModal, currentUser } = useContext(UserContext)
@@ -45,32 +47,34 @@ export const Header: React.FC<Props> = function ({ children }) {
       <div className="flex flex-grow">
         {children}
       </div>
-      <div className="flex flex-col flex-shrink-0 gap-4 items-start md:flex-row md:items-center lg:flex-col lg:items-start 2xl:flex-row 2xl:items-center">
-        <div className="flex gap-4 items-center">
-          {!isBrowsePathname && (
-            <Link href="/browse">
-              <a>
-                <Button bordered size="small">BROWSE</Button>
-              </a>
-            </Link>
-          )}
-          {!isNewPathname && (
-            <Link href="/">
-              <a>
-                <Button filled size="small">NEW</Button>
-              </a>
-            </Link>
-          )}
-        </div>
-        <div className="flex gap-4 items-center">
-          <Button filled color="white-opacity" onClick={handleMainButtonClick}>
-            {mainButtonText}
-          </Button>
-          <div className="cursor-pointer">
-            <Logo onClick={onLogoClick} />
+      {!hideContent && (
+        <div className="flex flex-col flex-shrink-0 gap-4 items-start md:flex-row md:items-center lg:flex-col lg:items-start 2xl:flex-row 2xl:items-center">
+          <div className="flex gap-4 items-center">
+            {!isBrowsePathname && (
+              <Link href="/browse">
+                <a>
+                  <Button bordered size="small">BROWSE</Button>
+                </a>
+              </Link>
+            )}
+            {!isNewPathname && (
+              <Link href="/">
+                <a>
+                  <Button filled size="small">NEW</Button>
+                </a>
+              </Link>
+            )}
+          </div>
+          <div className="flex gap-4 items-center">
+            <Button filled color="white-opacity" onClick={handleMainButtonClick}>
+              {mainButtonText}
+            </Button>
+            <div className="cursor-pointer">
+              <Logo onClick={onLogoClick} />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </ContentPadding>
   )
 }

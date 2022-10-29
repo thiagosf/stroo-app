@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 
+import { HoverUnderlined } from '../../atoms/HoverUnderlined/HoverUnderlined'
+import { Link } from '../../atoms/Link/Link'
+
 import { Header } from '../MainHeader/Header'
 
 import text from './text.md'
@@ -54,8 +57,15 @@ export const PrivacyPolicy: React.FC = function () {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <Header>
-        <h1>Privacy Policy</h1>
+      <Header hideContent>
+        <div className="flex flex-grow justify-between items-center">
+          <h1>Privacy Policy</h1>
+          <HoverUnderlined>
+            <Link href="/">
+              Back to app
+            </Link>
+          </HoverUnderlined>
+        </div>
       </Header>
       <div className="font-mono flex-grow h-full overflow-y-auto overflow-x-hidden max-w-lg m-auto py-10 px-12 lg:px-0">
         <ReactMarkdown components={components}>{text}</ReactMarkdown>
