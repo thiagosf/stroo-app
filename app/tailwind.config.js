@@ -45,6 +45,7 @@ module.exports = {
         'to-up': 'toUp 400ms forwards cubic-bezier(0.7, 0, 0.84, 0)',
         'to-right': 'toRight 400ms forwards cubic-bezier(0.7, 0, 0.84, 0)',
         'spin-fast': 'spin 500ms linear infinite',
+        'scale-grow': 'scaleGrow 400ms forwards cubic-bezier(0.16, 1, 0.3, 1)',
       },
       keyframes: {
         'fromUp': {
@@ -62,6 +63,10 @@ module.exports = {
         'toRight': {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-100%)' },
+        },
+        'scaleGrow': {
+          '0%': { transform: 'scale(0.9)' },
+          '100%': { transform: 'scale(1)' },
         },
       },
       transitionTimingFunction: {
