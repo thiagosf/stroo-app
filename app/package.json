@@ -26,7 +26,8 @@
     "react-markdown": "^7.1.0",
     "rehype-highlight": "^5.0.0",
     "remark-gfm": "^3.0.1",
-    "remove-markdown": "^0.5.0"
+    "remove-markdown": "^0.5.0",
+    "tailwindcss-animation-delay": "^1.0.7"
   },
   "devDependencies": {
     "@testing-library/react": "^12.1.2",

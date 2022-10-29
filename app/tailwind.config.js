@@ -46,6 +46,9 @@ module.exports = {
         'to-right': 'toRight 400ms forwards cubic-bezier(0.7, 0, 0.84, 0)',
         'spin-fast': 'spin 500ms linear infinite',
         'scale-grow': 'scaleGrow 400ms forwards cubic-bezier(0.16, 1, 0.3, 1)',
+        'bg-black-70': 'bgBlack70 400ms forwards',
+        'fade-in': 'fadeIn 400ms forwards',
+        'scale-grow-fade-in': 'scaleGrow 400ms forwards cubic-bezier(0.16, 1, 0.3, 1), fadeIn 400ms forwards',
       },
       keyframes: {
         'fromUp': {
@@ -68,6 +71,14 @@ module.exports = {
           '0%': { transform: 'scale(0.9)' },
           '100%': { transform: 'scale(1)' },
         },
+        'bgBlack70': {
+          '0%': { backgroundColor: 'rgba(0, 0, 0, 0)' },
+          '100%': { backgroundColor: 'rgba(0, 0, 0, 0.7)' },
+        },
+        'fadeIn': {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
       },
       transitionTimingFunction: {
         'in-expo': 'cubic-bezier(0.95, 0.05, 0.795, 0.035)',
@@ -78,5 +89,7 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-animation-delay'),
+  ],
 }
