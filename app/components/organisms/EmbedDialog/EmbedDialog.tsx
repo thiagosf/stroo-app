@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { Theme } from '../../../contexts/site_context';
-import configUtils from '../../../helpers/config_utils';
-import { getStructureLink } from '../../../helpers/structure_utils';
 
+import { Theme } from '../../../contexts/site_context'
+import configUtils from '../../../helpers/config_utils'
+import { getStructureLink } from '../../../helpers/structure_utils'
 import { StructureEntity } from '../../../pages/[username]/[slug]'
-import { Button } from '../../molecules/Button/Button';
-import { CheckboxField } from '../../molecules/CheckboxField/CheckboxField';
-import { RadioField } from '../../molecules/RadioField/RadioField';
+
+import { CheckboxField } from '../../molecules/CheckboxField/CheckboxField'
+import { CopyButton } from '../../molecules/CopyButton/CopyButton'
+import { RadioField } from '../../molecules/RadioField/RadioField'
+import { StructureActionDialog } from '../../molecules/StructureActionDialog/StructureActionDialog'
 
 export interface EmbedParams {
   theme: Theme;
@@ -24,7 +26,6 @@ export const EmbedDialod: React.FC<Props> = function ({ structure }) {
     hide_header: false
   })
   const [embedTag, setEmbedTag] = useState(buildEmbedTag(params))
-  const [copyLabel, setCopyLabel] = useState('Copy')
 
   function buildEmbedTag(params: EmbedParams) {
     const queryString = Object.keys(params).map(key => {
@@ -45,43 +46,36 @@ export const EmbedDialod: React.FC<Props> = function ({ structure }) {
     }
   }
 
-  function handleCopy() {
-    navigator.clipboard.writeText(embedTag)
-    setCopyLabel(() => 'Copied!')
-    setTimeout(() => setCopyLabel(() => 'Copy'), 3000)
-  }
-
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-center border-b border-white border-opacity-10 pb-2">
-        <h2 className="text-lg font-bold">Embed Structure</h2>
-      </div>
-      <div className="flex items-center gap-4">
-        <p>Theme:</p>
-        <RadioField
-          label="Dark"
-          name="theme"
-          value="dark"
-          checked={params.theme === 'dark'}
-          onChange={handleChange('theme')}
+    <StructureActionDialog title="Embed Structure">
+      <React.Fragment>
+        <div className="flex items-center gap-4">
+          <p>Theme:</p>
+          <RadioField
+            label="Dark"
+            name="theme"
+            value="dark"
+            checked={params.theme === 'dark'}
+            onChange={handleChange('theme')}
+          />
+          <RadioField
+            label="Light"
+            name="theme"
+            value="light"
+            checked={params.theme === 'light'}
+            onChange={handleChange('theme')}
+          />
+        </div>
+        <CheckboxField
+          label="Hide header"
+          name="hide_header"
+          onChange={handleChange('hide_header')}
         />
-        <RadioField
-          label="Light"
-          name="theme"
-          value="light"
-          checked={params.theme === 'light'}
-          onChange={handleChange('theme')}
-        />
-      </div>
-      <CheckboxField
-        label="Hide header"
-        name="hide_header"
-        onChange={handleChange('hide_header')}
-      />
-      <textarea className="bg-black border border-solid border-white border-opacity-10 resize-none w-full outline-none p-4 rounded-md h-32" readOnly value={embedTag} />
-      <div className="flex justify-center">
-        <Button bordered onClick={handleCopy}>{copyLabel}</Button>
-      </div>
-    </div>
+        <textarea className="bg-black border border-solid border-white border-opacity-10 resize-none w-full outline-none p-4 rounded-md h-32" readOnly value={embedTag} />
+        <div className="flex justify-center">
+          <CopyButton text={embedTag} />
+        </div>
+      </React.Fragment>
+    </StructureActionDialog>
   )
 }

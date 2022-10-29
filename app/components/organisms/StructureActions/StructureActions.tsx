@@ -1,10 +1,14 @@
 import { useRouter } from 'next/router'
 import React, { useContext, useState } from 'react'
+
 import { SiteContext } from '../../../contexts/site_context'
 import { StructureContext } from '../../../contexts/structure_context'
 
 import { StructureActionButton } from '../../molecules/StructureActionButton/StructureActionButton'
+import { StructureActionDialog } from '../../molecules/StructureActionDialog/StructureActionDialog'
 import { Tooltip } from '../../molecules/Tooltip/Tooltip'
+
+import { BashDialog } from '../BashDialog/BashDialog'
 import { EmbedDialod } from '../EmbedDialog/EmbedDialog'
 
 export const StructureActions: React.FC = function () {
@@ -15,27 +19,54 @@ export const StructureActions: React.FC = function () {
   const icon = structureValues.expandAll ? 'expand' : 'collapse'
   const expandCollapseText = structureValues.expandAll ? 'Collapse' : 'Expand'
   const [embedActive, setEmbedActive] = useState(false)
+  const [bashActive, setBashActive] = useState(false)
 
   function toggleExpand() {
     setEmbedActive(() => false)
+    setBashActive(() => false)
     structureValues.dispatch('currentPath', [])
     structureValues.dispatch('expandAll', !structureValues.expandAll)
   }
 
   function toggleEmbed() {
+    setBashActive(() => false)
     setEmbedActive(() => !embedActive)
+  }
+
+  function toggleBash() {
+    setEmbedActive(() => false)
+    setBashActive(() => !bashActive)
   }
 
   return (
     <div className="flex gap-2">
       {!isNew && (
-        <Tooltip text="Embed" position="bottom">
-          <StructureActionButton
-            icon="embed"
-            active={embedActive}
-            onClick={toggleEmbed}
-          />
-        </Tooltip>
+        <div className="relative">
+          <Tooltip text="Clone" position="bottom">
+            <StructureActionButton
+              icon="command"
+              active={bashActive}
+              onClick={toggleBash}
+            />
+          </Tooltip>
+          {bashActive && (
+            <BashDialog structure={siteValues.structure} />
+          )}
+        </div>
+      )}
+      {!isNew && (
+        <div className="relative">
+          <Tooltip text="Embed" position="bottom">
+            <StructureActionButton
+              icon="embed"
+              active={embedActive}
+              onClick={toggleEmbed}
+            />
+          </Tooltip>
+          {embedActive && (
+            <EmbedDialod structure={siteValues.structure} />
+          )}
+        </div>
       )}
       <Tooltip text={expandCollapseText} position="bottom">
         <StructureActionButton
@@ -44,11 +75,6 @@ export const StructureActions: React.FC = function () {
           onClick={toggleExpand}
         />
       </Tooltip>
-      {embedActive && (
-        <div className="absolute top-0 right-20 bg-black bg-opacity-60 w-80 p-4 rounded-lg">
-          <EmbedDialod structure={siteValues.structure} />
-        </div>
-      )}
     </div>
   )
 }
