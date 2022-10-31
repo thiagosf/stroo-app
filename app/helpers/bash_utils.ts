@@ -1,3 +1,5 @@
+import path from 'path'
+
 export function createStructureCommands(mainDirectory: string, structure: Array<string>): string {
   const commands = structure.map(name => {
     if (isFile(name)) return fileCommand(mainDirectory, name)
@@ -9,7 +11,7 @@ export function createStructureCommands(mainDirectory: string, structure: Array<
 
 export function isSafeStructure(structure: Array<string>): boolean {
   return structure.every((directoryOrFile: string): boolean => {
-    return !(/\.{2,}/.test(directoryOrFile))
+    return !(/\.{2,}/.test(directoryOrFile)) || isFile(directoryOrFile)
   })
 }
 
@@ -18,11 +20,8 @@ export function wrapCommand(commands: string): string {
 }
 
 export function isFile(name: string): boolean {
-  const parts = name.split('.')
-  const filename = parts.shift()
-  const extension = parts.pop()
-
-  if (!filename) return SPECIAL_DOT_FILES.includes(extension)
+  const { name: filename, ext: extension } = path.parse(name)
+  if (!extension && filename.startsWith('.')) return SPECIAL_DOT_FILES.includes(filename)
   if (!extension) return SPECIAL_FILES.includes(filename)
   if (filename && extension) return true
   return false
@@ -38,10 +37,10 @@ function fileCommand(mainDirectory: string, filepath: string): string {
 }
 
 const SPECIAL_DOT_FILES: Array<string> = [
-  'gitignore',
-  'env',
-  'eslint',
-  'babelrc',
+  '.gitignore',
+  '.env',
+  '.eslint',
+  '.babelrc',
 ]
 
 const SPECIAL_FILES: Array<string> = [
