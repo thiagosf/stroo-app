@@ -37,6 +37,8 @@ describe('bash_utils', () => {
       expect(isSafeStructure(['dir/other'])).toEqual(true)
       expect(isSafeStructure(['dir', '.git'])).toEqual(true)
       expect(isSafeStructure(['.git'])).toEqual(true)
+      expect(isSafeStructure(['auth', '[...nextauth].ts'])).toEqual(true)
+      expect(isSafeStructure(['auth', '[...nextauth.ts]'])).toEqual(true)
     })
   })
 })
