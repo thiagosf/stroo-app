@@ -1,0 +1,102 @@
+/* Markdown Editor Dark Theme Styles */
+.w-md-editor {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.w-md-editor.w-md-editor-dark {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.w-md-editor-text-container,
+.w-md-editor-text,
+.w-md-editor-text textarea {
+  background-color: transparent !important;
+  color: white !important;
+  font-family: 'Nanum Gothic Coding', monospace !important;
+  font-size: 1.5rem !important;
+  line-height: 1.5 !important;
+  padding: 3rem !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.w-md-editor-text-container .w-md-editor-text {
+  background-color: transparent !important;
+}
+
+.w-md-editor-text textarea {
+  resize: none !important;
+}
+
+.w-md-editor-text textarea:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Hide toolbar and preview */
+.w-md-editor-toolbar {
+  display: none !important;
+}
+
+.w-md-editor-preview {
+  display: none !important;
+}
+
+/* Syntax highlighting for the editor */
+.w-md-editor-text .token.title {
+  color: #61dafb;
+  font-weight: bold;
+}
+
+.w-md-editor-text .token.bold {
+  color: #f1fa8c;
+  font-weight: bold;
+}
+
+.w-md-editor-text .token.italic {
+  color: #f1fa8c;
+  font-style: italic;
+}
+
+.w-md-editor-text .token.code {
+  color: #50fa7b;
+  background-color: rgba(68, 71, 90, 0.5);
+  padding: 0.1em 0.3em;
+  border-radius: 0.3em;
+}
+
+.w-md-editor-text .token.url {
+  color: #8be9fd;
+}
+
+.w-md-editor-text .token.list {
+  color: #ff79c6;
+}
+
+.w-md-editor-text .token.hr {
+  color: #6272a4;
+}
+
+.w-md-editor-text .token.table {
+  color: #ffb86c;
+}
+
+/* Custom scrollbar for dark theme */
+.w-md-editor-text::-webkit-scrollbar {
+  width: 8px;
+}
+
+.w-md-editor-text::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.w-md-editor-text::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.w-md-editor-text::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
