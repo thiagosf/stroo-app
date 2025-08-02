@@ -99,7 +99,7 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
     setNewValue(convertTreeToMarkdown(value))
   }
 
-    // CodeMirror extensions and theme
+  // CodeMirror extensions and theme
   const extensions = useMemo(() => {
     const loadExtensions = async () => {
       const { markdown } = await import('@codemirror/lang-markdown')
