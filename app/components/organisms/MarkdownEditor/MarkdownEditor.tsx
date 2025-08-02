@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import { convertTreeToMarkdown, isTreeFormatType } from '../../../helpers/folder_utils'
 import { Button } from '../../molecules/Button/Button'
 import { ConfirmModal } from '../ConfirmModal/ConfirmModal'
+import { color } from '@codemirror/theme-one-dark'
 
 // Dynamic import to avoid SSR issues with CodeMirror
 const CodeMirror = dynamic(
@@ -103,12 +104,12 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
   const extensions = useMemo(() => {
     const loadExtensions = async () => {
       const { markdown } = await import('@codemirror/lang-markdown')
-      const { oneDark } = await import('@codemirror/theme-one-dark')
+      // const { oneDark } = await import('@codemirror/theme-one-dark')
       const { EditorView } = await import('@codemirror/view')
 
       return [
         markdown(),
-        oneDark,
+        // oneDark,
         EditorView.theme({
           '&': {
             fontSize: '1.5rem',
@@ -127,7 +128,17 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
           },
           '.cm-scroller': {
             height: '100%',
+            backgroundColor: 'var(--background-color)',
           },
+          '.cm-gutters': {
+            backgroundColor: 'var(--background-color)',
+          },
+          '.cm-gutters .cm-activeLineGutter': {
+            backgroundColor: '#a855f7',
+            color: '#fff',
+          },
+        }, {
+          dark: true,
         }),
         EditorView.updateListener.of(handleCursorChange),
       ]
@@ -159,6 +170,7 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
             onChange={handleChange}
             extensions={loadedExtensions}
             height="100%"
+            theme="none"
             style={{ height: '100%' }}
           />
         </div>
