@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic'
 import { convertTreeToMarkdown, isTreeFormatType } from '../../../helpers/folder_utils'
 import { Button } from '../../molecules/Button/Button'
 import { ConfirmModal } from '../ConfirmModal/ConfirmModal'
-import { color } from '@codemirror/theme-one-dark'
 
 // Dynamic import to avoid SSR issues with CodeMirror
 const CodeMirror = dynamic(
@@ -100,45 +99,183 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
     setNewValue(convertTreeToMarkdown(value))
   }
 
-  // CodeMirror extensions and theme
+    // CodeMirror extensions and theme
   const extensions = useMemo(() => {
     const loadExtensions = async () => {
       const { markdown } = await import('@codemirror/lang-markdown')
-      // const { oneDark } = await import('@codemirror/theme-one-dark')
-      const { EditorView } = await import('@codemirror/view')
+      const { oneDark } = await import('@codemirror/theme-one-dark')
+      const { EditorView, lineNumbers } = await import('@codemirror/view')
+      const { syntaxHighlighting, HighlightStyle } = await import('@codemirror/language')
+      const { tags } = await import('@lezer/highlight')
+
+      // Custom highlight style for markdown
+      const markdownHighlighting = HighlightStyle.define([
+        { tag: tags.heading1, color: '#61dafb', fontWeight: 'bold', fontSize: '1.8em' },
+        { tag: tags.heading2, color: '#61dafb', fontWeight: 'bold', fontSize: '1.7em' },
+        { tag: tags.heading3, color: '#61dafb', fontWeight: 'bold', fontSize: '1.6em' },
+        { tag: tags.heading4, color: '#61dafb', fontWeight: 'bold', fontSize: '1.5em' },
+        { tag: tags.heading5, color: '#61dafb', fontWeight: 'bold', fontSize: '1.4em' },
+        { tag: tags.heading6, color: '#61dafb', fontWeight: 'bold', fontSize: '1.3em' },
+        { tag: tags.labelName, color: '#61dafb', fontWeight: 'bold' }, // Header marks (#, ##, etc.)
+        { tag: tags.strong, color: '#f1fa8c', fontWeight: 'bold' },
+        { tag: tags.emphasis, color: '#f1fa8c', fontStyle: 'italic' },
+        { tag: tags.monospace, color: '#50fa7b', backgroundColor: 'rgba(68, 71, 90, 0.5)', padding: '0.1em 0.3em', borderRadius: '0.3em' },
+        { tag: tags.url, color: '#8be9fd' },
+        { tag: tags.link, color: '#8be9fd' },
+        { tag: tags.list, color: '#ff79c6' },
+        { tag: tags.quote, color: '#6272a4', fontStyle: 'italic' },
+        { tag: tags.atom, color: '#bd93f9' },
+        { tag: tags.string, color: '#f1fa8c' },
+        { tag: tags.comment, color: '#6272a4', fontStyle: 'italic' },
+        { tag: tags.processingInstruction, color: '#61dafb', fontWeight: 'bold' }, // Alternative for header marks
+      ])
 
       return [
         markdown(),
-        // oneDark,
+        oneDark,
+        syntaxHighlighting(markdownHighlighting),
+        lineNumbers(),
         EditorView.theme({
           '&': {
             fontSize: '1.5rem',
             fontFamily: '"Nanum Gothic Coding", monospace',
+            backgroundColor: 'transparent !important',
+            border: 'none !important',
           },
           '.cm-content': {
             padding: '3rem',
             lineHeight: '1.5',
             minHeight: '100%',
+            backgroundColor: 'transparent !important',
+            color: '#ffffff !important',
           },
           '.cm-focused': {
-            outline: 'none',
+            outline: 'none !important',
           },
           '.cm-editor': {
             height: '100%',
+            backgroundColor: 'transparent !important',
           },
           '.cm-scroller': {
             height: '100%',
-            backgroundColor: 'var(--background-color)',
+            backgroundColor: 'transparent !important',
           },
           '.cm-gutters': {
-            backgroundColor: 'var(--background-color)',
+            backgroundColor: 'transparent !important',
+            border: 'none !important',
+            color: 'rgba(255, 255, 255, 0.3) !important',
           },
-          '.cm-gutters .cm-activeLineGutter': {
-            backgroundColor: '#a855f7',
-            color: '#fff',
+          '.cm-lineNumbers': {
+            color: 'rgba(255, 255, 255, 0.3) !important',
           },
-        }, {
-          dark: true,
+          '.cm-activeLineGutter': {
+            backgroundColor: 'transparent !important',
+            color: '#a855f7 !important',
+          },
+          '.cm-activeLine': {
+            backgroundColor: 'rgba(168, 85, 247, 0.1) !important',
+          },
+          '.cm-selectionBackground': {
+            backgroundColor: 'rgba(168, 85, 247, 0.2) !important',
+          },
+          '.cm-cursor': {
+            borderLeftColor: '#ffffff !important',
+          },
+          // Markdown syntax highlighting - using correct CodeMirror classes
+          '.cm-header': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+          },
+          '.cm-header.cm-header-1': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+            fontSize: '1.8rem !important',
+          },
+          '.cm-header.cm-header-2': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+            fontSize: '1.7rem !important',
+          },
+          '.cm-header.cm-header-3': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+            fontSize: '1.6rem !important',
+          },
+          // Markdown header marks (#, ##, ###, etc.)
+          '.cm-formatting-header': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+          },
+          '.cm-formatting-header-1': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+          },
+          '.cm-formatting-header-2': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+          },
+          '.cm-formatting-header-3': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+          },
+          // Header content
+          // Alternative targeting for headers
+          '.cm-meta': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+          },
+          '.cm-tag': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+          },
+          '.cm-strong': {
+            color: '#f1fa8c !important',
+            fontWeight: 'bold !important',
+          },
+          '.cm-em': {
+            color: '#f1fa8c !important',
+            fontStyle: 'italic !important',
+          },
+          '.cm-monospace': {
+            color: '#50fa7b !important',
+            backgroundColor: 'rgba(68, 71, 90, 0.5) !important',
+            padding: '0.1em 0.3em !important',
+            borderRadius: '0.3em !important',
+          },
+          '.cm-url': {
+            color: '#8be9fd !important',
+          },
+          '.cm-link': {
+            color: '#8be9fd !important',
+          },
+          '.cm-list': {
+            color: '#ff79c6 !important',
+          },
+          '.cm-quote': {
+            color: '#6272a4 !important',
+            fontStyle: 'italic !important',
+          },
+          // Additional markdown token styles
+          '.cm-atom': {
+            color: '#bd93f9 !important',
+          },
+          '.cm-def': {
+            color: '#50fa7b !important',
+          },
+          '.cm-variable': {
+            color: '#f8f8f2 !important',
+          },
+          '.cm-variable-2': {
+            color: '#61dafb !important',
+            fontWeight: 'bold !important',
+          },
+          '.cm-string': {
+            color: '#f1fa8c !important',
+          },
+          '.cm-comment': {
+            color: '#6272a4 !important',
+            fontStyle: 'italic !important',
+          },
         }),
         EditorView.updateListener.of(handleCursorChange),
       ]
@@ -170,7 +307,6 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
             onChange={handleChange}
             extensions={loadedExtensions}
             height="100%"
-            theme="none"
             style={{ height: '100%' }}
           />
         </div>
