@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
+import { EditorView } from '@codemirror/view'
 
 import { convertTreeToMarkdown, isTreeFormatType } from '../../../helpers/folder_utils'
 import { Button } from '../../molecules/Button/Button'
@@ -25,6 +26,15 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
     if (tempValue) return
     setNewValue(val)
   }, [tempValue])
+
+  const handleBeforeInput = useCallback((e: any) => {
+    const { data } = e
+    const bytes = new TextEncoder().encode(data).length
+    if (bytes >= ALERT_VALUE_BYTES) {
+      setTempValue(data)
+      e.preventDefault()
+    }
+  }, [])
 
   const setNewValue = useCallback((value: string) => {
     setValue(value)
@@ -56,6 +66,25 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
     setNewValue(convertTreeToMarkdown(value))
   }
 
+  // Function to handle cursor position changes in CodeMirror
+  const handleCursorChange = useCallback((viewUpdate: any) => {
+    if (viewUpdate.state) {
+      const pos = viewUpdate.state.selection.main.head
+      const text = viewUpdate.state.doc.toString()
+      const lineNumber = text.substring(0, pos).split("\n").length
+
+      let currentLine = lineNumber - 1
+      while (currentLine >= 0) {
+        const lineValue = getLineValue(currentLine)
+        if (lineValue.startsWith('##')) {
+          focusLineValue(lineValue)
+          break
+        }
+        --currentLine
+      }
+    }
+  }, [getLineValue, focusLineValue])
+
   return (
     <div className="flex flex-col h-full">
       <ConfirmModal
@@ -70,8 +99,10 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
           <CodeMirror
             value={value}
             onChange={handleChange}
+            onBeforeInput={handleBeforeInput}
             extensions={[
               markdown({ base: markdownLanguage, codeLanguages: languages }),
+              EditorView.updateListener.of(handleCursorChange),
             ]}
             theme="dark"
           />
