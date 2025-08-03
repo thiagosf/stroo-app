@@ -19,6 +19,7 @@ const ALERT_VALUE_BYTES = 1024 * 1024
 export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChange, onFocus }) {
   const [value, setValue] = useState(initialValue)
   const [tempValue, setTempValue] = useState('')
+  const [lastPosition, setLastPosition] = useState(0)
   const [lines, setLines] = useState(initialValue.split("\n"))
   const showConvertButton = isTreeFormatType(value)
 
@@ -70,7 +71,11 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
   const handleCursorChange = useCallback((viewUpdate: any) => {
     if (viewUpdate.state) {
       const pos = viewUpdate.state.selection.main.head
+      if (pos === lastPosition) return
+
+      setLastPosition(() => pos)
       const text = viewUpdate.state.doc.toString()
+
       const lineNumber = text.substring(0, pos).split("\n").length
 
       let currentLine = lineNumber - 1
@@ -83,7 +88,7 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
         --currentLine
       }
     }
-  }, [getLineValue, focusLineValue])
+  }, [lastPosition, getLineValue, focusLineValue]);
 
   return (
     <div className="flex flex-col h-full">
