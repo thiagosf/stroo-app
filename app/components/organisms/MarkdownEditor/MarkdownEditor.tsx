@@ -99,11 +99,13 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
           <CodeMirror
             value={value}
             onChange={handleChange}
-            onBeforeInput={handleBeforeInput}
+            // onBeforeInput={handleBeforeInput}
             extensions={[
               markdown({ base: markdownLanguage, codeLanguages: languages }),
               EditorView.updateListener.of(handleCursorChange),
             ]}
+            height="100%"
+            style={{ height: '100%' }}
             theme="dark"
           />
         </div>
