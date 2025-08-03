@@ -250,6 +250,7 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
                 },
               }),
               EditorView.updateListener.of(handleCursorChange),
+              EditorView.lineWrapping,
             ]}
             height="100%"
             style={{ height: '100%' }}
