@@ -107,6 +107,148 @@ export const MarkdownEditor: React.FC<Props> = function ({ initialValue, onChang
             onBeforeInput={handleBeforeInput}
             extensions={[
               markdown({ base: markdownLanguage, codeLanguages: languages }),
+              EditorView.theme({
+                '&': {
+                  fontSize: '1.5rem',
+                  fontFamily: '"Nanum Gothic Coding", monospace',
+                  backgroundColor: 'transparent !important',
+                  border: 'none !important',
+                },
+                '.cm-content': {
+                  padding: '3rem',
+                  lineHeight: '1.5',
+                  minHeight: '100%',
+                  backgroundColor: 'transparent !important',
+                  color: '#ffffff !important',
+                },
+                '.cm-focused': {
+                  outline: 'none !important',
+                },
+                '.cm-editor': {
+                  height: '100%',
+                  backgroundColor: 'transparent !important',
+                },
+                '.cm-scroller': {
+                  height: '100%',
+                  backgroundColor: 'transparent !important',
+                },
+                '.cm-gutters': {
+                  backgroundColor: 'transparent !important',
+                  border: 'none !important',
+                  color: 'rgba(255, 255, 255, 0.3) !important',
+                },
+                '.cm-lineNumbers': {
+                  color: 'rgba(255, 255, 255, 0.3) !important',
+                },
+                '.cm-activeLineGutter': {
+                  backgroundColor: 'transparent !important',
+                  color: '#a855f7 !important',
+                },
+                '.cm-activeLine': {
+                  backgroundColor: 'rgba(168, 85, 247, 0.1) !important',
+                },
+                '.cm-selectionBackground': {
+                  backgroundColor: 'rgba(168, 85, 247, 0.2) !important',
+                },
+                '.cm-cursor': {
+                  borderLeftColor: '#ffffff !important',
+                },
+                // Markdown syntax highlighting - using correct CodeMirror classes
+                '.cm-header': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                },
+                '.cm-header.cm-header-1': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                  fontSize: '1.8rem !important',
+                },
+                '.cm-header.cm-header-2': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                  fontSize: '1.7rem !important',
+                },
+                '.cm-header.cm-header-3': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                  fontSize: '1.6rem !important',
+                },
+                // Markdown header marks (#, ##, ###, etc.)
+                '.cm-formatting-header': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                },
+                '.cm-formatting-header-1': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                },
+                '.cm-formatting-header-2': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                },
+                '.cm-formatting-header-3': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                },
+                // Header content
+                // Alternative targeting for headers
+                '.cm-meta': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                },
+                '.cm-tag': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                },
+                '.cm-strong': {
+                  color: '#f1fa8c !important',
+                  fontWeight: 'bold !important',
+                },
+                '.cm-em': {
+                  color: '#f1fa8c !important',
+                  fontStyle: 'italic !important',
+                },
+                '.cm-monospace': {
+                  color: '#50fa7b !important',
+                  backgroundColor: 'rgba(68, 71, 90, 0.5) !important',
+                  padding: '0.1em 0.3em !important',
+                  borderRadius: '0.3em !important',
+                },
+                '.cm-url': {
+                  color: '#8be9fd !important',
+                },
+                '.cm-link': {
+                  color: '#8be9fd !important',
+                },
+                '.cm-list': {
+                  color: '#ff79c6 !important',
+                },
+                '.cm-quote': {
+                  color: '#6272a4 !important',
+                  fontStyle: 'italic !important',
+                },
+                // Additional markdown token styles
+                '.cm-atom': {
+                  color: '#bd93f9 !important',
+                },
+                '.cm-def': {
+                  color: '#50fa7b !important',
+                },
+                '.cm-variable': {
+                  color: '#f8f8f2 !important',
+                },
+                '.cm-variable-2': {
+                  color: '#61dafb !important',
+                  fontWeight: 'bold !important',
+                },
+                '.cm-string': {
+                  color: '#f1fa8c !important',
+                },
+                '.cm-comment': {
+                  color: '#6272a4 !important',
+                  fontStyle: 'italic !important',
+                },
+              }),
               EditorView.updateListener.of(handleCursorChange),
             ]}
             height="100%"
